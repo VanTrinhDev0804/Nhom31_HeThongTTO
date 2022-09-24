@@ -2,10 +2,14 @@ package app;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import connection.ConnectDB;
+import dao.DAOTaiKhoan;
+import entity.TaiKhoan;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -19,12 +23,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.Console;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
-public class FrmLogin extends JFrame {
+public class FrmDangNhap extends JFrame implements ActionListener,MouseListener, KeyListener {
 	
+	
+	private DAOTaiKhoan daoTK;
 	private JTextField txtTaiKhoan;
 	private JPasswordField txtMatKhau;
+	private JButton btnThoat;
+	private JButton btnDangNhap;
+	
 	
 	public static void main(String[] args) {
 
@@ -34,7 +50,7 @@ public class FrmLogin extends JFrame {
 //					UIManager.setLookAndFeel(new FlatLightLaf());
 					IconFontSwing.register(FontAwesome.getIconFont());
 						
-					FrmLogin frame = new FrmLogin();
+					FrmDangNhap frame = new FrmDangNhap();
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -43,7 +59,7 @@ public class FrmLogin extends JFrame {
 			}
 		});
 	}
-	public FrmLogin() {
+	public FrmDangNhap() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Đăng nhập hệ thống");
@@ -54,10 +70,24 @@ public class FrmLogin extends JFrame {
 		getContentPane().setBackground(Color.GRAY);
 	
 		
+		//connect database
+		try {
+			ConnectDB.getinstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+//		dao
+		daoTK = new DAOTaiKhoan();
 		getContentPane().setBackground(Color.GRAY);
 		getContentPane().setForeground(Color.BLACK);
 		
 		getContentPane().setLayout(null);
+		
+		
+
+		
 		
 		JLabel lblNewLabel = new JLabel("Đăng nhập");
 		lblNewLabel.setForeground(Color.WHITE);
@@ -97,7 +127,7 @@ public class FrmLogin extends JFrame {
 		lblQuenMK.setBounds(251, 290, 140, 19);
 		getContentPane().add(lblQuenMK);
 		
-		JButton btnDangNhap = new JButton("Đăng Nhập");
+		btnDangNhap = new JButton("Đăng Nhập");
 		btnDangNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -105,7 +135,7 @@ public class FrmLogin extends JFrame {
 		btnDangNhap.setBounds(170, 333, 120, 39);
 		getContentPane().add(btnDangNhap);
 		
-		JButton btnThoat = new JButton("Thoát");
+		btnThoat = new JButton("Thoát");
 		btnThoat.setBounds(170, 382, 120, 39);
 		getContentPane().add(btnThoat);
 		
@@ -121,5 +151,103 @@ public class FrmLogin extends JFrame {
 		Image imgBackground = Toolkit.getDefaultToolkit ().getImage ("");
 		Image resizeBackground = imgBackground.getScaledInstance(lblBackground.getWidth(), lblBackground.getHeight(), 0);
 		lblBackground.setIcon(new ImageIcon(resizeBackground));
+		
+		btnDangNhap.addActionListener(this);
+		btnThoat.addActionListener(this);
+		
+		lblQuenMK.addMouseListener(this);
+		
+		btnDangNhap.addKeyListener(this);
+		btnThoat.addKeyListener(this);
+		txtMatKhau.addKeyListener(this);
+		txtTaiKhoan.addKeyListener(this);
+//		popItem.addActionListener(this);
+	
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnThoat)) {
+			System.exit(0);
+		}
+		else if(o.equals(btnDangNhap)) {	
+			
+			dangNhap();
+			
+		}
+		
+	
+	}
+	private void dangNhap() {
+		// TODO Auto-generated method stub
+
+//		FrmQuanLy frmQuanLy = new FrmQuanLy();
+//		frmQuanLy.setVisible(true);
+//		this.setVisible(false);
+		
+		
+		String maTK = txtTaiKhoan.getText().toString().trim();
+
+		String mk = txtMatKhau.getText().toString().trim();
+		TaiKhoan tk = daoTK.getTaiKhoanTheoMa(maTK);
+		System.out.println(mk);
+		
+		
+		
+		if(tk.getMaTK() == null) {
+			JOptionPane.showMessageDialog(this, "Tài khoản không đúng!\nVui lòng kiểm tra lại.");
+		}
+		else if(!tk.getMatKhau().equalsIgnoreCase(mk)){
+			JOptionPane.showMessageDialog(this, "Mật khẩu không đúng!\nVui lòng kiểm tra lại.");
+		}	
+		else {
+//			NhanVien nv = daoNhanVien.getNVTheoTK(tk.getMaTK());
+				FrmQuanLy frmQL = new FrmQuanLy();
+				frmQL.setVisible(true);
+				this.setVisible(false);
+			}
+			
+		
 	}
 }
