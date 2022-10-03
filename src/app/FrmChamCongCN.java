@@ -47,6 +47,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class FrmChamCongCN extends JFrame {
 	
@@ -177,6 +178,7 @@ public class FrmChamCongCN extends JFrame {
 		pNhapThongTin.add(lblHoTen);
 		
 		txtHoTenCN = new JTextField();
+		txtHoTenCN.setEditable(false);
 		txtHoTenCN.setText("Nguyễn Văn Trinh");
 		txtHoTenCN.setFont(new Font("Arial", Font.ITALIC, 15));
 		txtHoTenCN.setColumns(10);
@@ -190,6 +192,7 @@ public class FrmChamCongCN extends JFrame {
 		pNhapThongTin.add(lblToSX);
 		
 		txtTenTo = new JTextField();
+		txtTenTo.setEditable(false);
 		txtTenTo.setText("Tổ 1");
 		txtTenTo.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtTenTo.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
@@ -220,6 +223,7 @@ public class FrmChamCongCN extends JFrame {
 		pNhapThongTin.add(lblChucVu);
 		
 		cboChucVu = new JComboBox<Object>(new Object[]{});
+		cboChucVu.setModel(new DefaultComboBoxModel(new String[] {"Ca 1", "Ca 2", "Ca 3"}));
 		cboChucVu.setToolTipText("Chọn ca làm việc \r\n");
 		cboChucVu.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		cboChucVu.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
@@ -242,8 +246,9 @@ public class FrmChamCongCN extends JFrame {
 		pNhapThongTin.add(lblMaCN);
 		
 		txtMaCN = new JTextField();
+		txtMaCN.setEditable(false);
 		txtMaCN.setText("CN001");
-		txtMaCN.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		txtMaCN.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtMaCN.setColumns(10);
 		txtMaCN.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		txtMaCN.setBounds(462, 42, 145, 29);
@@ -255,8 +260,9 @@ public class FrmChamCongCN extends JFrame {
 		pNhapThongTin.add(lblMato);
 		
 		txtMaTo = new JTextField();
+		txtMaTo.setEditable(false);
 		txtMaTo.setText("T001");
-		txtMaTo.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		txtMaTo.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtMaTo.setColumns(10);
 		txtMaTo.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		txtMaTo.setBounds(462, 83, 145, 29);
@@ -346,26 +352,23 @@ public class FrmChamCongCN extends JFrame {
 		pMain.add(pControl);
 		pControl.setLayout(null);
 		
-		JLabel lblChon = new JLabel("Chọn");
-		lblChon.setBounds(290, 7, 48, 20);
-		lblChon.setFont(new Font("SansSerif", Font.BOLD, 15));
-		pControl.add(lblChon);
-		
 		JComboBox<Object> cboThang = new JComboBox<Object>(new Object[]{});
+		cboThang.setModel(new DefaultComboBoxModel(new String[] {"Tháng ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		cboThang.setBounds(338, 5, 88, 24);
-		cboThang.setToolTipText("Chọn ca làm việc \r\n");
+		cboThang.setToolTipText("Chọn Tháng \r\n");
 		cboThang.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		cboThang.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		cboThang.setBackground(Color.WHITE);
 		pControl.add(cboThang);
 		
-		JComboBox<Object> cboThang_1 = new JComboBox<Object>(new Object[]{});
-		cboThang_1.setToolTipText("Chọn ca làm việc \r\n");
-		cboThang_1.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		cboThang_1.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		cboThang_1.setBackground(Color.WHITE);
-		cboThang_1.setBounds(438, 5, 88, 24);
-		pControl.add(cboThang_1);
+		JComboBox<Object> cboNam = new JComboBox<Object>(new Object[]{});
+		cboNam.setModel(new DefaultComboBoxModel(new String[] {"Năm", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"}));
+		cboNam.setToolTipText("Chọn Năm\r\n");
+		cboNam.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboNam.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+		cboNam.setBackground(Color.WHITE);
+		cboNam.setBounds(438, 5, 88, 24);
+		pControl.add(cboNam);
 		
 		FixButton btnLoc = new FixButton("Thêm");
 		btnLoc.setText("Lọc");
