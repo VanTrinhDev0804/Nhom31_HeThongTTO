@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -44,12 +45,32 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 	
 	public static void main(String[] args) {
 
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//
+//					 for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//					        if ("Nimbus".equals(info.getName())) {
+//					            UIManager.setLookAndFeel(info.getClassName());
+//					            break;
+//					        }
+//					    }
+//					IconFontSwing.register(FontAwesome.getIconFont());
+//						
+//					FrmDangNhap frame = new FrmDangNhap();
+//					frame.setVisible(true);
+//					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					UIManager.setLookAndFeel(new FlatLightLaf());
+					UIManager.setLookAndFeel(new FlatLightLaf());
 					IconFontSwing.register(FontAwesome.getIconFont());
-						
+
 					FrmDangNhap frame = new FrmDangNhap();
 					frame.setVisible(true);
 					
@@ -57,7 +78,9 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 					e.printStackTrace();
 				}
 			}
-		});
+		});		
+					
+					
 	}
 	public FrmDangNhap() {
 		setResizable(false);
@@ -68,8 +91,7 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(Color.GRAY);
-	
-		
+
 		//connect database
 		try {
 			ConnectDB.getinstance().connect();
@@ -138,7 +160,6 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 		btnThoat = new JButton("Thoát");
 		btnThoat.setBounds(170, 382, 120, 39);
 		getContentPane().add(btnThoat);
-		
 		
 		
 		
@@ -231,7 +252,7 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 
 		String mk = txtMatKhau.getText().toString().trim();
 		TaiKhoan tk = daoTK.getTaiKhoanTheoMa(maTK);
-		System.out.println(mk);
+	
 		
 		
 		

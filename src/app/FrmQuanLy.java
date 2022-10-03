@@ -52,8 +52,8 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 	private JButton btnItemQLCC;
 	private JButton btnItemQLSP;
 	private JButton btnItemQLLuong;
-	private JButton btnItemKH;
 	private JButton btnItemTK;
+
 	private JButton btnSelectNV, btnSelectCN;
 
 	private Date dNow;
@@ -64,7 +64,8 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 	private JLabel lblHeaderMaNV;
 	private JButton btnHeaderInfo;
 
-
+	private FrmChamCongCN frmChamCongCN;
+	
 	private JPopupMenu popUp;
 	private JMenuItem popItem;
 	
@@ -371,7 +372,6 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 		btnItemQLLuong.setBackground(new Color(255, 240, 245));
 		
 		
-		
 		btnItemTK.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
 		btnItemTK.setBackground(new Color(255, 240, 245));
 		
@@ -389,17 +389,17 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 
 		
 	}
-//	public void loadFrmKhachHang() {
-//		setTitle("Quản lý khách hàng");
-//		resetColorMenu();
-//		pContent.removeAll();
-//		btnItemKH.setBackground(new Color(192,255,255));
-//		btnItemKH.setBorder(BorderFactory.createLineBorder(Color.white));
-//		frmKhachHang = new FrmKhachHang("QL",lblHeaderMaNV.getText(),dNow);
-//		pContent.add(frmKhachHang.getFrmKH());
-//	
-//	
-//	}
+	public void loadFrmQLCC() {
+		setTitle("Quản lý Chấm Công");
+		resetColorMenu();
+		pContent.removeAll();
+		btnItemQLCC.setBackground(new Color(192,255,255));
+		btnItemQLCC.setBorder(BorderFactory.createLineBorder(Color.white));
+		frmChamCongCN= new FrmChamCongCN();
+		pContent.add(frmChamCongCN.getFrmChamCong());
+	
+	
+	}
 //	public void loadFrmQLBH() {
 //		setTitle("Quản lý thanh toán");
 //		resetColorMenu();
@@ -471,9 +471,9 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 //		if(o.equals(btnItemNhanSu)) {
 //			loadFrmNhanVien();
 //		}
-//		if(o.equals(btnItemQLCC)) {
-//			loadFrmQLBH();
-//		}
+		if(o.equals(btnItemQLCC)) {
+			loadFrmQLCC();
+		}
 //		if(o.equals(btnItemKH)) {
 //			loadFrmKhachHang();
 //		}
