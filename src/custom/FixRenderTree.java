@@ -1,8 +1,9 @@
-package app;
+package custom;
 
 import java.awt.Component;
 import java.awt.font.ImageGraphicAttribute;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -31,7 +32,7 @@ public class FixRenderTree extends DefaultTreeCellRenderer {
 		else if(node.getUserObject() instanceof CongNhan){
 			CongNhan cNhan = (CongNhan) node.getUserObject();
 //			ImageIcon imageIcon = new ImageIcon("data/icon/iconCN.png");	
-			setText(cNhan.getMaCN() + " - " + cNhan.getTenCN()); 
+			setText(cNhan.getTenCN()); 
 //			setIcon(imageIcon);
 		}
 		else {
@@ -43,4 +44,7 @@ public class FixRenderTree extends DefaultTreeCellRenderer {
 		return component;
 	}
 	
+
 }
+
+

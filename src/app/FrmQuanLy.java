@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.LineBorder;
 
-
+import custom.FixButton;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import java.awt.BorderLayout;
