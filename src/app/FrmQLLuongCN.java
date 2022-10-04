@@ -54,6 +54,7 @@ import com.mindfusion.drawing.Colors;
 import com.toedter.calendar.JDateChooser;
 
 import connection.ConnectDB;
+import custom.FixButton;
 //import dao.DAOKhachHang;
 //import dao.DAOLoaiKH;
 import dao.DAOPhatSinhMa;
@@ -531,7 +532,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		
 		// add actions
 		dfNgaySinh = new SimpleDateFormat("dd/MM/yyyy");
-		loadDanhSachKH();
+	
 		btnThemKH.addActionListener(this);
 		btnXoaKH.addActionListener(this);
 		btnSuaKH.addActionListener(this);

@@ -428,6 +428,7 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 //	
 	public void loadFrmQLLuong() {
 		setTitle("Quản lý lương");
+		System.out.println("123");
 		resetColorMenu();
 		pContent.removeAll();
 		btnItemQLLuong.setBackground(new Color(192,255,255));
@@ -483,10 +484,9 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 //		if(o.equals(btnItemQLSP)) {
 //			loadFrmDDP();
 //		}
-//		if(o.equals(btnItemQLLuong)) {
-//			System.out.print("click");
-//			loadFrmQLLuong();
-//		}
+		if(o.equals(btnItemQLLuong)) {
+			loadFrmQLLuong();
+		}
 //		
 //		if(o.equals(btnItemTK)) {
 //			loadFrmThongKe();
