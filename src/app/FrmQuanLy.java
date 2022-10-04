@@ -68,6 +68,8 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 	
 	private JPopupMenu popUp;
 	private JMenuItem popItem;
+
+	private FrmQLLuongCN FrmQLLuongCN;
 	
 
 	
@@ -228,8 +230,6 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 			
 		
 		}
-		
-
 		btnItemQLLuong = new JButton("Quản lý Lương");
 		if(btnHeaderInfo.getText().contains("QL")|| btnHeaderInfo.getText().contains("PV")) {
 			
@@ -314,7 +314,7 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 		popUp = new JPopupMenu();
 		popItem = new JMenuItem("Trợ giúp");
 		popUp.add(popItem);
-		
+		 
 		addMouseListener(new MouseAdapter() {
 	         public void mouseReleased(MouseEvent me) {
 	            showPopup(me); 
@@ -390,6 +390,7 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 		
 	}
 	public void loadFrmQLCC() {
+		System.out.print("here");
 		setTitle("Quản lý Chấm Công");
 		resetColorMenu();
 		pContent.removeAll();
@@ -425,16 +426,17 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 //	
 //	}
 //	
-//	public void loadFrmMatHang() {
-//		setTitle("Quản lý mặt hàng");
-//		resetColorMenu();
-//		pContent.removeAll();
-//		btnItemQLLuong.setBackground(new Color(192,255,255));
-//		btnItemQLLuong.setBorder(BorderFactory.createLineBorder(Color.white));
-//		frmMatHang = new FrmMatHang("QL",lblHeaderMaNV.getText(),dNow);
-//		pContent.add(frmMatHang.getFrmMatHang());
-//	
-//	}
+	public void loadFrmQLLuong() {
+		setTitle("Quản lý lương");
+		resetColorMenu();
+		pContent.removeAll();
+		btnItemQLLuong.setBackground(new Color(192,255,255));
+		btnItemQLLuong.setBorder(BorderFactory.createLineBorder(Color.white));
+		frmChamCongCN= new FrmChamCongCN();
+		pContent.add(frmChamCongCN.getFrmChamCong());
+//		FrmQLLuongCN= new FrmQLLuongCN();
+//		pContent.add(FrmQLLuongCN.getFrmQLLuongCN());
+	}
 
 //	}
 //	
@@ -464,8 +466,9 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
+		System.out.print(o.toString());
 //		if(o.equals(btnDangXuat)){
-//			dangXuat();
+//			dangXuat(); 
 //		}
 //		
 //		if(o.equals(btnItemNhanSu)) {
@@ -481,7 +484,8 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 //			loadFrmDDP();
 //		}
 //		if(o.equals(btnItemQLLuong)) {
-//			loadFrmMatHang();
+//			System.out.print("click");
+//			loadFrmQLLuong();
 //		}
 //		
 //		if(o.equals(btnItemTK)) {
@@ -504,6 +508,7 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("12321");
 		
 	}
 		
