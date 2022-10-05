@@ -15,6 +15,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -27,6 +29,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.LineBorder;
+
+import org.apache.commons.collections4.map.HashedMap;
 
 import custom.FixButton;
 import jiconfont.icons.FontAwesome;
@@ -75,11 +79,11 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	private app.FrmQLLuongCN frmQLLuongCN;
 
 	private app.FrmQLLuongNV frmQLLuongNV;
-
+	
+	private String currenMenu = "";
 	@SuppressWarnings("deprecation")
 
 	public FrmQuanLy() {
-
 //		this.headerNV = nv;
 
 		IconFontSwing.register(FontAwesome.getIconFont());
@@ -316,8 +320,8 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLCC.addActionListener(this);
 		btnItemQLLuong.addActionListener(this);
 		btnItemTK.addActionListener(this);
-//		btnSelectCN.addActionListener(this);
-//		btnSelectNV.addActionListener(this);
+		btnSelectCN.addActionListener(this);
+		btnSelectNV.addActionListener(this);
 		popItem.addActionListener(this);
 
 	}
@@ -429,6 +433,16 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 //		
 //	
 //	}
+	public void setColorActive(JButton btn) {
+		btn.setBackground(new Color(192, 255, 255));
+		String btnSelectCNText = btnSelectCN.getText().toString();
+		if(btn.getText().equals(btnSelectCNText)) {
+			btnSelectNV.setBackground(new Color(255,255,255));
+		}
+		else{
+			btnSelectCN.setBackground(new Color(255,255,255));
+		}
+	}
 
 	public void dangXuat() {
 		int optDangXuat = JOptionPane.showConfirmDialog(this, "Bạn có chắn chắn muốn đăng xuất không?", "Thông báo",
@@ -444,6 +458,9 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
+//		-------------------------------
+//		xử lý khi click MENUs => lưu lại currenMenu
+//		-------------------------------
 //		if(o.equals(btnDangXuat)){
 //			dangXuat(); 
 //		}
@@ -452,6 +469,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 //			loadFrmNhanVien();
 //		}
 		if (o.equals(btnItemQLCC)) {
+			currenMenu = "MENU_QLCC";
 			loadFrmQLCC();
 		}
 //		if(o.equals(btnItemKH)) {
@@ -460,16 +478,36 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 //		if(o.equals(btnItemQLSP)) {
 //			loadFrmDDP();
 //		}
-			if(o.equals(btnItemQLLuong)) {
-				loadFrmQLLuongNV();
-			}
-				
+		if(o.equals(btnItemQLLuong)) {
+			currenMenu = "MENU_QL_LUONG";
+			setColorActive(btnSelectNV);
+			loadFrmQLLuongNV();
+		}	
 		
+//		-------------------------------
+//		xử lý khi click nhân viên hoặc công nhân
+//		-------------------------------
+		if(o.equals(btnSelectCN)) {
+			setColorActive(btnSelectCN);
+			switch (currenMenu) {
+			case "MENU_QL_LUONG":
+				loadFrmQLLuongCN();
+				break;
+			default:
+				break;
+			}
+		}
+		if(o.equals(btnSelectNV)) {
+			setColorActive(btnSelectNV);
+			switch (currenMenu) {
+			case "MENU_QL_LUONG":
+				loadFrmQLLuongNV();
+				break;
+			default:
+				break;
+			}	
+		}
 	}
-//		if(o.equals(btnSelectCN)) {
-//			loadFrmQLLuongCN();
-//			System.out.print("abc");
-//		}
 //		
 //		if(o.equals(btnItemTK)) {
 //			loadFrmThongKe();
