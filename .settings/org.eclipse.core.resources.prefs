@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/app/FrmChamCongCN.java=UTF-8
 encoding//src/app/FrmDangNhap.java=UTF-8
 encoding//src/app/FrmQLLuongCN.java=UTF-8
+encoding//src/app/FrmQLLuongNV.java=UTF-8
 encoding//src/app/FrmQuanLy.java=UTF-8
 encoding//src/dao/DAOCongNhan.java=UTF-8
 encoding//src/dao/DAOPhatSinhMa.java=UTF-8

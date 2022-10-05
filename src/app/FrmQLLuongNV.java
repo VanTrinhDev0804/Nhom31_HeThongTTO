@@ -51,7 +51,7 @@ import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 //import app.XuatExcels;
 
-public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListener, KeyListener {
+public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	private Panel pMain;
 	private JTable tblMH;
@@ -75,8 +75,8 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 	private JLabel lblNhapThongTin;
 	private ButtonGroup bgRdo;
 	private FixButton btnExcels;
-	private JComboBox<String> cboTenCN;
-	private JComboBox<String> cboMaCN;
+	private JComboBox<String> cboTenNV;
+	private JComboBox<String> cboMaNV;
 	private JComboBox<String> cboThang;
 	private JComboBox<String> cboNam;
 	private JTextField txtLuong;
@@ -84,12 +84,12 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 	private FixButton btnXoaLuong;
 	private JRadioButton rdoTheoSoSP;
 
-	public Panel getFrmQLLuongCN() {
+	public Panel getFrmQLLuongNV() {
 		return this.pMain;
 	}
 
 //	@SuppressWarnings("deprecation")
-	public FrmQLLuongCN() {
+	public FrmQLLuongNV() {
 
 //		this.sHeaderMaNV = sHeaderMaNV;
 //		this.sHeaderTenNV = sHeaderTenNV;
@@ -125,33 +125,33 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		pNhapThongTin.setBounds(10, 11, 333, 607);
 		pMain.add(pNhapThongTin);
 		pNhapThongTin.setLayout(null);
-		pNhapThongTin.setToolTipText("Lương công nhân");
+		pNhapThongTin.setToolTipText("Lương nhân viên");
 		
-		JLabel lblMaCN = new JLabel("Mã công nhân: ");
-		lblMaCN.setBounds(10, 83, 102, 36);
-		pNhapThongTin.add(lblMaCN);
-		lblMaCN.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		JLabel lblMaNV = new JLabel("Mã nhân viên: ");
+		lblMaNV.setBounds(10, 83, 102, 36);
+		pNhapThongTin.add(lblMaNV);
+		lblMaNV.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
-		cboMaCN = new JComboBox<String>();
-		cboMaCN.setEnabled(false);
-		cboMaCN.setBounds(122, 82, 201, 37);
-		cboMaCN.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		pNhapThongTin.add(cboMaCN);
-		cboMaCN.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		cboMaCN.setBackground(Color.WHITE);
+		cboMaNV = new JComboBox<String>();
+		cboMaNV.setEnabled(false);
+		cboMaNV.setBounds(122, 82, 201, 37);
+		cboMaNV.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+		pNhapThongTin.add(cboMaNV);
+		cboMaNV.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboMaNV.setBackground(Color.WHITE);
 		
-		JLabel lblTenCN = new JLabel("Tên CN: ");
-		lblTenCN.setBounds(10, 143, 102, 36);
-		pNhapThongTin.add(lblTenCN);
-		lblTenCN.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		JLabel lblTenNV = new JLabel("Tên NV: ");
+		lblTenNV.setBounds(10, 143, 102, 36);
+		pNhapThongTin.add(lblTenNV);
+		lblTenNV.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
-		cboTenCN = new JComboBox<String>();
-		cboTenCN.setEnabled(false);
-		cboTenCN.setBounds(122, 142, 201, 37);
-		cboTenCN.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		pNhapThongTin.add(cboTenCN);
-		cboTenCN.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		cboTenCN.setBackground(Color.WHITE);
+		cboTenNV = new JComboBox<String>();
+		cboTenNV.setEnabled(false);
+		cboTenNV.setBounds(122, 142, 201, 37);
+		cboTenNV.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+		pNhapThongTin.add(cboTenNV);
+		cboTenNV.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboTenNV.setBackground(Color.WHITE);
 
 		JLabel lblThang = new JLabel("Tháng:");
 		lblThang.setBounds(10, 203, 102, 36);
@@ -165,7 +165,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		cboThang.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		cboThang.setBackground(Color.WHITE);
 
-		lblNhapThongTin = new JLabel("Lương công nhân");
+		lblNhapThongTin = new JLabel("Lương nhân viên");
 		lblNhapThongTin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNhapThongTin.setFont(new Font("SansSerif", Font.BOLD, 18));
 		lblNhapThongTin.setBounds(10, 11, 292, 29);
@@ -209,7 +209,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		
 		txtTim = new JTextField();
 		txtTim.setToolTipText("Thông tin tìm kiếm");
-		txtTim.setText("Tìm công nhân theo mã công nhân, tên công nhân, tổ, cccd");
+		txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
 		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtTim.setForeground(Colors.LightGray);
 		txtTim.setBorder(new LineBorder(new Color(114, 23 ,153), 2, true));
@@ -217,7 +217,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		txtTim.addFocusListener(new FocusAdapter() {	
 			@Override
 			public void focusGained(FocusEvent e) {
-				if(txtTim.getText().equals("Tìm công nhân theo mã công nhân, tên công nhân, tổ, cccd")) {
+				if(txtTim.getText().equals("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd")) {
 					txtTim.setFont(new Font("SansSerif", Font.PLAIN, 15));
 					txtTim.setForeground(Color.BLACK);
 					txtTim.setText("");
@@ -228,14 +228,14 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 				if(txtTim.getText().equals("")) {
 					txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
 					txtTim.setForeground(Colors.LightGray);
-					txtTim.setText("Tìm công nhân theo mã công nhân, tên công nhân, tổ, cccd");
+					txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
 				}
 			}
 		});
 		pMain.add(txtTim);
 
 		btnTim = new FixButton("Tìm");
-		btnTim.setToolTipText("Tìm kiếm mặt hàng");
+		btnTim.setToolTipText("Tìm kiếm");
 		btnTim.setForeground(Color.WHITE);
 		btnTim.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnTim.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
@@ -310,22 +310,22 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		cboSapXep.setToolTipText("Sắp xếp theo kiểu tăng dần/ giảm dần");
 		pSapXep.add(cboSapXep);
 
-		rdoTheoTenCN = new JRadioButton("Theo tên công nhân");
+		rdoTheoTenCN = new JRadioButton("Theo tên nhân viên");
 		rdoTheoTenCN.setBounds(248, 13, 170, 27);
 		rdoTheoTenCN.setSelected(true);
 		rdoTheoTenCN.setFont(new Font("SansSerif", Font.BOLD, 14));
 		rdoTheoTenCN.setBackground(new Color(171, 192, 238));
 		pSapXep.add(rdoTheoTenCN);
 		
-		rdoTheoSoSP = new JRadioButton("Theo số sản phẩm");
-		rdoTheoSoSP.setBounds(450, 13, 170, 27);
+		rdoTheoSoSP = new JRadioButton("Theo HSL");
+		rdoTheoSoSP.setBounds(450, 13, 100, 27);
 		rdoTheoSoSP.setSelected(true);
 		rdoTheoSoSP.setFont(new Font("SansSerif", Font.BOLD, 14));
 		rdoTheoSoSP.setBackground(new Color(171, 192, 238));
 		pSapXep.add(rdoTheoSoSP);
 
-		rdoTheoTo = new JRadioButton("Theo tổ");
-		rdoTheoTo.setBounds(630, 13, 100, 27);
+		rdoTheoTo = new JRadioButton("Theo chức vụ");
+		rdoTheoTo.setBounds(560, 13, 150, 27);
 		rdoTheoTo.setFont(new Font("SansSerif", Font.BOLD, 14));
 		rdoTheoTo.setBackground(new Color(171, 192, 238));
 		pSapXep.add(rdoTheoTo);
@@ -349,7 +349,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		/**
 		 * Bảng chính
 		 */
-		String cn [] = {"Mã Lương","Mã CN","Tên Công Nhân", "CCCD", "Tổ", "Số SPSX", "Tháng", "Năm", "Lương"};
+		String cn [] = {"Mã Lương","Mã NV","Tên NV", "CCCD", "Chức Vụ", "HSL", "Tháng", "Năm", "Lương"};
 		modelMatHang = new DefaultTableModel(cn,0);
 
 		tblMH = new JTable(modelMatHang);
