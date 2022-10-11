@@ -425,7 +425,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	    	
 	    	ArrayList<CongNhan> listCNTo = new ArrayList<CongNhan>();
 	    	
-	    	listCNTo = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
+//	    	listCNTo = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
 	    	
 	    	
 	    	loadListCNCungTo2JTree(listCNTo);
