@@ -508,19 +508,16 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	    	
 	    	ArrayList<CongNhan> listCNTo = new ArrayList<CongNhan>();
 	    	
-<<<<<<< HEAD
+
 
 	    	listCNTo = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
-//	    	loadListCNCungTo2JTree(listCNTo);
+
 	    	addTo2FormThongin(toSanXuat);
 	    	activeCCBasic(false);
-=======
-//	    	listCNTo = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
+
 	    	
-	    	
-	    	loadListCNCungTo2JTree(listCNTo);
->>>>>>> 3e12a9d45e57ba65fa7cd568615d636b42fc6dec
 	    }
+
 	    if(nodeObject instanceof CongNhan) {
 	    	CongNhan cNhan = (CongNhan) nodeObject;
 			activeCCBasic(true);
@@ -858,11 +855,4 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		// TODO Auto-generated method stub
 		
 	}
-}        
-
-
-
-	
-
-
-
+}
