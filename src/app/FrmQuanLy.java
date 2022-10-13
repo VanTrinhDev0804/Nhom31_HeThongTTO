@@ -77,9 +77,14 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 	private FrmQLLuongCN FrmQLLuongCN;
 
+<<<<<<< HEAD
 
 	private FrmQLLuongNV FrmQLLuongNV;
 
+=======
+	private FrmQLLuongNV FrmQLLuongNV;
+
+>>>>>>> 3e12a9d45e57ba65fa7cd568615d636b42fc6dec
 	private app.FrmQLLuongCN frmQLLuongCN;
 
 	private app.FrmQLLuongNV frmQLLuongNV;
@@ -411,7 +416,10 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 //	
 //	}
 //	
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3e12a9d45e57ba65fa7cd568615d636b42fc6dec
 	public void loadFrmQLLuongCN() {
 		setTitle("Quản lý lương CN");
 		resetColorMenu();
@@ -543,8 +551,18 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 //				e1.printStackTrace();
 //			}
 //		}
+<<<<<<< HEAD
 
 
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+=======
+
+	
+>>>>>>> 3e12a9d45e57ba65fa7cd568615d636b42fc6dec
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
