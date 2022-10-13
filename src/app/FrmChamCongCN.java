@@ -368,6 +368,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		DefaultTreeModel defaultTreeModel = new DefaultTreeModel(root);
 		
 		JTToSX = new JTree(defaultTreeModel);
+		JTToSX.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		JTToSX.setVisibleRowCount(35);
 		JTToSX.setCellRenderer(new FixRenderTree());
 		pTreeToSX.setColumnHeaderView(JTToSX);
@@ -507,11 +508,11 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	    	
 	    	ArrayList<CongNhan> listCNTo = new ArrayList<CongNhan>();
 	    	
+
 	    	listCNTo = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
 //	    	loadListCNCungTo2JTree(listCNTo);
 	    	addTo2FormThongin(toSanXuat);
 	    	activeCCBasic(false);
-	    	
 	    }
 	    if(nodeObject instanceof CongNhan) {
 	    	CongNhan cNhan = (CongNhan) nodeObject;

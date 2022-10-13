@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class CongNhan {
@@ -7,14 +8,14 @@ public class CongNhan {
 	private String tenCN;
 	private ToSanXuat toSanXuat;
 	private String gioiTinh;
-	private String ngaySinh;
+	private Date ngaySinh;
 	private String diaChi;
 	private String cccd;
 	private String sdt;
 
 	
 		
-	public CongNhan(String maCN, String tenCN, ToSanXuat toSanXuat, String gioiTinh, String ngaySinh, String diaChi,
+	public CongNhan(String maCN, String tenCN, ToSanXuat toSanXuat, String gioiTinh, Date ngaySinh, String diaChi,
 			String cccd, String sdt) {
 		super();
 		this.maCN = maCN;
@@ -56,11 +57,7 @@ public class CongNhan {
 	}
 
 
-	@Override
-	public String toString() {
-		return "CongNhan [maCN=" + maCN + ", tenCN=" + tenCN + ", toSanXuat=" + toSanXuat + ", gioiTinh=" + gioiTinh
-				+ ", ngaySinh=" + ngaySinh + ", diaChi=" + diaChi + ", cccd=" + cccd + ", sdt=" + sdt + "]";
-	}
+	
 
 
 	public String getMaCN() {
@@ -87,13 +84,15 @@ public class CongNhan {
 	public void setGioiTinh(String gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
+
 	
-	public String getNgaySinh() {
+
+	public Date getNgaySinh() {
 		return ngaySinh;
 	}
 
 
-	public void setNgaySinh(String ngaySinh) {
+	public void setNgaySinh(Date ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 
@@ -117,7 +116,11 @@ public class CongNhan {
 		this.sdt = sdt;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "CongNhan [maCN=" + maCN + ", tenCN=" + tenCN + ", toSanXuat=" + toSanXuat + ", gioiTinh=" + gioiTinh
+				+ ", ngaySinh=" + ngaySinh + ", diaChi=" + diaChi + ", cccd=" + cccd + ", sdt=" + sdt + "]";
+	}
 	
 	
 	
