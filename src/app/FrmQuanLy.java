@@ -69,7 +69,7 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 	private JPopupMenu popUp;
 	private JMenuItem popItem;
 
-	private FrmQLLuongCN FrmQLLuongCN;
+//	private FrmQLLuongCN FrmQLLuongCN;
 	
 
 	
@@ -428,7 +428,7 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 //	
 	public void loadFrmQLLuong() {
 		setTitle("Quản lý lương");
-		System.out.println("123");
+
 		resetColorMenu();
 		pContent.removeAll();
 		btnItemQLLuong.setBackground(new Color(192,255,255));
@@ -508,7 +508,7 @@ public class FrmQuanLy extends JFrame implements ActionListener,MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("12321");
+
 		
 	}
 		

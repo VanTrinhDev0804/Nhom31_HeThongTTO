@@ -32,7 +32,7 @@ public class FixRenderTree extends DefaultTreeCellRenderer {
 		else if(node.getUserObject() instanceof CongNhan){
 			CongNhan cNhan = (CongNhan) node.getUserObject();
 //			ImageIcon imageIcon = new ImageIcon("data/icon/iconCN.png");	
-			setText(cNhan.getTenCN()); 
+			setText(cNhan.getMaCN()+"-"+cNhan.getTenCN()); 
 //			setIcon(imageIcon);
 		}
 		else {
