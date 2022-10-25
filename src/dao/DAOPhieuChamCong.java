@@ -57,4 +57,28 @@ public class DAOPhieuChamCong {
 		con.close();
 		return false;
 	}
+//	public ArrayList<ChamCongNV> getChamCongNhanVien(String maNV, int month, int year){
+//		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
+//		
+//		ConnectDB.getinstance();
+//		Connection con = ConnectDB.getConnection();
+//		try {
+//			PreparedStatement ps = con.prepareStatement("select * from ChamCongNV\r\n"
+//					+ "where maNV = '"+ maNV + "' and MONTH(ngayVang) = "+ month + " and YEAR(ngayVang) = " + year );
+//			ResultSet rs = ps.executeQuery();
+//			while(rs.next()) {
+//				ChamCongNV chamCongNV = new ChamCongNV();
+//				chamCongCN.setMaC(rs.getString(1));
+//				chamCongCN.setCaLam(rs.getString(2));
+//				chamCongCN.setNgayLam(rs.getDate(3));
+//				chamCongCN.setSoLuong(rs.getInt(4));
+//				chamCongCN.setLuongNgay(rs.getFloat(5));
+//				
+//				lstCCCN.add(chamCongCN);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return lstCCCN ;
+//	}
 }

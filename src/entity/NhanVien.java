@@ -24,6 +24,11 @@ public class NhanVien implements Serializable{
 		super();
 	}
 
+	public NhanVien(String maNV) {
+		super();
+		this.maNV = maNV;
+	}
+
 	public NhanVien(String maNV, String tenNV, String chucVu, Date ngaySinh, String gioiTinh, String diaChi,
 			String cccd, String sdt) {
 		super();
