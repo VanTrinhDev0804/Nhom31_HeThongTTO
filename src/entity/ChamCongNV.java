@@ -9,6 +9,7 @@ public class ChamCongNV {
 	public ChamCongNV() {
 		super();
 	}
+	
 	public ChamCongNV(NhanVien maNV, Date ngayVang) {
 		super();
 		this.maNV = maNV;
