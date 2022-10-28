@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -17,7 +19,24 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+//import dao.DAOCTHD;
+//import dao.DAOKhachHang;
+//import dao.DAOLoaiKH;
+//import dao.DAOLoaiMH;
+//import dao.DAOMatHang;
+//import dao.DAONhanVien;
+//import entity.CTHD;
+//import entity.HoaDon;
+//import entity.KhachHang;
+//import entity.LoaiMatHang;
+//import entity.MatHang;
+//import entity.NhanVien;
+import dao.DAOSanPham;
+import entity.SanPham;
+
 public class XuatExcels {
+	
+	
 
 //	private DAOKhachHang daoKhachHang;
 //	private DAONhanVien daoNhanVien;
@@ -26,7 +45,8 @@ public class XuatExcels {
 //	private DAOCTHD daoCTHD;
 //	private DAOMatHang daoMatHang;
 //	private DAOLoaiMH daoLoaiMH;
-
+	private DAOSanPham daoSP;
+	
 	public XuatExcels() {
 //			daoKhachHang =  new DAOKhachHang();
 //			daoNhanVien = new DAONhanVien();
@@ -35,6 +55,7 @@ public class XuatExcels {
 //			daoLoaiMH = new DAOLoaiMH();
 //			sf = new SimpleDateFormat("dd/MM/yyyy");
 //			sdf = new SimpleDateFormat("HH:mm");
+			daoSP = new DAOSanPham();
 	}
 
 //	public void xuatHoaDon(ArrayList<HoaDon> lsHD,String path) throws IOException {
@@ -53,33 +74,33 @@ public class XuatExcels {
 //        Row title = sheet.createRow(rowIndex);
 //        
 //        Cell cellTitle = title.createCell(0,CellType.STRING);
-//        cellTitle.setCellValue("DANH SÃ�CH HÃ“A Ä�Æ N");
+//        cellTitle.setCellValue("DANH SÁCH HÓA ĐƠN");
 //        rowIndex++;
 //        Row headerRow = sheet.createRow(rowIndex);
 //        Cell cMaHD = headerRow.createCell(0,CellType.STRING);
-//        cMaHD.setCellValue("MÃ£ hÃ³a Ä‘Æ¡n");
+//        cMaHD.setCellValue("Mã hóa đơn");
 //        
 //        Cell cMaKH = headerRow.createCell(1,CellType.STRING);
-//        cMaKH.setCellValue("MÃ£ khÃ¡ch hÃ ng");
+//        cMaKH.setCellValue("Mã khách hàng");
 //        
 //        Cell cTenKH = headerRow.createCell(2,CellType.STRING);
-//        cTenKH.setCellValue("TÃªn khÃ¡ch hÃ ng");
+//        cTenKH.setCellValue("Tên khách hàng");
 //        Cell cMaNV = headerRow.createCell(3,CellType.STRING);
-//        cMaNV.setCellValue("MÃ£ nhÃ¢n viÃªn");
+//        cMaNV.setCellValue("Mã nhân viên");
 //        Cell cTenNV = headerRow.createCell(4,CellType.STRING);
-//        cTenNV.setCellValue("TÃªn nhÃ¢n viÃªn");
+//        cTenNV.setCellValue("Tên nhân viên");
 //        Cell cNgayLap = headerRow.createCell(5,CellType.STRING);
-//        cNgayLap.setCellValue("NgÃ y láº­p");
+//        cNgayLap.setCellValue("Ngày lập");
 //        Cell cPhong = headerRow.createCell(6,CellType.STRING);
-//        cPhong.setCellValue("PhÃ²ng");
+//        cPhong.setCellValue("Phòng");
 //        Cell cGiovao = headerRow.createCell(7,CellType.STRING);
-//        cGiovao.setCellValue("Giá»� vÃ o");
+//        cGiovao.setCellValue("Giờ vào");
 //        Cell cGiora = headerRow.createCell(8,CellType.STRING);
-//        cGiora.setCellValue("Giá»� ra");
+//        cGiora.setCellValue("Giờ ra");
 //        Cell cPhuThu = headerRow.createCell(9,CellType.STRING);
-//        cPhuThu.setCellValue("Phá»¥ thu");
+//        cPhuThu.setCellValue("Phụ thu");
 //        Cell cGiamGia = headerRow.createCell(10,CellType.STRING);
-//        cGiamGia.setCellValue("Giáº£m giÃ¡");
+//        cGiamGia.setCellValue("Giảm giá");
 //        
 //        rowIndex++; 
 //        for(HoaDon hd : lsHD) {
@@ -128,22 +149,22 @@ public class XuatExcels {
 //	        Row headerCTHD = sheet.createRow(rowIndex);
 //	        for(int i = 0; i < 5;i++) {
 //	        	Cell hMaMH = headerCTHD.createCell(4,CellType.STRING);
-//				hMaMH.setCellValue("MÃ£ Máº·t hÃ ng");
+//				hMaMH.setCellValue("Mã Mặt hàng");
 //			        
 //				Cell hTenMH = headerCTHD.createCell(5,CellType.STRING);
-//				hTenMH.setCellValue("TÃªn máº·t hÃ ng");
+//				hTenMH.setCellValue("Tên mặt hàng");
 //			        
 //				Cell hLoaiMH = headerCTHD.createCell(6,CellType.STRING);
-//				hLoaiMH.setCellValue("Loáº¡i máº·t hÃ ng");
+//				hLoaiMH.setCellValue("Loại mặt hàng");
 //				
 //				Cell hSoLuong = headerCTHD.createCell(7,CellType.STRING);
-//				hSoLuong.setCellValue("Sá»‘ lÆ°á»£ng");
+//				hSoLuong.setCellValue("Số lượng");
 //				
 //				Cell hDonGia = headerCTHD.createCell(8,CellType.STRING);
-//				hDonGia.setCellValue("Ä�Æ¡n giÃ¡");
+//				hDonGia.setCellValue("Đơn giá");
 //			        
 //				Cell hTongTien = headerCTHD.createCell(9,CellType.STRING);
-//				hTongTien.setCellValue("Tá»•ng tiá»�n");
+//				hTongTien.setCellValue("Tổng tiền");
 //	        }
 //	        //Xuat row
 //	        rowIndex++;
@@ -187,59 +208,62 @@ public class XuatExcels {
 //				
 //        		 out.close();
 //		} catch (FileNotFoundException e) {
-//			JOptionPane.showMessageDialog(null, "Lưu không thành công!\\n Tên file đã tồn tại");
+//			JOptionPane.showMessageDialog(null, "Lưu không thành công!\n Tên file đã tồn tại");
 //		}
 //	}
-
-	public void xuatTable(JTable tb, String tieude, String path) throws IOException {
+//	
+	public void xuatTable(JTable tb,String tieude,String path) throws IOException {
 		Workbook workbook = null;
+		 
+        if (path.endsWith(".xlsx")) {
+            workbook = new XSSFWorkbook();
+        } else if (path.endsWith(".xls")) {
+            workbook = new HSSFWorkbook();
+        }
 
-		if (path.endsWith(".xlsx")) {
-			workbook = new XSSFWorkbook();
-		} else if (path.endsWith(".xls")) {
-			workbook = new HSSFWorkbook();
-		}
-
-		Sheet sheet = workbook.createSheet();
-
-		int rowIndex = 1;
-
-		Row title = sheet.createRow(rowIndex);
-		Cell cellTitle = title.createCell(0, CellType.STRING);
-		cellTitle.setCellValue(tieude);
-		rowIndex++;
-		int rowCount = tb.getRowCount();
-		int colCount = tb.getColumnCount();
-		DefaultTableModel model = (DefaultTableModel) tb.getModel();
-
-		// add header to excels
-		Row headerRow = sheet.createRow(rowIndex);
-		for (int i = 0; i < colCount; i++) {
-			Cell cH = headerRow.createCell(i, CellType.STRING);
-			cH.setCellValue(tb.getColumnName(i));
-		}
-		// Xuat row
-		rowIndex++;
-		for (int i = 0; i < rowCount; i++) {
-			Row row = sheet.createRow(rowIndex);
-			for (int j = 0; j < colCount; j++) {
-				Cell c = row.createCell(j, CellType.STRING);
-				c.setCellValue(model.getValueAt(i, j).toString());
-			}
-			rowIndex++;
-		}
-
-		File f = new File(path);
-		try {
-
-			FileOutputStream out = new FileOutputStream(f);
-			workbook.write(out);
-
-			out.close();
+        Sheet sheet = workbook.createSheet(); 
+ 
+        int rowIndex = 1;
+         
+        Row title = sheet.createRow(rowIndex);
+        Cell cellTitle = title.createCell(0,CellType.STRING);
+        cellTitle.setCellValue(tieude);
+        rowIndex++;
+        int rowCount = tb.getRowCount();
+        int colCount = tb.getColumnCount();
+        DefaultTableModel model = (DefaultTableModel) tb.getModel();
+        
+        // add header to excels
+        Row headerRow = sheet.createRow(rowIndex);
+        for(int i = 0; i < colCount;i++) {
+        	 Cell cH = headerRow.createCell(i,CellType.STRING);
+             cH.setCellValue(tb.getColumnName(i));
+        }
+        //Xuat row
+        rowIndex++;
+        for(int i = 0; i < rowCount;i++) {
+        	Row row = sheet.createRow(rowIndex);
+        	for(int j = 0; j < colCount;j++) {
+	        	Cell c = row.createCell(j,CellType.STRING);
+	            c.setCellValue(model.getValueAt(i, j).toString());
+        	}
+            rowIndex++;
+        }
+        
+        File f = new File(path);
+        try {
+       	
+       		 FileOutputStream out = new FileOutputStream(f);
+       		 workbook.write(out);
+				
+       		 out.close();
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Lưu không thành công!\\n Tên file đã tồn tại");
+			JOptionPane.showMessageDialog(null, "Lưu không thành công!\n Tên file đã tồn tại");
 		}
-
+        
+        
 	}
-
+	
+	
+	
 }

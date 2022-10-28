@@ -89,7 +89,7 @@ public class DAOPhatSinhMa {
 		String maSP="";
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select CONCAT('SP', RIGHT(CONCAT('000',ISNULL(right(max(maSP),3),0) + 1),3)) from Phong where maSP like  'SP%'";
+		String sql = "select CONCAT('SP', RIGHT(CONCAT('000',ISNULL(right(max(maSP),3),0) + 1),3)) from SanPham where maSP like  'SP%'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);

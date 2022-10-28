@@ -50,22 +50,6 @@ public class DAOCongNhan {
 		return lstCN ;
 	}
 	
-	//get ds Công nhân Cùng tổ
-	public ArrayList<CongNhan> getDSCongNhanCungTo(String maToSX){
-	ArrayList<CongNhan> lstCN = new ArrayList<CongNhan>();
-	ArrayList<CongNhan> lstCNCungTo = new ArrayList<CongNhan>();
-		lstCN = getDSCongNhan();
-		
-		for (CongNhan cn: lstCN) {
-			if(cn.getToSanXuat().getMaTo().equalsIgnoreCase(maToSX)) {
-				lstCNCungTo.add(cn);
-			}
-		}
-		
-		return lstCNCungTo;
-	}
-	
-	
 	//get ds Công nhân theo tên Tổ
 	public ArrayList<CongNhan> getDSCongNhanFromTenTo(String TenToSX){
 	ArrayList<CongNhan> lstCN = new ArrayList<CongNhan>();

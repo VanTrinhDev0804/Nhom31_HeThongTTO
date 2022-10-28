@@ -25,6 +25,14 @@ public class ToSanXuat {
 		// TODO Auto-generated constructor stub
 	}
 
+	public ToSanXuat(String maTo, String tenTo, String maCD, int soLuongCN) {
+		super();
+		this.maTo = maTo;
+		this.tenTo = tenTo;
+		this.maCD = maCD;
+		this.soLuongCN = soLuongCN;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(iconToSX, maCD, maTo, soLuongCN, tenTo);
