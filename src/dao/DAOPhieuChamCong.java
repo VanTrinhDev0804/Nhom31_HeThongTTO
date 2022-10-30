@@ -37,7 +37,7 @@ public class DAOPhieuChamCong {
 		return lstCCCN ;
 	}
 	//them NV
-	public boolean themCCNV(ChamCongCN info) throws SQLException {
+	public boolean themCCCN(ChamCongCN info) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "insert into ChamCongCN values (?,?,?,?,?)";

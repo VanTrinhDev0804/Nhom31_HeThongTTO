@@ -82,6 +82,8 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 	private app.FrmQLLuongNV frmQLLuongNV;
 	
+	private FrmChamCongNV frmChamCongNV;
+	
 	private String currenMenu = "";
 	@SuppressWarnings("deprecation")
 
@@ -364,7 +366,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	}
 
 	public void loadFrmCongNhan() {
-		setTitle("Quản lý coong n");
+		setTitle("Quản lý công nhân");
 		resetColorMenu();
 		pContent.removeAll();
 		btnItemNhanSu.setBackground(new Color(192, 255, 255)); // new Color(233,136,236)
@@ -373,7 +375,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 			pContent.add(frmCongNhan.getPanel());
 
 	}
-	public void loadFrmQLCC() {
+	public void loadFrmQLCCCN() {
 		setTitle("Quản lý Chấm Công");
 		resetColorMenu();
 		pContent.removeAll();
@@ -381,6 +383,16 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLCC.setBorder(BorderFactory.createLineBorder(Color.white));
 		frmChamCongCN = new FrmChamCongCN();
 		pContent.add(frmChamCongCN.getFrmChamCong());
+
+	}
+	public void loadFrmQLCCNV() {
+		setTitle("Quản lý Chấm Công");
+		resetColorMenu();
+		pContent.removeAll();
+		btnItemQLCC.setBackground(new Color(192, 255, 255));
+		btnItemQLCC.setBorder(BorderFactory.createLineBorder(Color.white));
+		frmChamCongNV = new FrmChamCongNV();
+		pContent.add(frmChamCongNV.getFrmChamCong());
 
 	}
 
@@ -483,7 +495,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		}
 		if (o.equals(btnItemQLCC)) {
 			currenMenu = "MENU_QLCC";
-			loadFrmQLCC();
+			loadFrmQLCCNV();
 		}
 //		if(o.equals(btnItemKH)) {
 //			loadFrmKhachHang();
@@ -509,6 +521,9 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 			case "MENU_QL_NHANSU":
 				loadFrmCongNhan();
 				break;
+			case "MENU_QLCC":
+				loadFrmQLCCCN();
+				break;
 			default:
 				break;
 			}
@@ -521,6 +536,9 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 				break;
 			case "MENU_QL_NHANSU":
 				loadFrmNhanVien();
+				break;
+			case "MENU_QLCC":
+				loadFrmQLCCNV();
 				break;
 			default:
 				break;
