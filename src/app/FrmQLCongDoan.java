@@ -712,7 +712,8 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 				cd.setTenThanhPham(tenThanhPham);
 				cd.setGiaSX(giaSX);
 				cd.setTrangThaiCD(trangThaiCD);
-
+				
+				daoCT.suaGiaSX(maCD, maSP, giaSX);
 				daoCongDoan.capNhatCD(cd, maCD);
 				removeDanhSachCD(modelCongDoan);
 				
