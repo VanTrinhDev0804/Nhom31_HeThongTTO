@@ -47,6 +47,7 @@ import dao.DAONhanVien;
 import dao.DAOPhieuChamCong;
 import dao.DAOToSanXuat;
 import entity.ChamCongCN;
+import entity.ChamCongNV;
 import entity.CongNhan;
 import entity.NhanVien;
 import entity.ToSanXuat;
@@ -55,6 +56,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -84,6 +86,7 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 	private DAOToSanXuat daoTSX;
 	private DAONhanVien daoNhanVien;
 	private DAOPhieuChamCong daoPhieuChamCong;
+	
 
 	private JTextField txtTimCN;
 	private JPanel pNhapThongTin;
@@ -97,7 +100,7 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 	private FixButton btnLuuChamCong, btnTimNV;
 	private JScrollPane scrollCNTable;
 	private JTable tableNV;
-	private DefaultTableModel modelChamCong;
+	private DefaultTableModel modelChamCongNV;
 	
 	
 	private SimpleDateFormat dfNgay;
@@ -169,9 +172,9 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 		pMain.add(scrollCNTable);
 		
 		String col[] = {"Mã ","Nhân Viên" , "Chức Vụ", "Số Điện Thoại",  "Ngày Vắng"};
-		modelChamCong = new DefaultTableModel(col, 0);
+		modelChamCongNV = new DefaultTableModel(col, 0);
 
-		tableNV = new JTable(modelChamCong);
+		tableNV = new JTable(modelChamCongNV);
 		tableNV.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tableNV.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		tableNV.setShowHorizontalLines(true); 
@@ -383,23 +386,83 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 				txtMaNV.setText(nVien.getMaNV());
 				txtSDT.setText(nVien.getSdt());
 				txtChucVu.setText(nVien.getChucVu());
-					
+				
+				if(checkChamCong(nVien.getMaNV())) {
+					btnLuuChamCong.setText("Chấm Vắng");
+					btnLuuChamCong.setBackground(new Color(57, 210, 247));
+					btnLuuChamCong.setEnabled(true);
+					btnLuuChamCong.setVisible(true);
+				}
+				else {
+					btnLuuChamCong.setVisible(false);
+				}
+				
+				loadListChamCong(nVien);
 				
 			}
 		});
 		 
 		
+		 
+		 
+	}
+	
+	protected boolean checkChamCong(String ma) {
+		ArrayList<ChamCongNV> lisctCCNV = daoPhieuChamCong.getDSChamCongNVTungNV(ma);
+		java.util.Date date = chooserNgay.getDate();
+		
+		Date ngayFormat=new Date(date.getYear(), date.getMonth(), date.getDate());
+
+		if(lisctCCNV.size() >=1 ) {
+			for (ChamCongNV info : lisctCCNV) {
+				if(info.getNgayVang().equals(ngayFormat)) {
+					return false;
+				}
+
+			}
+		}
+		return true;
+	
+		
+		
+	}
+
+	protected void loadListChamCong(NhanVien nVien) {
+		
+		removeDSChamCong(modelChamCongNV);
+		ArrayList<ChamCongNV> lisctCCNV = daoPhieuChamCong.getDSChamCongNVTungNV(nVien.getMaNV());
+		if(lisctCCNV.size() >0 ) {
+			for (ChamCongNV info : lisctCCNV) {
+				modelChamCongNV.addRow(new Object[] {
+						info.getMaNV(), nVien.getTenNV(), nVien.getChucVu(),nVien.getSdt(),dfNgay.format(info.getNgayVang())
+					
+				
+				});
+			}
+		}
+	
+	
+		
+	}
+	
+	private void removeDSChamCong(DefaultTableModel defaultTableModel) {
+		while(tableNV.getRowCount() > 0){
+			modelChamCongNV.removeRow(0);
+		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e. getSource();
 		 if(o.equals(btnLuuChamCong)) {
-			 addChamCongNhanVien();
+			 luuChamCongNhanVien();
 		 }
 	}
 
-	private void addChamCongNhanVien() {
+
+	private void luuChamCongNhanVien() {
+
+		// TODO Auto-generated method stub
 		String ma = txtMaNV.getText();
 		String  tenNV = txtHoTenNV.getText();
 		String chucVu = txtChucVu.getText();
@@ -411,18 +474,49 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 		String ngay =dfNgay.format(ngayFormat);
 		
 		
+		ChamCongNV info = new ChamCongNV();
 		
 		
-		modelChamCong.addRow(new Object[] {
-				ma, tenNV, chucVu, soDT, ngay
-			});
+		info.setMaNV(ma);
+		info.setNgayVang(ngayFormat);
+		
+	
+			if(checkChamCong(ma)) {
+				try {
+					if(daoPhieuChamCong.themCCNV(info)) {
+						JOptionPane.showMessageDialog(this, "Chấm công thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+						btnLuuChamCong.setVisible(false);
+					}
+					else {
+						btnLuuChamCong.setVisible(true);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(this, "Chấm công thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					btnLuuChamCong.setVisible(true);
+				}
+				modelChamCongNV.addRow(new Object[] {
+						ma, tenNV, chucVu, soDT, ngay
+				});
+				
+			}
+			else {
+				btnLuuChamCong.setVisible(true);
+			}
+		
+			
+		
+
 	}
+
+
 
 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method st	ub
 		
 	}
 
@@ -465,6 +559,9 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
 
 
 

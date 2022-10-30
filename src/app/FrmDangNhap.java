@@ -269,6 +269,5 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 				this.setVisible(false);
 			}
 			
-		
-	}
+			}
 }
