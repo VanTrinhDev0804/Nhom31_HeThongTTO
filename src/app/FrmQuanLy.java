@@ -409,7 +409,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemNhanSu.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmNhanVien = new FrmNhanVien();
 			pContent.add(frmNhanVien.getPanel());
-			togglebtnSelect(btnSelectNV.isVisible());
+			togglebtnSelect(true);
 	}
 
 	public void loadFrmCongNhan() {
@@ -420,7 +420,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemNhanSu.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmCongNhan = new FrmCongNhan();
 			pContent.add(frmCongNhan.getPanel());
-			togglebtnSelect(btnSelectCN.isVisible());
+			togglebtnSelect(true);
 
 	}
 
@@ -432,7 +432,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLSP.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmQLSanPham = new FrmQLSanPham(currenMenu, currenMenu, dNow);
 			pContent.add(frmQLSanPham.getFrmQLSanPham());
-			togglebtnSelect(btnSelectSP.isVisible());
+			togglebtnSelect(false);
 		
 	}
 	public void loadFrmCongDoan	() {
@@ -443,7 +443,8 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLSP.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmQLCongDoan = new FrmQLCongDoan(currenMenu, currenMenu, dNow);
 			pContent.add(frmQLCongDoan.getFrmQLCongDoan());
-		
+			
+			togglebtnSelect(false);
 	}
 	public void loadFrmToSanXuat() {
 		setTitle("Quản Lý Lương");
@@ -454,7 +455,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 			frmQLToSanXuat = new FrmQLToSanXuat(null, currenMenu, currenMenu, dNow);
 			pContent.add(frmQLToSanXuat.getFrmQLToSanXuat());
 		
-			togglebtnSelect(btnSelectTSX.isVisible());
+			togglebtnSelect(false);
 		
 	}
 	
@@ -467,7 +468,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLCC.setBorder(BorderFactory.createLineBorder(Color.white));
 		frmChamCongCN = new FrmChamCongCN();
 		pContent.add(frmChamCongCN.getFrmChamCong());
-		togglebtnSelect(btnSelectNV.isVisible());
+		togglebtnSelect(true);
 
 	}
 	public void loadFrmQLCCNV() {
@@ -478,7 +479,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLCC.setBorder(BorderFactory.createLineBorder(Color.white));
 		frmChamCongNV = new FrmChamCongNV();
 		pContent.add(frmChamCongNV.getFrmChamCong());
-		togglebtnSelect(btnSelectNV.isVisible());
+		togglebtnSelect(true);
 
 	}
 
@@ -491,7 +492,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLLuong.setBorder(BorderFactory.createLineBorder(Color.white));
 		frmQLLuongCN = new FrmQLLuongCN();
 		pContent.add(frmQLLuongCN.getFrmQLLuongCN());
-		togglebtnSelect(btnSelectNV.isVisible());
+		togglebtnSelect(true);
 	}
 
 	public void loadFrmQLLuongNV() {
@@ -503,7 +504,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 		frmQLLuongNV = new FrmQLLuongNV();
 		pContent.add(frmQLLuongNV.getFrmQLLuongNV());
-		togglebtnSelect(btnSelectNV.isVisible());
+		togglebtnSelect(true);
 	}
 
 //	}
