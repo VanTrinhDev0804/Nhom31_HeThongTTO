@@ -89,16 +89,8 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	private Panel pMain;
 	private Date dNgayHienTai;
 	private JLabel lblTim, lblTenKH, lblLoaiKH, lblNgayDen, lblSDT, lblGioDen, lblTinhTrangCongDoan, lblDiaChi, lblChonSanPham, lblBackGround;
-//	private JTextField txtTim, txtTenKH, txtSDT, txtDiaChi;
-//	private JComboBox<Object> cboTrangThaiDDP, cboSapXep;
-//	private JComboBox<String> cboLoaiKH, cboGio, cboPhut;
-//	private JTable tblPhong, tblDDP;
-//	private DefaultTableModel modelPhong, modelDDP;
 	private JButton btnTim, btnThemCD, btnSuaCD, btnLamMoiCD;
-//	private JRadioButton rdoTheoMaPhong, rdoTheoLoaiPhong;
 	private ButtonGroup bg;
-//	private SimpleDateFormat dfNgay, dfHienGio;
-//	private DecimalFormat dfGiaPhong, dftxtGio, dftxtPhut;
 	private java.util.Date timeNow1, timeNow2;
 	private long nowHours, nowMinutes;
 	@SuppressWarnings("unused")
@@ -110,9 +102,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	private DAOSanPham daoSanPham;
 	private DAOCT_CD_SX_SP daoCT;
 	private DAOCongDoan daoCongDoan;
-//	private DAOKhachHang daoKhachHang;
-//	private DAOLoaiKH daoLoaiKH;
-//	private DAONhanVien daoNhanVien;
 	private DAOPhatSinhMa daoPhatSinhMa;
 	private Regex regex;
 
@@ -167,11 +156,8 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		 * Khai báo các DAO
 		 */
 		daoSanPham=new DAOSanPham();
-//		daoLoaiPhong=new DAOLoaiPhong();
 		daoCongDoan=new DAOCongDoan();
 		daoCT = new DAOCT_CD_SX_SP();
-//		daoLoaiKH=new DAOLoaiKH();
-//		daoNhanVien=new DAONhanVien();
 		daoPhatSinhMa = new DAOPhatSinhMa();
 		regex = new Regex();
 
@@ -180,15 +166,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		 */
 		SanPham sp = new SanPham();
 		cd = new CongDoan();
-
-		/**
-		 * Định dạng giá, ngày, giờ, phút trong bảng
-		 */
-//		dfNgay=new SimpleDateFormat("dd/MM/yyyy");
-//		dfHienGio=new SimpleDateFormat("HH:mm a");
-//		dfGiaPhong=new DecimalFormat("###,###");
-//		dftxtGio=new DecimalFormat("##");
-//		dftxtPhut=new DecimalFormat("##");
 
 		/**
 		 * Frame Cong Doan
@@ -212,13 +189,13 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		pMain.add(pNhapThongTin);
 		pNhapThongTin.setLayout(null);
 
-		lblNhapThongTin = new JLabel("Nhập Thông  Tin Công Đoạn");
+		lblNhapThongTin = new JLabel("Nhập Thông Tin Công Đoạn");
 		lblNhapThongTin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNhapThongTin.setFont(new Font("SansSerif", Font.BOLD, 18));
 		lblNhapThongTin.setBounds(10, 11, 292, 29);
 		pNhapThongTin.add(lblNhapThongTin);
 		
-		//Ten san pham
+		//Ten cong doan
 		JLabel lblTenCD = new JLabel("Tên Công Đoạn:");
 		lblTenCD.setBounds(10, 75, 125, 26);
 		pNhapThongTin.add(lblTenCD);
@@ -232,7 +209,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		txtTenCD.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		txtTenCD.setColumns(20);
 		
-		//Gia san xuat
+		//ten thanh pham
 		JLabel lblTenThanhPham = new JLabel("Tên T.Phẩm:");
 		lblTenThanhPham.setBounds(10, 125, 111, 26);
 		pNhapThongTin.add(lblTenThanhPham);
@@ -246,7 +223,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		txtTenThanhPham.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		txtTenThanhPham.setColumns(20);
 		
-		//So luong 
+		//gia san xuat 
 		JLabel lblGiaSX_CD = new JLabel("Giá SX_CĐ:");
 		lblGiaSX_CD.setBounds(10, 175, 102, 26);
 		pNhapThongTin.add(lblGiaSX_CD);
@@ -259,7 +236,8 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		txtGiaSX_CD.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		txtGiaSX_CD.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		txtGiaSX_CD.setColumns(20);
-
+		
+		//tinh trang cong doan
 		lblTinhTrangCongDoan = new JLabel("Trạng thái CĐ:");
 		lblTinhTrangCongDoan.setBounds(10, 235, 133, 19);
 		lblTinhTrangCongDoan.setFont(new Font("SansSerif", Font.BOLD, 15));
@@ -274,23 +252,14 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		cboTrangThaiCongDoan.setBackground(Color.white);
 		pNhapThongTin.add(cboTrangThaiCongDoan);
 
-		/**
-		 * Tìm kiếm đơn đặt phòng theo họ tên và sđt khách hàng.
-		 * Tìm khách hàng theo sđt.
-		 * Label lblTim
-		 * JTextField txtTim
-		 * Sự kiện placeholder tìm DDP: FocusListener
-		 * Nút tìm DDP và KH
-		 * Icon iconTim
-		 */
 		lblTim = new JLabel("Tìm kiếm:");
 		lblTim.setFont(new Font("SansSerif", Font.BOLD, 14));
 		lblTim.setBounds(550, 12, 80, 35);
 		pMain.add(lblTim);
 		//
 		txtTim = new JTextField();
-		txtTim.setToolTipText("Tìm kiếm thông tin công đoạn và sản phẩm");
-		txtTim.setText("Tìm công đoạn theo tên công đoạn, tên thành phẩm, giá sản xuất.");
+		txtTim.setToolTipText("Tìm công đoạn theo mã công đoạn.");
+		txtTim.setText("Tìm công đoạn theo mã công đoạn.");
 		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtTim.setForeground(Colors.LightGray);
 		txtTim.setBorder(new LineBorder(new Color(114, 23 ,153), 2, true));
@@ -317,13 +286,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		btnExcels.setIcon(iconExcel);
 		pMain.add(btnExcels);
 
-		/**
-		 * Bảng chứa các thông tin phòng
-		 * JScrollPane scrollPaneChonPhong
-		 * String col[]: tên các cột
-		 * JTable tblPhong: nội dung của bảng
-		 * JTableHeader tbHeaderPhong: định dạng khung các tên cột
-		 */
 		lblChonSanPham = new JLabel("Chọn sản phẩm:");
 		lblChonSanPham.setFont(new Font("SansSerif", Font.BOLD, 18));
 		lblChonSanPham.setBounds(431, 70, 200, 29);
@@ -388,10 +350,10 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		pNhapThongTin.add(btnThemCD);
 
 		/**
-		 * Sửa thông tin DDP
-		 * Nút sửa DDP
-		 * JButton btnSuaDDP
-		 * Icon iconSuaDDP
+		 * Sửa thông tin CĐ
+		 * Nút sửa CĐ
+		 * JButton btnSuaCĐ
+		 * Icon iconSuaCĐ
 		 */
 		btnSuaCD = new FixButton("Sửa");
 		btnSuaCD.setForeground(Color.black);
@@ -406,8 +368,8 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		/**
 		 * Làm mới: xóa trắng các text, xóa tất cả nội dung trong bảng DDP, đặt mặc định các combobox, bỏ chọn checkbox và các radiobutton
 		 * Nút làm mới
-		 * JButton btnLamMoiDDP
-		 * Icon iconLamMoiDDP
+		 * JButton btnLamMoiCD
+		 * Icon iconLamMoiCD
 		 */
 		btnLamMoiCD = new FixButton("Làm mới");
 		btnLamMoiCD.setForeground(Color.white);
@@ -420,7 +382,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		pNhapThongTin.add(btnLamMoiCD);
 
 		/**
-		 * Khung sắp xếp chứa các mục sắp xếp theo tăng dần, giảm dần, theo mã phòng, theo loại phòng
+		 * Khung sắp xếp chứa các mục sắp xếp theo tăng dần, giảm dần
 		 * JPanel pSapXep
 		 */
 		JPanel pSapXep = new JPanel();
@@ -444,11 +406,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		cboSapXep.setBackground(Color.WHITE);
 		pSapXep.add(cboSapXep);
 
-		/**
-		 * Nhấn chọn sắp xếp kí tự từ trái sang phải theo mã và loại phòng tăng hoặc giảm dần
-		 * Sắp xếp loại phòng tăng dần: phòng thường, trung, VIP và giảm dần ngược lại
-		 * JRadioButton rdoTheoMaPhong, rdoTheoLoaiPhong
-		 */
 		rdoTheoMaSanPham = new JRadioButton("Theo Mã Sản Phẩm");
 		rdoTheoMaSanPham.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		rdoTheoMaSanPham.setBounds(250, 16, 180, 27);
@@ -457,7 +414,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		pSapXep.add(rdoTheoMaSanPham);
 
 		rdoTheoMaCongDoan = new JRadioButton("Theo Mã Công Đoạn");
-		rdoTheoMaCongDoan.setToolTipText("Loại phòng tăng dần: phòng thường, trung, VIP và ngược lại");
 		rdoTheoMaCongDoan.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		rdoTheoMaCongDoan.setBounds(450, 16, 180, 27);
 		rdoTheoMaCongDoan.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -471,14 +427,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		bg=new ButtonGroup();
 		bg.add(rdoTheoMaSanPham); bg.add(rdoTheoMaCongDoan);
 
-
-		/**
-		 * Bảng chứa các thông tin đơn đặt phòng
-		 * JScrollPane scrollPaneDDP
-		 * String col[]: tên các cột
-		 * JTable tblDDP: nội dung của bảng
-		 * JTableHeader tbHeaderDDP: định dạng khung các tên cột
-		 */
 		JScrollPane scrollPaneCD = new JScrollPane();
 		scrollPaneCD.setToolTipText("Danh sách thông tin CĐ");
 		scrollPaneCD.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -567,19 +515,13 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		btnExcels.addActionListener(this);
 	}
 	
-/*
-
-	/**
-	 * Xóa hết dữ liệu trong bảng danh sách thông tin chọn phòng
-	 * @param defaultTableModel trả về modelPhong
-	 */
 	private void removeDanhSachSP(DefaultTableModel defaultTableModel) {
 		while(tblSanPham.getRowCount() > 0)
 			modelSanPham.removeRow(0);
 	}
 
 	/**
-	 * @param defaultTableModel trả về modelDDP
+	 * @param defaultTableModel trả về modelCD
 	 */
 	private void removeDanhSachCD(DefaultTableModel defaultTableModel) {
 		while(tblCongDoan.getRowCount() > 0)
@@ -591,7 +533,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	 */
 	@SuppressWarnings("deprecation")
 	private void resetAll() {
-		txtTim.setText("Tìm công đoạn theo mã công đoạn, tên công đoạn, thành phẩm");
+		txtTim.setText("Tìm công đoạn theo mã công đoạn.s");
 		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtTim.setForeground(Colors.LightGray);
 		
@@ -610,11 +552,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		
 	}
 
-	/**
-	 * Hiển thị danh sách thông tin phòng trống và đã đặt gồm:
-	 * mã phòng, loại phòng, giá phòng, tình trạng phòng
-	 * @param p
-	 */
 	private void loadDSSanPhamĐangSanXuat(SanPham sp) {
 		removeDanhSachSP(modelSanPham);
 		ArrayList<SanPham> lstSP = daoSanPham.getDSSanPham();
@@ -623,14 +560,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 					infoSP.getMaSP(), infoSP.getTenSP(), infoSP.getGiaSX(), infoSP.getSoLuong()
 			});
 		}
-	//	changeColorRow(tblSanPham);
 	}
-
-	/**
-	 * Hiển thị danh sách thông tin đơn đặt phòng, không hiển thị đơn đã hủy, thông tin gồm:
-	 * mã ĐĐP, mã phòng, tên KH, sđt, ngày đến, giờ đến, tên NV lập, ngày lập, trạng thái ĐĐP
-	 * @param ddp
-	 */
 
 	private void loadDanhSachCD(CongDoan cd) {
 		removeDanhSachCD(modelCongDoan);
@@ -640,36 +570,9 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getGiaSX(), infoCD.getTrangThaiCD()});
 		}
 	}
-	
-	/**
-	 * Thay đổi màu của dòng trong bảng chọn phòng có trạng thái phòng "Đã đặt"
-	 * @param tb
-	 */
-//	public void changeColorRow(JTable tb) {
-//		tb.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
-//			private static final long serialVersionUID = 5206972278640725451L;
-//
-//			@Override
-//		    public Component getTableCellRendererComponent(JTable table,
-//		            Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-//
-//		        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-//
-//		        //String status = (String)table.getModel().getValueAt(row, 3);
-//		        //if ("Đã đặt".equals(status)) {
-//		            setBackground(Color.yellow);
-//		            setForeground(Color.red);
-//		        //} else {
-//		        //    setBackground(table.getBackground());
-//		        //   setForeground(table.getForeground());
-//		        //}       
-//		        return this;
-//		    }   
-//		});
-//	}
 
 	/**
-	 * Hiện danh sách thông tin ĐĐP theo sđt của KH
+	 * Hiện danh sách thông tin CĐ theo sđt của KH
 	 * @param list
 	 */
 	private void loadCDTheoMaCD(ArrayList<CongDoan> list) {
@@ -682,26 +585,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		}
 	}
 
-	/**
-	 * Hiện danh sách thông tin ĐĐP theo họ tên của KH
-	 * @param list
-//	 */
-//	private void loadCDTheoTenCD(ArrayList<CongDoan> list) {
-//		removeDanhSachCD(modelCongDoan);;
-//		KhachHang khachHang = daoKhachHang.getKHTheoTen(txtTim.getText().trim());
-//		ArrayList<DonDatPhong> lstDDP = daoDonDatPhong.getDDPTheoMaKH(khachHang.getMaKhangHang());
-//		for(DonDatPhong infoDDP : lstDDP) {
-//			NhanVien nv = daoNhanVien.getMaVaSdtNVChoDDP(infoDDP.getNhanVien().getMaNhanVien());
-//			modelDDP.addRow(new Object[] {
-//					infoDDP.getMaDDP(), infoDDP.getPhong().getMaPhong(), khachHang.getTenKH(), khachHang.getSdt(),
-//					dfNgay.format(infoDDP.getNgayDen()), dfHienGio.format(infoDDP.getGioDen()), nv.getTenNhanVien(), dfNgay.format(infoDDP.getNgayLap()), infoDDP.getTrangThaiDDP()
-//			});
-//		}
-//	}
-
-	/**
-	 * Chọn 1 dòng thông tin đơn đặt phòng trong bảng danh sách thông tin ĐĐP
-	 */
 	@SuppressWarnings("deprecation")
 	private void choose1CD() {
 		int selectedRow = tblCongDoan.getSelectedRow();
@@ -720,11 +603,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 			}
 		}
 	}
-/*
-	/**
-	 * Sự kiện tìm kiếm thông tin ĐĐP theo họ tên và sđt của KH
-	 * Sự kiện tìm kiếm thông tin KH theo sđt của KH
-	 */
+
 	@SuppressWarnings("deprecation")
 	private void findCD() {
 		String input = txtTim.getText().trim();
@@ -757,21 +636,16 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	
 	}
 
-	/**
-	 * Kiểm tra các thông tin khách hàng trước khi đặt đơn
-	 * Tìm kiếm KH theo sđt, nếu thông tin KH đã có trong dữ liệu thì hiện thông tin KH lên và đặt đơn
-	 * Nếu KH mới, tìm không có thông tin thì thêm 1 KH mới và dữ liệu và được đặt đơn
-	 */
 	@SuppressWarnings({ "deprecation", "unused" })
 	private void checkInfoCD() {
-		if(txtTenCD.equals("") || txtTenThanhPham.equals("") || txtGiaSX_CD.equals("")) {
+		if(!txtTenCD.getText().trim().equals("") && !txtTenThanhPham.getText().trim().equals("") && regex.regexGiaSX(txtGiaSX_CD) ) {
 			String phatSinhMaCD = daoPhatSinhMa.getMaCD();
 			String tenCD = txtTenCD.getText();
 			String tenThanhPham = txtTenThanhPham.getText();
 			float giaSX = Float.parseFloat(txtGiaSX_CD.getText());
 			String trangThaiCD = cboTrangThaiCongDoan.getSelectedItem().toString();
 
-			int chonSP = tblSanPham.getSelectedRow(); //chọn phòng lấy info từ maPhong
+			int chonSP = tblSanPham.getSelectedRow(); //chọn phòng lấy info từ maSanPham
 			if(chonSP>=0) {
 				String maSanPhamChon = tblSanPham.getValueAt(chonSP, 0).toString();
 				SanPham sp = daoSanPham.getSPTheoMaSP(maSanPhamChon);
@@ -805,26 +679,24 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	}
 
 	/**
-	 * Thêm 1 ĐĐP mới vào dữ liệu và hiện lên bảng danh sách
+	 * Thêm 1 CD mới vào dữ liệu và hiện lên bảng danh sách
 	 */
 	@SuppressWarnings("deprecation")
 	private void addCD() {
 			checkInfoCD();
 			removeDanhSachCD(modelCongDoan);
 			loadDanhSachCD(cd);
-//		}	else 
-//			JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 	}
 
 	/**
-	 * Sửa, cập nhật thông tin ĐĐP, trong giao diện quản lý ĐĐP không được sửa thông tin KH
+	 * Sửa, cập nhật thông tin CĐ
 	 * @throws SQLException
 	 */
 	@SuppressWarnings({ "deprecation", "unused" })
 	private void updateCD() throws SQLException { //thông tin KH trong ddp ko đc sửa
 		int row = tblCongDoan.getSelectedRow();
 		if(row>=0) {
-			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin đơn đặt phòng này?", "Thông báo", JOptionPane.YES_NO_OPTION);
+			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin công đoạn này?", "Thông báo", JOptionPane.YES_NO_OPTION);
 			if(update == JOptionPane.YES_OPTION) {
 				String maCD = tblCongDoan.getValueAt(row, 0).toString();
 				String maSP = tblCongDoan.getValueAt(row, 1).toString();
@@ -843,29 +715,22 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 
 				daoCongDoan.capNhatCD(cd, maCD);
 				removeDanhSachCD(modelCongDoan);
-//				if(trangThaiDDP.equals("Chờ xác nhận"))
-//					daoPhong.capnhatTrangThaiPhong(maPhong, "Đã đặt");
-//				if(trangThaiDDP.equals("Đã xác nhận"))
-//					daoPhong.capnhatTrangThaiPhong(maPhong, "Đang hoạt động");
-//				if(trangThaiDDP.equals("Hủy") || trangThaiDDP.equals("Đã trả phòng"))
-//					daoPhong.capnhatTrangThaiPhong(maPhong, "Trống");
-//				loadDSPhongTrongVaDaDat(new Phong());
-
+				
 				resetAll();
 				removeDanhSachCD(modelCongDoan);
 				modelCongDoan.setRowCount(0);
 				modelCongDoan.addRow(new Object[] {
 						maCD, maSP, tenCD, tenThanhPham, giaSX, trangThaiCD
 				});
-				JOptionPane.showMessageDialog(this, "Sửa thông tin đơn đặt phòng thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Sửa thông tin công đoạn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(this, "Vui lòng chọn thông tin đơn đặt phòng cần sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Vui lòng chọn thông tin công đoạn cần sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 	}
 	private void xuatExcel() throws IOException {
 		XuatExcels xuat = new XuatExcels();
-		FileDialog fileDialog = new FileDialog(FrmQLCongDoan, "Xuat", FileDialog.SAVE);
+		FileDialog fileDialog = new FileDialog(FrmQLCongDoan, "Xuất Danh Sách Thông Tin Công Đoạn", FileDialog.SAVE);
 		fileDialog.setFile("Danh Sách Thông Tin Công Đoạn");
 		fileDialog .setVisible(true);
 		String name = fileDialog.getFile();
@@ -880,7 +745,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		xuat.xuatTable(tblCongDoan, "Danh Sách Thông Tin Công Đoạn", fileName);
 	}
 	/**
-	 * Sắp xếp theo mã ĐĐP tăng dần
+	 * Sắp xếp theo mã CD tăng dần
 	 * @param ddp
 	 */
 	private void sortMaCDTangDan(CongDoan cd) {
@@ -894,7 +759,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	}
 
 	/**
-	 * Sắp xếp theo mã ĐĐP giảm dần
+	 * Sắp xếp theo mã CĐ giảm dần
 	 * @param ddp
 	 */
 	private void sortMaCDGiamDan(CongDoan cd) {
@@ -907,7 +772,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		}
 	}
 	/**
-	 * Sắp xếp theo mã ĐĐP tăng dần
+	 * Sắp xếp theo mã SP tăng dần
 	 * @param ddp
 	 */
 	private void sortMaSPTangDan(CongDoan cd) {
@@ -921,7 +786,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	}
 
 	/**
-	 * Sắp xếp theo mã ĐĐP giảm dần
+	 * Sắp xếp theo mã SP giảm dần
 	 * @param ddp
 	 */
 	private void sortMaSPGiamDan(CongDoan cd) {
@@ -934,12 +799,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		}
 	}
 
-//	/**
-//	 * Sắp xếp loại phòng tăng dần: phòng thường, trung, VIP
-//	 * @param ddp
-//	 */
-//
-
 	/**
 	 *Code sự kiện
 	 */
@@ -947,7 +806,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnTim)) {
-			if(txtTim.getText().equals("") || txtTim.getText().equals("Tìm đơn đặt phòng theo họ tên và sđt khách hàng, tìm khách hàng theo sđt.")) {
+			if(txtTim.getText().equals("") || txtTim.getText().equals("Tìm công đoạn theo mã công đoạn.")) {
 				removeDanhSachCD(modelCongDoan);
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 				txtTim.requestFocus();
@@ -955,12 +814,12 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 				findCD();
 		}
 
-		//thêm ddp
+		//thêm CĐ
 		if(o.equals(btnThemCD)) {
 			addCD();
 		}
 
-		//sửa ddp
+		//sửa CĐ
 		if(o.equals(btnSuaCD)) {
 			try {
 				updateCD();
@@ -1014,7 +873,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	 */
 	@Override
 	public void focusGained(FocusEvent e) {
-		if(txtTim.getText().equals("Tìm công đoạn theo tên công đoạn, tên thành phẩm, giá sản xuất.")) {
+		if(txtTim.getText().equals("Tìm công đoạn theo mã công đoạn.")) {
 			txtTim.setFont(new Font("SansSerif", Font.PLAIN, 15));
 			txtTim.setForeground(Color.BLACK);
 			txtTim.setText("");
@@ -1025,7 +884,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		if(txtTim.getText().equals("")) {
 			txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
 			txtTim.setForeground(Colors.LightGray);
-			txtTim.setText("Tìm công đoạn theo tên công đoạn, tên thành phẩm, giá sản xuất.");
+			txtTim.setText("Tìm công đoạn theo mã công đoạn.");
 		}
 	}
 
