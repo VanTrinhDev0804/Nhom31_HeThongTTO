@@ -237,5 +237,20 @@ try {
 	return -1;
 }	 
 }
+public boolean deletePhieuLuongCN(String maCN) throws SQLException {
+	Connection con = ConnectDB.getConnection();
+	String sql = "delete from PhieuLuongCN where maCN = ?";
+	try {
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, maCN);
+
+		return ps.executeUpdate() > 0;
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	con.close();
+	return false;
+
+}
 }
 

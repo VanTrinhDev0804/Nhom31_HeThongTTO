@@ -99,11 +99,11 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	
 	@SuppressWarnings("deprecation")
 
-	public FrmQuanLy() {
-		//this.headerNV = nv;
+	public FrmQuanLy(NhanVien nv) {
+		this.headerNV = nv;
 
 		IconFontSwing.register(FontAwesome.getIconFont());
-		ImageIcon logoApp = (ImageIcon) IconFontSwing.buildIcon(FontAwesome.FOURSQUARE, 50, new Color(164, 44, 167));
+		ImageIcon logoApp = new ImageIcon("data\\icon\\imgApp.png"); 
 		setIconImage(logoApp.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Quản lý nhân viên");
@@ -347,6 +347,8 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 		// Load frm mac dinh 
 		if(btnHeaderInfo.getText().contains("QL")){
+			currenMenu = "MENU_QL_NHANSU";
+			setColorActive(btnSelectNV);
 			loadFrmNhanVien();
 		}
 //		else if(btnHeaderInfo.getText().contains("TN")) {
@@ -401,7 +403,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		pContent.removeAll();
 		btnItemNhanSu.setBackground(new Color(192, 255, 255)); // new Color(233,136,236)
 		btnItemNhanSu.setBorder(BorderFactory.createLineBorder(Color.white));
-			frmNhanVien = new FrmNhanVien();
+			frmNhanVien = new FrmNhanVien("QL",lblHeaderMaNV.getText(),dNow);
 			pContent.add(frmNhanVien.getPanel());
 
 	}
