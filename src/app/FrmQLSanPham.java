@@ -97,6 +97,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 	private DecimalFormat dfGiaSX;
 	private DecimalFormat dftxtGiaSX;
 	private DAOCT_CD_SX_SP daoCT;
+	private DecimalFormat dfDinhDang;
 
 	public Panel getFrmQLSanPham() {
 		return this.pMain;
@@ -111,7 +112,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		daoMa = new DAOPhatSinhMa();
 		regex = new Regex();
 		//dinh dang
-//		dfGiaSX=new DecimalFormat("###,###");
+		dfDinhDang=new DecimalFormat("###,###");
 //		dftxtGiaSX=new DecimalFormat("######");
 		
 		try {
@@ -136,7 +137,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		pMain.add(pNhapThongTin);
 		pNhapThongTin.setLayout(null);
 
-		lblNhapThongTin = new JLabel("Nhập thông tin phòng");
+		lblNhapThongTin = new JLabel("Nhập Thông Tin Sản Phẩm");
 		lblNhapThongTin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNhapThongTin.setFont(new Font("SansSerif", Font.BOLD, 18));
 		lblNhapThongTin.setBounds(10, 11, 313, 29);
@@ -443,7 +444,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		clearTable(modelSanPham);
 		for (SanPham sp : lstSP) {
 			modelSanPham.addRow(new Object[] {
-					sp.getMaSP(), sp.getTenSP(), sp.getGiaSX(), sp.getSoLuong()
+					sp.getMaSP(), sp.getTenSP(), dfDinhDang.format(sp.getGiaSX()), dfDinhDang.format(sp.getSoLuong())
 			});
 		}
 	}
@@ -454,7 +455,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 	 */
 	public void loadSPDuocChon(SanPham sp) {
 		modelSanPham.addRow(new Object[] {
-				sp.getMaSP(), sp.getTenSP(), sp.getGiaSX(), sp.getSoLuong()
+				sp.getMaSP(), sp.getTenSP(), dfDinhDang.format(sp.getGiaSX()), dfDinhDang.format(sp.getSoLuong())
 		});
 	}
 	//Them san pham
@@ -482,9 +483,9 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 							e.printStackTrace();
 							JOptionPane.showMessageDialog(this, "Thêm sản phthất bại!");
 						}
-						clearTable(modelSanPham);;
+						//clearTable(modelSanPham);;
 						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công!");
-						modelSanPham.addRow(new Object[] {sp.getMaSP(), sp.getTenSP(), sp.getGiaSX(), sp.getSoLuong()} );							
+						modelSanPham.addRow(new Object[] {sp.getMaSP(), sp.getTenSP(), dfDinhDang.format(sp.getGiaSX()), dfDinhDang.format(sp.getSoLuong())} );							
 					}
 				}
 			}
@@ -596,7 +597,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoMaSP();
 		for (SanPham sanPham : lsSP) {
 			modelSanPham.addRow(new Object[] {
-					sanPham.getMaSP(), sanPham.getTenSP(), sanPham.getGiaSX(), sanPham.getSoLuong()
+					sanPham.getMaSP(), sanPham.getTenSP(), dfDinhDang.format(sanPham.getGiaSX()), dfDinhDang.format(sanPham.getSoLuong())
 			});
 		}
 	}
@@ -606,7 +607,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoGiaSP("desc");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), lssp.getGiaSX(), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfDinhDang.format(lssp.getGiaSX()), dfDinhDang.format(lssp.getSoLuong())
 			});		
 		}
 	}
@@ -616,7 +617,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoGiaSP("");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), lssp.getGiaSX(), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfDinhDang.format(lssp.getGiaSX()), dfDinhDang.format(lssp.getSoLuong())
 			});		
 		}
 	}
@@ -627,7 +628,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoSoLuongSP("desc");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), lssp.getGiaSX(), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfDinhDang.format(lssp.getGiaSX()), dfDinhDang.format(lssp.getSoLuong())
 			});		
 		}
 	}
@@ -637,7 +638,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoSoLuongSP("");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), lssp.getGiaSX(), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfDinhDang.format(lssp.getGiaSX()), dfDinhDang.format(lssp.getSoLuong())
 			});		
 		}
 	}
