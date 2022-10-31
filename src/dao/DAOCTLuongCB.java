@@ -54,4 +54,19 @@ public class DAOCTLuongCB {
 		con.close();
 		return false;
 	}
+	public boolean deleteCTLuongCB(String maNV) throws SQLException {
+		Connection con = ConnectDB.getConnection();
+		String sql = "delete from CTLuongCB where maNV = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maNV);
+
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+
+	}
 }

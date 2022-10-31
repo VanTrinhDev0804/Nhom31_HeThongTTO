@@ -15,6 +15,10 @@ public class ToSanXuat {
 	public ToSanXuat(String maTo) {
 		super();
 		this.maTo = maTo;
+<<<<<<< HEAD
+=======
+		this.tenTo = tenTo;
+>>>>>>> a954ff0ab0f100226ef7e6deebe4b3477a243399
 	}
 
 	public ToSanXuat(String maTo, String tenTo, String maCD, int soLuongCN,String icon) {

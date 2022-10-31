@@ -480,7 +480,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 							daoSP.ThemSP(sp);
 						} catch (Exception e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(this, "Thêm sản phthất bại!");
+							JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại!");
 						}
 						clearTable(modelSanPham);;
 						JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công!");

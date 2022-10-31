@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import connection.ConnectDB;
 import entity.NhanVien;
+import entity.TaiKhoan;
 
 public class DAONhanVien implements Serializable {
 
@@ -17,7 +18,14 @@ public class DAONhanVien implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 
+=======
+	private DAOTaiKhoan daotk = new DAOTaiKhoan();
+	private DAOCTLuongCB daoCTLuongCT = new DAOCTLuongCB();
+	private DAOPhieuLuongNV daoPhieuLuongNV = new DAOPhieuLuongNV();
+	private DAOPhieuChamCong daoPhieuChamCong = new DAOPhieuChamCong();
+>>>>>>> a954ff0ab0f100226ef7e6deebe4b3477a243399
 	
 	public boolean themNV(NhanVien nv) throws SQLException {
 		ConnectDB.getinstance();
@@ -46,6 +54,10 @@ public class DAONhanVien implements Serializable {
 		Connection con = ConnectDB.getConnection();
 		String sql = "delete from NhanVien where maNV = ?";
 		try {
+			daoPhieuLuongNV.deletePhieuLuongNV(maNV);
+			daoPhieuChamCong.deleteChamCongNV(maNV);
+			daoCTLuongCT.deleteCTLuongCB(maNV);
+			daotk.xoaTK(maNV);
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, maNV);
 
@@ -258,5 +270,31 @@ public class DAONhanVien implements Serializable {
 		}
 		return true;
 	}
+	public static NhanVien getNVTheoTK(String maTK) { 
+		NhanVien nv = new NhanVien();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select * from NhanVien where maNV = '"+maTK+"'";
 
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				nv.setMaNV(rs.getString(1));
+
+				nv.setTenNV(rs.getString(2));
+				nv.setChucVu(rs.getString(3));
+				nv.setNgaySinh(rs.getDate(4));
+				nv.setGioiTinh(rs.getString(5));
+
+				nv.setDiaChi(rs.getString(6));
+				nv.setCccd(rs.getString(7));
+				nv.setSdt(rs.getString(8));
+		
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nv;
+	}
 }
