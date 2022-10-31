@@ -81,6 +81,29 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
+	public void xoaPhieuChamCongCN(String ma)throws SQLException {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("delete  from ChamCongCN"
+					+ " where maCN = '" + ma +"'");
+			 ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void xoaPhieuChamCongCN()throws SQLException {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("delete  from ChamCongCN");
+			 ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public ArrayList<ChamCongNV> getChamCongNhanVien(NhanVien nv, int month){
 		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
 		
@@ -113,6 +136,78 @@ public class DAOPhieuChamCong {
 		Connection con = ConnectDB.getConnection();
 		String sql = "select count(*) from ChamCongNV "
 				+ "where maNV = '"+ maNV + "'";
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}			 
+	}
+	public Integer getSoSPSX(String maCN, int thang, int nam){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(soLuongSX) from ChamCongCN "
+				+ "where maNV = '"+ maCN + "' and  MONTH(ngay) = " + thang + " and YEAR(ngay) = " + nam;
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}			 
+	}
+	public Integer getSoSPSX(String maCN){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(soLuongSX) from ChamCongCN "
+				+ "where maNV = '"+ maCN + "' ";
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}			 
+	}
+	public Integer getTienLuongCN(String maCN, int thang, int nam){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(luongngay) from ChamCongCN "
+				+ "where maCN = '"+ maCN + "' and  MONTH(ngay) = " + thang + " and YEAR(ngay) = " + nam;
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}			 
+	}
+	public Integer getTienLuongCN(String maCN){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(luongngay) from ChamCongCN "
+				+ "where maCN = '" + maCN + "'";
 		int dem =0;
 		try {
 			Statement stm = con.createStatement();

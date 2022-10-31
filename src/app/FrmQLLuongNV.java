@@ -21,13 +21,13 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JOptionPane;
 
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -59,7 +59,6 @@ import entity.PhieuLuongNV;
 //import entity.MatHang;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
-import app.XuatExcels;
 
 public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListener, KeyListener, ItemListener {
 	private static final long serialVersionUID = 1L;
@@ -100,6 +99,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 	private JTextField txtNam;
 	private SimpleDateFormat dfDate;
 	private SimpleDateFormat dfDate1;
+	private SimpleDateFormat dfThang1;
 
 	public Panel getFrmQLLuongNV() {
 		return this.pMain;
@@ -135,7 +135,8 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		regex = new Regex();
 		dfLuong = new DecimalFormat("##,###,###");
 		dfNam = new SimpleDateFormat("yyyy");
-		dfThang = new SimpleDateFormat("MM");
+		dfThang = new SimpleDateFormat("MM/yyyy");
+		dfThang1 = new SimpleDateFormat("MM");
 		dfDate = new SimpleDateFormat("dd/MM/yyyy");
 		dfDate1 = new SimpleDateFormat("yyyy-MM-dd");
 		// dfNgaySinh
@@ -375,7 +376,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		/**
 		 * Bảng chính
 		 */
-		String cn[] = { "Mã NV", "Tên NV", "CCCD", "Chức Vụ", "SoNgayCong", "Lương" };
+		String cn[] = { "Mã NV", "Tên NV", "CCCD", "Chức Vụ", "SoNgayCong","Tháng","Lương" };
 		modelLuong = new DefaultTableModel(cn, 0);
 
 		tblLuong = new JTable(modelLuong);
@@ -409,7 +410,8 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		tblLuong.getColumnModel().getColumn(2).setPreferredWidth(100);
 		tblLuong.getColumnModel().getColumn(3).setPreferredWidth(80);
 		tblLuong.getColumnModel().getColumn(4).setPreferredWidth(80);
-		tblLuong.getColumnModel().getColumn(5).setPreferredWidth(200);
+		tblLuong.getColumnModel().getColumn(5).setPreferredWidth(80);
+		tblLuong.getColumnModel().getColumn(6).setPreferredWidth(200);
 
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
@@ -421,6 +423,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		tblLuong.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 		tblLuong.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 		tblLuong.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+		tblLuong.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
 		spMatHang.setViewportView(tblLuong);
 
 		/**
@@ -465,7 +468,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		/**
 		 * Load dữ liệu lên bảng
 		 */
-//		loadTableMH();
+		loadTable();
 	}
 
 	/**
@@ -478,22 +481,38 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 //		String nam = cboNam.getSelectedItem().toString();
 		daoPhieuLuongNV.updateLuongNV();
 		if (maNV.equals("Tất cả")) {
+			loadTable();
+			btnTinhLuong.setEnabled(false);
+		} else {
+			clearTable();
+			loadTableTheoMa();}
+
+	}
+	public void loadTable() {
+//		String thang = cboThang.getSelectedItem().toString();
+//		String nam = cboNam.getSelectedItem().toString();
+		daoPhieuLuongNV.updateLuongNV();	
 			clearTable();
 			ArrayList<PhieuLuongNV> lsPLNV = daoPhieuLuongNV.getAllPhieuLuongNV();
 			for (PhieuLuongNV phieuLuongNV : lsPLNV) {
 				modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
 						phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(),
-						phieuLuongNV.getSoNgayCong(), dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
+						phieuLuongNV.getSoNgayCong(), dfThang.format(phieuLuongNV.getThang()) , dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
 			}
-			btnTinhLuong.setEnabled(false);
-		} else {
-			PhieuLuongNV phieuLuongNV = daoPhieuLuongNV.getPhieuLuongNV(maNV);
-			modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
-					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(), phieuLuongNV.getSoNgayCong(),
-					dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
-		}
-
 	}
+	public void loadTableTheoMa() {
+		String maNV = cboMaNV.getSelectedItem().toString();
+//		String thang = cboThang.getSelectedItem().toString();
+//		String nam = cboNam.getSelectedItem().toString();
+		daoPhieuLuongNV.updateLuongNV();	
+		ArrayList<PhieuLuongNV> lsPLNV = daoPhieuLuongNV.getAllPhieuLuongNV(maNV);
+		for (PhieuLuongNV phieuLuongNV : lsPLNV) {
+			modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
+					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(),
+					phieuLuongNV.getSoNgayCong(), dfThang.format(phieuLuongNV.getThang()) ,dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
+		}
+	}
+	
 
 	public void detelePhieuChamCong() {
 		String maNV = cboMaNV.getSelectedItem().toString();
@@ -531,7 +550,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		clearTable();
 		for (PhieuLuongNV phieuLuongNV : lsPLNV) {
 			modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
-					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(), phieuLuongNV.getSoNgayCong(),
+					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(), phieuLuongNV.getSoNgayCong(), dfThang.format(phieuLuongNV.getThang()) ,
 					dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
 
 		}
@@ -562,6 +581,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 			ArrayList<NhanVien> lstNV = daoNhanVien.getTenNVTheoMa(maNV);
 			for (NhanVien nhanVien : lstNV) {
 				int x = daoCCNV.getSoNgayVangNhanVien(nhanVien.getMaNV());
+				
 				try {
 					if (x > 0) {
 						daoPhieuLuongNV.themPhieuLuongNV(new PhieuLuongNV(nhanVien, new Date(), 26 - x, 0));
@@ -594,7 +614,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		clearTable();
 		cboSapXep.setSelectedIndex(0);
 		bgRdo.clearSelection();
-//		loadTableMH();
+		loadTable();
 	}
 
 	/**
@@ -953,10 +973,9 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 			int row = tblLuong.getSelectedRow();
 			cboMaNV.setSelectedItem(modelLuong.getValueAt(row, 0).toString());
 			cboTenNV.setSelectedItem(modelLuong.getValueAt(row, 1).toString());
-//			cboThang.setSelectedItem(modelLuong.getValueAt(row, 5).toString());
+			txtThang.setText(modelLuong.getValueAt(row, 5).toString());
 //			cboNam.setSelectedItem(modelLuong.getValueAt(row, 6).toString());
-			txtLuong.setText(modelLuong.getValueAt(row, 5).toString());
-
+			txtLuong.setText(modelLuong.getValueAt(row, 6).toString());
 		}
 	}
 
@@ -1013,12 +1032,17 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 			String maNV = (String) cboMaNV.getSelectedItem();
 			ArrayList<NhanVien> lsNV = daoNhanVien.getTenNVTheoMa(maNV);
 			cboTenNV.removeAllItems();
-			if (cboMaNV.getSelectedIndex() == 0)
+			if (cboMaNV.getSelectedIndex() == 0) {
 				cboTenNV.addItem("Tất cả");
+				loadTable();
+			}
+			else {
 			for (NhanVien nv : lsNV) {
 				cboTenNV.addItem(nv.getTenNV());
-			}
-		}
+				clearTable();
+				loadTableTheoMa();
+		}}
+	}
 	}
 
 //		}	

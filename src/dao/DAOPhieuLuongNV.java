@@ -66,10 +66,10 @@ public class DAOPhieuLuongNV {
 		}
 		return lstPhieuLuongNV ;
 	}
-	public PhieuLuongNV getPhieuLuongNV(String ma){
+	public ArrayList<PhieuLuongNV> getAllPhieuLuongNV(String ma){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		PhieuLuongNV phieuLuongNV = new PhieuLuongNV();
+		ArrayList<PhieuLuongNV> lstPhieuLuongNV = new ArrayList<PhieuLuongNV>();
 		try {
 			PreparedStatement ps = con.prepareStatement("select PhieuLuongNV.maNV, NhanVien.tenNV, NhanVien.cccd, NhanVien.chucVu,PhieuLuongNV.soNgayCong,PhieuLuongNV.thang, PhieuLuongNV.tienLuong\r\n"
 					+ "		from\n"
@@ -77,15 +77,17 @@ public class DAOPhieuLuongNV {
 					+ " where PhieuLuongNV.maNV = '" + ma +"'");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {		
+				PhieuLuongNV phieuLuongNV = new PhieuLuongNV();
 				phieuLuongNV.setMaNV(new NhanVien(rs.getString(1), rs.getString(2), rs.getString(4), null, null, null, rs.getString(3), null));
 				phieuLuongNV.setSoNgayCong(rs.getInt(5));
 				phieuLuongNV.setThang(rs.getDate(6));
 				phieuLuongNV.setTienLuong(rs.getFloat(7));
+				lstPhieuLuongNV.add(phieuLuongNV);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return phieuLuongNV ;
+		return lstPhieuLuongNV ;
 	}
 	public ArrayList<PhieuLuongNV> getPhieuLuongNVTheoTen(String ten){
 		ArrayList<PhieuLuongNV> lstPhieuLuongNV = new ArrayList<PhieuLuongNV>();
