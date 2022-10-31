@@ -195,4 +195,19 @@ public Integer getCountLuongNV(String maNV, String thang){
 		return -1;
 	}	 
 }
+public boolean deletePhieuLuongNV(String maNV) throws SQLException {
+	Connection con = ConnectDB.getConnection();
+	String sql = "delete from PhieuLuongNV where maNV = ?";
+	try {
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, maNV);
+
+		return ps.executeUpdate() > 0;
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	con.close();
+	return false;
+
+}
 }

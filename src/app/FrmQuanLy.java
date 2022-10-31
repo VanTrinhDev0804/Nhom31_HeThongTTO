@@ -43,6 +43,8 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import app.*;
+
 public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -101,11 +103,11 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	
 	@SuppressWarnings("deprecation")
 
-	public FrmQuanLy() {
-		//this.headerNV = nv;
+	public FrmQuanLy(NhanVien nv) {
+		this.headerNV = nv;
 
 		IconFontSwing.register(FontAwesome.getIconFont());
-		ImageIcon logoApp = (ImageIcon) IconFontSwing.buildIcon(FontAwesome.FOURSQUARE, 50, new Color(164, 44, 167));
+		ImageIcon logoApp = new ImageIcon("data\\icon\\imgApp.png"); 
 		setIconImage(logoApp.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Quản lý nhân viên");
@@ -146,7 +148,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		lblNgayHienTai.setBounds(564, 20, 151, 21);
 		panel.add(lblNgayHienTai);
 
-		lblHeaderTen = new JLabel();
+		lblHeaderTen = new JLabel(headerNV.getTenNV());
 		lblHeaderTen.setFont(new Font("SansSerif", Font.BOLD, 15));
 		lblHeaderTen.setForeground(Color.WHITE);
 		lblHeaderTen.setBounds(843, 5, 170, 20);
@@ -167,7 +169,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnDangXuat.setIcon(iconDangXuat);
 		panel.add(btnDangXuat);
 
-		lblHeaderMaNV = new JLabel();
+		lblHeaderMaNV = new JLabel(headerNV.getMaNV());
 		lblHeaderMaNV.setForeground(Color.WHITE);
 		lblHeaderMaNV.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		lblHeaderMaNV.setBounds(953, 26, 60, 20);
@@ -353,6 +355,8 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 		// Load frm mac dinh 
 		if(btnHeaderInfo.getText().contains("QL")){
+			currenMenu = "MENU_QL_NHANSU";
+			setColorActive(btnSelectNV);
 			loadFrmNhanVien();
 		}
 //		else if(btnHeaderInfo.getText().contains("TN")) {
@@ -407,7 +411,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		pContent.removeAll();
 		btnItemNhanSu.setBackground(new Color(192, 255, 255)); // new Color(233,136,236)
 		btnItemNhanSu.setBorder(BorderFactory.createLineBorder(Color.white));
-			frmNhanVien = new FrmNhanVien();
+			frmNhanVien = new FrmNhanVien("QL",lblHeaderMaNV.getText() , dNow);
 			pContent.add(frmNhanVien.getPanel());
 			togglebtnSelect(true);
 	}

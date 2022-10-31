@@ -82,7 +82,7 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
+
 	public void xoaPhieuChamCongCN(String ma)throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -106,7 +106,7 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
-=======
+
 	public ArrayList<ChamCongNV> getDSChamCongNVTungNV(String maNV){
 		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
 		
@@ -152,7 +152,7 @@ public class DAOPhieuChamCong {
 	
 	
 	
->>>>>>> 41bdc3e241669000c0831db96c0125e767475e00
+
 	public ArrayList<ChamCongNV> getChamCongNhanVien(NhanVien nv, int month){
 		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
 		
@@ -271,6 +271,36 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 			return -1;
 		}			 
+	}
+	public boolean deleteChamCongNV(String maNV) throws SQLException {
+		Connection con = ConnectDB.getConnection();
+		String sql = "delete from ChamCongNV where maNV = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maNV);
+
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+
+	}
+	public boolean deleteChamCongCN(String maCN) throws SQLException {
+		Connection con = ConnectDB.getConnection();
+		String sql = "delete from ChamCongCN where maCN = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maCN);
+
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+
 	}
 
 }
