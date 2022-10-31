@@ -18,6 +18,7 @@ public class DAONhanVien implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	public boolean themNV(NhanVien nv) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
