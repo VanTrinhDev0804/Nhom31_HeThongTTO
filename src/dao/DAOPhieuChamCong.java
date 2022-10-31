@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class DAOPhieuChamCong {
 		return lstCCCN ;
 	}
 	//them NV
-	public boolean themCCNV(ChamCongCN info) throws SQLException {
+	public boolean themCCCN(ChamCongCN info) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "insert into ChamCongCN values (?,?,?,?,?)";
@@ -81,6 +82,7 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 	public void xoaPhieuChamCongCN(String ma)throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -104,6 +106,53 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
+=======
+	public ArrayList<ChamCongNV> getDSChamCongNVTungNV(String maNV){
+		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
+		
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("select * from ChamCongNV where maNV = '"+maNV+"' ");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				ChamCongNV chamCongNV = new ChamCongNV();
+				chamCongNV.setMaNV(rs.getString(1));
+				chamCongNV.setNgayVang(rs.getDate(2));
+		
+				lstCCNV.add(chamCongNV);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lstCCNV ;
+	}
+
+	
+	
+	public boolean themCCNV(ChamCongNV inf) throws SQLException {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "insert into ChamCongNV values (?,?)";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, inf.getMaNV());
+			ps.setDate(2,(Date) inf.getNgayVang());
+		
+			return ps.executeUpdate() > 0;
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+	}
+	
+	
+	
+	
+	
+>>>>>>> 41bdc3e241669000c0831db96c0125e767475e00
 	public ArrayList<ChamCongNV> getChamCongNhanVien(NhanVien nv, int month){
 		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
 		
@@ -115,7 +164,7 @@ public class DAOPhieuChamCong {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				ChamCongNV chamCongNV = new ChamCongNV();
-				chamCongNV.setMaNV(new NhanVien(rs.getString(1)));
+				chamCongNV.setMaNV(rs.getString(1));
 				chamCongNV.setNgayVang(rs.getDate(2));
 				
 //				chamCongCN.setMaC(rs.getString(1));
@@ -131,6 +180,8 @@ public class DAOPhieuChamCong {
 		}
 		return lstCCNV ;
 	}
+	
+	
 	public Integer getSoNgayVangNhanVien(String maNV){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();

@@ -3,22 +3,28 @@ package entity;
 import java.util.Date;
 
 public class ChamCongNV {
-	private NhanVien maNV;
+	private String maNV;
 	private Date ngayVang;
 	
-	public ChamCongNV() {
-		super();
-	}
 	
-	public ChamCongNV(NhanVien maNV, Date ngayVang) {
+	
+	public ChamCongNV(String maNV, Date ngayVang) {
 		super();
 		this.maNV = maNV;
 		this.ngayVang = ngayVang;
 	}
-	public NhanVien getMaNV() {
+	public ChamCongNV() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "ChamCongNV [maNV=" + maNV + ", ngayVang=" + ngayVang + "]";
+	}
+	public String getMaNV() {
 		return maNV;
 	}
-	public void setMaNV(NhanVien maNV) {
+	public void setMaNV(String maNV) {
 		this.maNV = maNV;
 	}
 	public Date getNgayVang() {
@@ -28,5 +34,9 @@ public class ChamCongNV {
 		this.ngayVang = ngayVang;
 	}
 	
+	
+
+	
+
 	
 }

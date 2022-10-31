@@ -207,6 +207,22 @@ public class DAOCongNhan {
 		return lstCN;
 	}
 
+	//get ds Công nhân Cùng tổ
+	public ArrayList<CongNhan> getDSCongNhanCungTo(String maToSX){
+	ArrayList<CongNhan> lstCN = new ArrayList<CongNhan>();
+	ArrayList<CongNhan> lstCNCungTo = new ArrayList<CongNhan>();
+		lstCN = getDSCongNhan();
+		
+		for (CongNhan cn: lstCN) {
+			if(cn.getToSanXuat().getMaTo().equalsIgnoreCase(maToSX)) {
+				lstCNCungTo.add(cn);
+			}
+		}
+		
+		return lstCNCungTo;
+	}
+	
+	
 	public boolean checkmaCN(String maCN) { 
 		CongNhan cn = new CongNhan();
 		ConnectDB.getinstance();
