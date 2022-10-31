@@ -16,8 +16,7 @@ import entity.ToSanXuat;
 public class DAOCongNhan {
 	
 	private DAOToSanXuat daoToSanXuat= new DAOToSanXuat();
-	private DAOPhieuChamCong daoPhieuChamCong = new DAOPhieuChamCong();
-	private DAOPhieuLuongCN daoPhieuLuongCN = new DAOPhieuLuongCN();
+	
 	//get ds Công nhân
 	public ArrayList<CongNhan> getDSCongNhan(){
 		ArrayList<CongNhan> lstCN = new ArrayList<CongNhan>();
@@ -142,8 +141,6 @@ public class DAOCongNhan {
 		Connection con = ConnectDB.getConnection();
 		String sql = "delete from CongNhan where maCN = ?";
 		try {
-			daoPhieuChamCong.deleteChamCongCN(maCN);
-			daoPhieuLuongCN.deletePhieuLuongCN(maCN);
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, maCN);
 	
@@ -210,22 +207,6 @@ public class DAOCongNhan {
 		return lstCN;
 	}
 
-	//get ds Công nhân Cùng tổ
-	public ArrayList<CongNhan> getDSCongNhanCungTo(String maToSX){
-	ArrayList<CongNhan> lstCN = new ArrayList<CongNhan>();
-	ArrayList<CongNhan> lstCNCungTo = new ArrayList<CongNhan>();
-		lstCN = getDSCongNhan();
-		
-		for (CongNhan cn: lstCN) {
-			if(cn.getToSanXuat().getMaTo().equalsIgnoreCase(maToSX)) {
-				lstCNCungTo.add(cn);
-			}
-		}
-		
-		return lstCNCungTo;
-	}
-	
-	
 	public boolean checkmaCN(String maCN) { 
 		CongNhan cn = new CongNhan();
 		ConnectDB.getinstance();

@@ -9,9 +9,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import connection.ConnectDB;
-import dao.DAONhanVien;
 import dao.DAOTaiKhoan;
-import entity.NhanVien;
 import entity.TaiKhoan;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -265,8 +263,8 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 			JOptionPane.showMessageDialog(this, "Mật khẩu không đúng!\nVui lòng kiểm tra lại.");
 		}	
 		else {
-				NhanVien nv = DAONhanVien.getNVTheoTK(tk.getMaTK());
-				FrmQuanLy frmQL = new FrmQuanLy(nv);
+//			NhanVien nv = daoNhanVien.getNVTheoTK(tk.getMaTK());
+				FrmQuanLy frmQL = new FrmQuanLy();
 				frmQL.setVisible(true);
 				this.setVisible(false);
 			}

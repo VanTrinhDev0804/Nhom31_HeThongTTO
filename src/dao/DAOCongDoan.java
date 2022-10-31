@@ -9,8 +9,11 @@ import java.util.ArrayList;
 
 import connection.ConnectDB;
 import entity.CongDoan;
+
 import entity.NhanVien;
+
 import entity.SanPham;
+
 public class DAOCongDoan {
 
 	public boolean themCD(CongDoan cd) throws SQLException {
@@ -183,6 +186,82 @@ public class DAOCongDoan {
 		return lsCD;
 	}
 
+/*	public ArrayList<CongDoan> getTheoMaKH(String ma){
+		ArrayList<DonDatPhong> lstDDP = new ArrayList<DonDatPhong>();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("select * from DonDatPhong where maKH = N'"+ma+"' and TrangThaiDDP = N'Chờ xác nhận'");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				DonDatPhong ddp=new DonDatPhong();
+				ddp.setMaDDP(rs.getNString(1));
+				ddp.setPhong(new Phong(rs.getNString(2)));
+				ddp.setKhachHang(new KhachHang(rs.getNString(3)));
+				ddp.setNhanVien(new NhanVien(rs.getNString(4)));
+				ddp.setNgayLap(rs.getDate(5));
+				ddp.setGioDen(rs.getTime(6));
+				ddp.setNgayDen(rs.getDate(7));
+				ddp.setTrangThaiDDP(rs.getNString(8));
+				lstDDP.add(ddp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lstDDP;
+	}
+/*
+	public ArrayList<DonDatPhong> sortMaDDP(String kieuSX) {
+		ArrayList<DonDatPhong> lstDDP = new ArrayList<>();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("select * from DonDatPhong where TrangThaiDDP != N'Hủy' order by maDDP "+kieuSX+"");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				DonDatPhong ddp = new DonDatPhong();
+				ddp.setMaDDP(rs.getString(1));
+				ddp.setPhong(new Phong(rs.getString(2)));
+				ddp.setKhachHang(new KhachHang(rs.getString(3)));
+				ddp.setNhanVien(new NhanVien(rs.getString(4)));
+				ddp.setNgayLap(rs.getDate(5));
+				ddp.setGioDen(rs.getTime(6));
+				ddp.setNgayDen(rs.getDate(7));
+				ddp.setTrangThaiDDP(rs.getString(8));
+				lstDDP.add(ddp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lstDDP;
+	}
+	
+	public ArrayList<DonDatPhong> sortDDPTheoLoaiPhong(String kieuSX) {
+		ArrayList<DonDatPhong> lstDDP = new ArrayList<>();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT DonDatPhong.* FROM DonDatPhong INNER JOIN Phong ON DonDatPhong.maPhong = Phong.maPhong "
+														+ "where maLoaiPhong != 'LP004' order by maLoaiPhong "+kieuSX+"");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				DonDatPhong ddp = new DonDatPhong();
+				ddp.setMaDDP(rs.getString(1));
+				ddp.setPhong(new Phong(rs.getString(2)));
+				ddp.setKhachHang(new KhachHang(rs.getString(3)));
+				ddp.setNhanVien(new NhanVien(rs.getString(4)));
+				ddp.setNgayLap(rs.getDate(5));
+				ddp.setGioDen(rs.getTime(6));
+				ddp.setNgayDen(rs.getDate(7));
+				ddp.setTrangThaiDDP(rs.getString(8));
+				lstDDP.add(ddp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lstDDP;
+	}
+*/
 	public void deleteCDTheoMa(String maSP) {
 		PreparedStatement preparedStatement = null;
 		try {

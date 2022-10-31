@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +38,7 @@ public class DAOPhieuChamCong {
 		return lstCCCN ;
 	}
 	//them NV
-	public boolean themCCCN(ChamCongCN info) throws SQLException {
+	public boolean themCCNV(ChamCongCN info) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "insert into ChamCongCN values (?,?,?,?,?)";
@@ -82,10 +81,6 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> a954ff0ab0f100226ef7e6deebe4b3477a243399
 	public void xoaPhieuChamCongCN(String ma)throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -109,56 +104,6 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
-=======
-
-	public ArrayList<ChamCongNV> getDSChamCongNVTungNV(String maNV){
-		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
-		
-		ConnectDB.getinstance();
-		Connection con = ConnectDB.getConnection();
-		try {
-			PreparedStatement ps = con.prepareStatement("select * from ChamCongNV where maNV = '"+maNV+"' ");
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				ChamCongNV chamCongNV = new ChamCongNV();
-				chamCongNV.setMaNV(rs.getString(1));
-				chamCongNV.setNgayVang(rs.getDate(2));
-		
-				lstCCNV.add(chamCongNV);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return lstCCNV ;
-	}
-
-	
-	
-	public boolean themCCNV(ChamCongNV inf) throws SQLException {
-		ConnectDB.getinstance();
-		Connection con = ConnectDB.getConnection();
-		String sql = "insert into ChamCongNV values (?,?)";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			
-			ps.setString(1, inf.getMaNV());
-			ps.setDate(2,(Date) inf.getNgayVang());
-		
-			return ps.executeUpdate() > 0;
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-		con.close();
-		return false;
-	}
-	
-	
-	
-	
-	
-
->>>>>>> a954ff0ab0f100226ef7e6deebe4b3477a243399
 	public ArrayList<ChamCongNV> getChamCongNhanVien(NhanVien nv, int month){
 		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
 		
@@ -170,7 +115,7 @@ public class DAOPhieuChamCong {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				ChamCongNV chamCongNV = new ChamCongNV();
-				chamCongNV.setMaNV(rs.getString(1));
+				chamCongNV.setMaNV(new NhanVien(rs.getString(1)));
 				chamCongNV.setNgayVang(rs.getDate(2));
 				
 //				chamCongCN.setMaC(rs.getString(1));
@@ -186,8 +131,6 @@ public class DAOPhieuChamCong {
 		}
 		return lstCCNV ;
 	}
-	
-	
 	public Integer getSoNgayVangNhanVien(String maNV){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -206,7 +149,6 @@ public class DAOPhieuChamCong {
 			return -1;
 		}			 
 	}
-<<<<<<< HEAD
 //	public int getSoSPSX(String maCN, int thang, int nam){
 //		ConnectDB.getinstance();
 //		Connection con = ConnectDB.getConnection();
@@ -230,12 +172,6 @@ public class DAOPhieuChamCong {
 		Connection con = ConnectDB.getConnection();
 		String sql = "select sum(soLuongSX) from ChamCongCN "
 				+ "where maCN = '"+ maCN + "' ";
-=======
-	public Integer getSoSPSX(String maCN, int thang, int nam){
-		ConnectDB.getinstance();
-		Connection con = ConnectDB.getConnection();
-		String sql = "select sum(soLuongSX) from ChamCongCN "
-				+ "where maNV = '"+ maCN + "' and  MONTH(ngay) = " + thang + " and YEAR(ngay) = " + nam;
 		int dem =0;
 		try {
 			Statement stm = con.createStatement();
@@ -249,44 +185,6 @@ public class DAOPhieuChamCong {
 			return -1;
 		}			 
 	}
-	public Integer getSoSPSX(String maCN){
-		ConnectDB.getinstance();
-		Connection con = ConnectDB.getConnection();
-		String sql = "select sum(soLuongSX) from ChamCongCN "
-				+ "where maNV = '"+ maCN + "' ";
-		int dem =0;
-		try {
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
-			rs.next();
-			dem = rs.getInt(1);
-			rs.close();
-			return dem;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return -1;
-		}			 
-	}
-	public Integer getTienLuongCN(String maCN, int thang, int nam){
-		ConnectDB.getinstance();
-		Connection con = ConnectDB.getConnection();
-		String sql = "select sum(luongngay) from ChamCongCN "
-				+ "where maCN = '"+ maCN + "' and  MONTH(ngay) = " + thang + " and YEAR(ngay) = " + nam;
->>>>>>> a954ff0ab0f100226ef7e6deebe4b3477a243399
-		int dem =0;
-		try {
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
-			rs.next();
-			dem = rs.getInt(1);
-			rs.close();
-			return dem;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return -1;
-		}			 
-	}
-<<<<<<< HEAD
 //	public Integer getTienLuongCN(String maCN, int thang, int nam){
 //		ConnectDB.getinstance();
 //		Connection con = ConnectDB.getConnection();
@@ -305,8 +203,6 @@ public class DAOPhieuChamCong {
 //			return -1;
 //		}			 
 //	}
-=======
->>>>>>> a954ff0ab0f100226ef7e6deebe4b3477a243399
 	public Integer getTienLuongCN(String maCN){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -325,38 +221,5 @@ public class DAOPhieuChamCong {
 			return -1;
 		}			 
 	}
-<<<<<<< HEAD
-=======
-	public boolean deleteChamCongNV(String maNV) throws SQLException {
-		Connection con = ConnectDB.getConnection();
-		String sql = "delete from ChamCongNV where maNV = ?";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, maNV);
-
-			return ps.executeUpdate() > 0;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		con.close();
-		return false;
-
-	}
-	public boolean deleteChamCongCN(String maCN) throws SQLException {
-		Connection con = ConnectDB.getConnection();
-		String sql = "delete from ChamCongCN where maCN = ?";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, maCN);
-
-			return ps.executeUpdate() > 0;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		con.close();
-		return false;
-
-	}
->>>>>>> a954ff0ab0f100226ef7e6deebe4b3477a243399
 
 }

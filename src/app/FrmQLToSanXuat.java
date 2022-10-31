@@ -49,13 +49,29 @@ import javax.swing.table.JTableHeader;
 import connection.ConnectDB;
 import dao.DAOCT_CD_SX_SP;
 import dao.DAOCongDoan;
+//import dao.DAOCTHD;
+//import dao.DAODonDatPhong;
+//import dao.DAOHoaDon;
+//import dao.DAOKhachHang;
+//import dao.DAOLoaiMH;
+//import dao.DAOLoaiPhong;
+//import dao.DAOMatHang;
+//import dao.DAONhanVien;
 import dao.DAOPhatSinhMa;
 import dao.DAOSanPham;
 import dao.DAOToSanXuat;
 import dao.Regex;
 import entity.CT_CD_SX_SP;
 import entity.CT_CD_SX_SP;
+//import entity.CTHD;
 import entity.CongDoan;
+//import entity.HoaDon;
+//import entity.KhachHang;
+//import entity.LoaiKH;
+//import entity.LoaiMatHang;
+//import entity.LoaiPhong;
+//import entity.MatHang;
+//import entity.NhanVien;
 import entity.SanPham;
 import entity.ToSanXuat;
 import jiconfont.icons.FontAwesome;
@@ -112,13 +128,22 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		}
 		
 //khai bao dao
+//		daoLoaiMH = new DAOLoaiMH();
 		daoCTCD = new DAOCT_CD_SX_SP();
 		daoToSanXuat = new DAOToSanXuat();
+//		daoCTDDP = new DAOCTDDP();
+//		daoLoaiPhong = new DAOLoaiPhong();
 		daoCD = new DAOCongDoan();
 		daoSanPham = new DAOSanPham();
+//		daoKhachHang =  new DAOKhachHang();
+//		daoHD = new DAOHoaDon();
+//		daoNhanVien = new DAONhanVien();
 		daoMa = new DAOPhatSinhMa();
 		regex = new Regex();
 		
+		
+		
+
 		IconFontSwing.register(FontAwesome.getIconFont());
 		
 		setLayout(null);
@@ -135,14 +160,19 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		pMain.add(lblSubTimKiem);
 		
 		txtTim = new JTextField();
-		txtTim.setToolTipText("Tìm tổ sản xuất theo mã công đoạn.");
+		txtTim.setToolTipText("Tìm kiếm mã công đoạn");
 		txtTim.setBounds(520, 12, 410, 33);
 		txtTim.setBorder(new LineBorder(new Color(114, 23 ,153), 2, true));
+		
 		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 14));
-		txtTim.setText("Tìm tổ sản xuất theo mã công đoạn.");
+		txtTim.setText("Tìm sản phẩm đang sản xuất theo mã sản phẩm.");
 		txtTim.setForeground(Color.lightGray);
+
 		pMain.add(txtTim);
 		txtTim.setColumns(10);
+		
+
+		
 		
 		btnTim = new FixButton("Tìm"); 
 		btnTim.setBackground(new Color(114, 23 ,153));
@@ -151,6 +181,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		
 		Icon iconTim = IconFontSwing.buildIcon(FontAwesome.SEARCH, 20, new Color(255, 255, 255));
 		btnTim.setIcon(iconTim);
+		
 		pMain.add(btnTim);
 		
 		btnExcels = new FixButton("Xuất Excels");
@@ -218,8 +249,8 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		pCongDoan.add(lblTenCD);
 		
 		JPanel pDichVu = new JPanel();
-		pDichVu.setToolTipText("Thông tin sản phẩm");
-		pDichVu.setBorder(new TitledBorder(new LineBorder(new Color(114, 23 ,153), 1, true), "Thông Tin ", TitledBorder.CENTER, TitledBorder.TOP, null, Color.BLACK));
+		pDichVu.setToolTipText("Thông tin các dịch vụ và hóa đơn");
+		pDichVu.setBorder(new TitledBorder(new LineBorder(new Color(114, 23 ,153), 1, true), "Dịch vụ ", TitledBorder.CENTER, TitledBorder.TOP, null, Color.BLACK));
 		pDichVu.setBackground(Color.WHITE);
 		pDichVu.setBounds(228, 53, 281, 565);
 		pMain.add(pDichVu);
@@ -239,9 +270,9 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		pDichVu.add(txtTenTo);
 		txtTenTo.setColumns(10);
 		
-		JLabel lblSoLuongCN = new JLabel("Số Lượng Công Nhân:");
+		JLabel lblSoLuongCN = new JLabel("Số Lượng CN:");
 		lblSoLuongCN.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		lblSoLuongCN.setBounds(10, 90, 200, 26);
+		lblSoLuongCN.setBounds(10, 90, 102, 26);
 		pDichVu.add(lblSoLuongCN);
 		
 		txtSoLuongCN = new JTextField();
@@ -264,7 +295,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		
 		pDichVu.add(btnThemTSX);
 		
-		btnXoaTSX = new FixButton("Xóa Tổ");
+		btnXoaTSX = new FixButton("Xóa mặt hàng");
 		btnXoaTSX.setForeground(Color.WHITE);
 		btnXoaTSX.setFont(new Font("SansSerif", Font.BOLD, 14));
 		
@@ -275,7 +306,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		btnXoaTSX.setIcon(iconXoaMH);
 		pDichVu.add(btnXoaTSX);
 		
-		btnLamMoiTSX = new FixButton("Làm mới");
+		btnLamMoiTSX = new FixButton("Làm mới mặt hàng");
 		btnLamMoiTSX.setForeground(Color.WHITE);
 		btnLamMoiTSX.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnLamMoiTSX.setBackground(new Color(114, 23, 153));
@@ -312,12 +343,13 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		tbToSanXuat.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 		
 		JScrollPane spToSanXuat = new JScrollPane(tbToSanXuat);
-		spToSanXuat.setToolTipText("Danh sách các tổ sản xuất trong công đoạn.");
+		spToSanXuat.setToolTipText("Danh sách các mặt hàng đã được đặt");
 		spToSanXuat.setBounds(520, 120, 736, 398);
 		spToSanXuat.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
 		spToSanXuat.setBackground(new Color(164, 44, 167));
 		pMain.add(spToSanXuat);
 	
+//		Load Phong dang hoat dong
 		loadSanPham();
 		
 		tbToSanXuat.addMouseListener(this);
@@ -331,12 +363,22 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 	
 		txtTenTo.addKeyListener(this);
 		txtSoLuongCN.addKeyListener(this);
+//		btnThemTSX.addKeyListener(this);
+//		btnXoaTSX.addKeyListener(this);
+//		btnLamMoiHD.addKeyListener(this);
+//		btnLamMoiTSX.addKeyListener(this);
 		txtTim.addKeyListener(this);
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -378,6 +420,14 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		
 	}
 
+
+	
+//	/**
+//	 * Tải lên thông tin của phòng đã được đặt, đang có trạng thái đã đặt, có đơn đặt phòng có trạng thái
+//	 * đã xác nhận.
+//	 * thông tin phòng tải lên sẽ kèm theo giao diện của từng nút, có chức năng như đang chứa thông tin đơn đặt phòng.
+//	 *
+//	 */
 	public void loadSanPham() {
 		ArrayList<CongDoan> lsCD  = daoCD.getDanhSachCDDangSanXuat();
 		for(CongDoan cd : lsCD) {	
@@ -393,6 +443,8 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 			lblTenCD_SP.setFont(new Font("SansSerif", Font.BOLD, 15));
 			cdn.setBackground(new Color(248, 238, 248));
 
+			
+			
 			btnCD_SP.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -410,6 +462,12 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		}
 	}
 	
+
+	
+	/**
+	 * Tải thông tin phòng khi có mã phòng lên giao diện ở các label, đồng thời tải các danh sách mặt hàng đơn đặt phòng lên bảng
+	 * @param Phong
+	 */
 	@SuppressWarnings("deprecation")
 	public void loadInfo(CongDoan cd) {
 		lblMaSP.setText(cd.getSanPham().getMaSP());
@@ -419,6 +477,12 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		loadTable(cd);
 	}
 	
+//	
+//	
+//	/**
+//	 * Tải thông tin mặt hàng của đơn đặt phòng lên bảng
+//	 * @param DonDatPhong
+ 
 	public void loadTable(CongDoan cd) {
 		clearTable();
 		ArrayList<ToSanXuat> lstT = daoToSanXuat.getToSanXuatTheoMaCD(cd.getMaCD());
@@ -448,6 +512,10 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		}
 	}
 	
+	/**
+	 * Tìm 1 hàng trong bảng mặt hàng, nếu tìm thấy sẽ trả về vị trí trong bảng của mặt hàng đó.
+	 * @return vị trí hàng
+	 */
 	public int timRow() {		
 		
 		for(int i =0; i< tbToSanXuat.getRowCount(); i++) {
@@ -456,7 +524,13 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		}
 		return -1;
 	}
-
+	/**
+	 * Thêm một mặt hàng vào bảng.
+	 * Nếu thông tin hợp lệ sẽ tạo đối tượng chi tiết hóa đơn và kiểm tra nút giảm số lượng có được chọn không
+	 * Nếu được chọn sẽ thực hiện gọi phương thức giảm số lượng.
+	 * Nếu không được chọn sẽ kiểm tra trong bảng có mặt hàng chưa, nếu có thì cập nhật số lượng, không thì sẽ được thêm mới
+	 */
+	
 	public void themToVaoCD() {
 		if(lblMaSP.getText() != "") {
 			if( txtTenTo.getText().trim().equals("")) {
@@ -479,9 +553,14 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 			}
 			
 		}
-		else JOptionPane.showMessageDialog(this, "Vui lòng chọn công đoạn sản phẩm sau đó nhập đầy đủ thông tin.");
+		else JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng sau đó nhập số lượng trước khi thêm mặt hàng!");
 	}
 
+	/**
+	 * Xóa 1 mặt hàng hóa đơn sau đó các mục sẽ được làm mới. 
+	 * Phòng phải được chọn.
+	 * Trước khi xóa phải chọn một mặt hàng cần xóa
+	 */
 	public void xoaTo() {
 		int row = tbToSanXuat.getSelectedRow();
 		if(!lblMaSP.getText().equalsIgnoreCase("")) {
@@ -497,17 +576,17 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 				resetTo();
 			
 				loadTable(cd);
-				JOptionPane.showMessageDialog(null, "Đã xóa tổ sản xuất!", "Thông báo", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null, "Đã xóa sản phẩm!", "Thông báo", JOptionPane.OK_OPTION);
 			}
-			else JOptionPane.showMessageDialog(this, "Vui lòng chọn tổ cần xóa!");
+			else JOptionPane.showMessageDialog(this, "Vui lòng chọn mặt hàng cần xóa");
 		}
-		else JOptionPane.showMessageDialog(this, "Vui lòng chọn công đoạn sản phẩm và chọn tổ cần xóa!");
+		else JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng và chọn mặt hàng cần xóa");
 	}	
 
 	private void xuatExcel() throws IOException {
 		XuatExcels xuat = new XuatExcels();
-		FileDialog fileDialog = new FileDialog(FrmQLToSanXuat, "Xuất Danh Sách Thông Tin Tổ Xuất Công Đoạn", FileDialog.SAVE);
-		fileDialog.setFile("Danh Sách Thông Tin Tổ Xuất Công Đoạn");
+		FileDialog fileDialog = new FileDialog(FrmQLToSanXuat, "Xuat", FileDialog.SAVE);
+		fileDialog.setFile("Danh Sách Thông Tin Công Đoạn");
 		fileDialog .setVisible(true);
 		String name = fileDialog.getFile();
 		String fileName = fileDialog.getDirectory() + name;
@@ -518,7 +597,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		if(!fileName.endsWith(".xlsx")||!fileName.endsWith(".xls")) 
 			fileName += ".xlsx";
 		
-		xuat.xuatTable(tbToSanXuat, "DDanh Sách Thông Tin Tổ Xuất Công Đoạn", fileName);
+		xuat.xuatTable(tbToSanXuat, "Danh Sách Thông Tin Công Đoạn", fileName);
 	}
 	public void timKiem() {
 		if(regex.regexTimCongDoan(txtTim)) {
@@ -526,19 +605,27 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 			if(t1!=null)
 				loadTableT(t1);
 			else 
-				JOptionPane.showMessageDialog(this, "Không tìm thấy công đoạn đang sản xuất nào như yêu cầu!");
+				JOptionPane.showMessageDialog(this, "Không tìm thấy phòng đang hoạt động nào như yêu cầu!");
 		}
 	}
 	
+ 
+	/**
+	 * giúp làm mới lại các mục của dịch vụ về mặc định
+	 */
 	public void resetTo() {
 		txtTenTo.setText("");
 		txtSoLuongCN.setText("");
 	}
 	
+	
+	/**
+	 * ResetAll giúp làm mới lại toàn bộ giao diện của thanh toán ngoại
+	 */
 	public void resetAll() {
 		resetTo();
 		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 14));
-		txtTim.setText("Tìm tổ sản xuất theo mã công đoạn.");
+		txtTim.setText("Tìm phòng đang thuê theo mã phòng.");
 		txtTim.setForeground(Color.lightGray);
 
 		pSanPham.removeAll();
@@ -600,18 +687,23 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		}
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		Object o = e.getSource();
-		int key = e.getKeyCode();
-		if(o.equals(txtSoLuongCN)&& key == KeyEvent.VK_ENTER ) {
-			btnThemTSX.doClick();
-		}
-		else if(o.equals(txtTim)&& key == KeyEvent.VK_ENTER ) {
-			btnTim.doClick();
-		}
-		
-		
-	}
-
+//	@Override
+//	public void keyPressed(KeyEvent e) {
+//		Object o = e.getSource();
+//		int key = e.getKeyCode();
+//		if(o.equals(txtSoLuongCN)&& key == KeyEvent.VK_ENTER ) {
+//			btnThemTSX.doClick();
+//		}
+//		else if(o.equals(txtTim)&& key == KeyEvent.VK_ENTER ) {
+//			btnTim.doClick();
+//		}
+//		
+//		
+//	}
+//
+//	@Override
+//	public void keyReleased(KeyEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }
