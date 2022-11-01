@@ -42,10 +42,12 @@ import connection.ConnectDB;
 import custom.FixButton;
 import custom.FixRenderJList;
 import custom.FixRenderTree;
+import dao.DAOCongDoan;
 import dao.DAOCongNhan;
 import dao.DAOPhieuChamCong;
 import dao.DAOToSanXuat;
 import entity.ChamCongCN;
+import entity.CongDoan;
 import entity.CongNhan;
 import entity.ToSanXuat;
 
@@ -83,6 +85,8 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	private DAOToSanXuat daoTSX;
 	private DAOCongNhan daoCongNhan;
 	private DAOPhieuChamCong daoPhieuChamCong;
+	private DAOCongDoan daoCongDoan;
+	
 	private JPanel pFormList;
 	private JScrollPane scrollList;
 
@@ -154,7 +158,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		daoTSX = new DAOToSanXuat();
 		daoCongNhan = new DAOCongNhan();
 		daoPhieuChamCong = new DAOPhieuChamCong();
-		
+		daoCongDoan = new DAOCongDoan();
 		/**
 		 * Định dạng ngày, lương trong bảng
 		 */
@@ -576,17 +580,19 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		if(item.isEmpty()) {
 			btnOpenFormMulti.setVisible(false);
 			pFormList.setVisible(false);
-			btnCCTo.setText("Đã Chấm Công!");
+			btnLuuChamCong.setVisible(false);
+			System.out.println(item);
+			btnCCTo.setText("Đã Chấm Công Tổ!");
 			btnCCTo.setBackground(new Color(102, 205, 170));
 			btnCCTo.setToolTipText("Đã Chấm Công Cho Ngày" + dNow);
 			btnCCTo.setEnabled(false);
-			btnLuuMulti.setText("Đã Chấm Công!");
-			btnLuuMulti.setBackground(new Color(102, 205, 170));
-			btnLuuMulti.setToolTipText("Đã Chấm Công Cho Ngày" + dNow);
-			btnLuuMulti.setEnabled(false);
+//			btnLuuMulti.setText("Đã Chấm Công Muti!");
+//			btnLuuMulti.setBackground(new Color(102, 205, 170));
+//			btnLuuMulti.setToolTipText("Đã Chấm Công Cho Ngày" + dNow);
+//			btnLuuMulti.setEnabled(false);
 		}else {
 			btnOpenFormMulti.setVisible(true);
-			btnCCTo.setText("Chấm Công");
+			btnCCTo.setText("Chấm Công ");
 			btnCCTo.setForeground(Color.BLACK);
 			btnCCTo.setFont(new Font("SansSerif", Font.BOLD, 14));
 			btnCCTo.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
@@ -776,9 +782,9 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 					 defaultTreeModel = new DefaultTreeModel(root);
 					 JTToSX = new JTree(defaultTreeModel);
 					 JTToSX.setFont(new Font("SansSerif", Font.PLAIN, 15));
-					JTToSX.setVisibleRowCount(35);
-					JTToSX.setCellRenderer(new FixRenderTree());
-					pTreeToSX.setColumnHeaderView(JTToSX);
+					 JTToSX.setVisibleRowCount(35);
+					 JTToSX.setCellRenderer(new FixRenderTree());
+					 pTreeToSX.setColumnHeaderView(JTToSX);
 				
 		}
 
@@ -839,11 +845,14 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			result = -1;
 		}
 		else {
-				int sl = Integer.parseInt(soLuong) ;
-				float giaSX = 1000;
-				float luongNgay = tinhLuongNgay(soLuong , giaSX);
+			
 				
 			for ( CongNhan cn : selectedValuesList) {
+				int sl = Integer.parseInt(soLuong) ;
+				float giaSX = getGiaSXCDTo(cn.getToSanXuat());
+				float luongNgay = tinhLuongNgay(soLuong , giaSX);
+				
+				
 				
 				ChamCongCN input = new ChamCongCN();
 				input.setMaC(cn.getMaCN());
@@ -907,7 +916,8 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		}
 		else {
 				int sl = Integer.parseInt(soLuong) ;
-				float giaSX = 1000;
+				ToSanXuat toSanXuat = daoTSX.getToSXfromMaToSX(maTo);
+				float giaSX = getGiaSXCDTo(toSanXuat);
 				float luongNgay = tinhLuongNgay(soLuong , giaSX);
 				
 			for ( CongNhan cn : lstCNTo) {
@@ -970,7 +980,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		}
 		else {
 //			TINH LUONG NGAY
-			float giaSX = 1000;
+			CongNhan cNhan = daoCongNhan.getDSCongNhanFromMaCN(ma);
+			
+			ToSanXuat toSanXuat = cNhan.getToSanXuat();
+			float giaSX = getGiaSXCDTo(toSanXuat);
 			float luongNgay = tinhLuongNgay(soLuong , giaSX);
 			String luong = dfLuong.format(Math.round(luongNgay));
 			
@@ -1015,6 +1028,17 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 
 
+
+
+
+	private float getGiaSXCDTo(ToSanXuat toSanXuat) {
+		
+		
+		CongDoan cd = daoCongDoan.getCDTheoMaCD(toSanXuat.getMaCD());
+		
+		float result  = cd.getGiaSX();
+		return result;
+	}
 
 
 

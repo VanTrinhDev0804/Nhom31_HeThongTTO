@@ -157,6 +157,9 @@ public class DAOCongDoan {
 		}
 		return cd;
 	}
+	
+	
+	
 	public ArrayList<CongDoan> getCongDoanTheoMaCD(String ma) {
 		ArrayList<CongDoan> lsCD=new ArrayList<>();
 		ConnectDB.getinstance();
