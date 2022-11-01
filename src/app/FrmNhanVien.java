@@ -44,6 +44,10 @@ import com.toedter.calendar.JDateChooser;
 
 import connection.ConnectDB;
 import dao.DAONhanVien;
+<<<<<<< HEAD
+=======
+import dao.DAOPhatSinhMa;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 import dao.DAOTaiKhoan;
 import dao.Regex;
 import entity.CongNhan;
@@ -75,6 +79,10 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 	private JButton btnLamMoiNV;
 	private JButton btnTimKiemNV;
 	private JButton btnInDS;
+<<<<<<< HEAD
+=======
+	private JButton btnLuu;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	private JLabel lblSoNV;
 	private JRadioButton radSXtheoMaNV;
 	private JRadioButton radSXtheoTen;
@@ -82,6 +90,10 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 	private JRadioButton radSXtheoNgaySinh;
 	private DAONhanVien daoNhanVien;
 	private DAOTaiKhoan daoTaiKhoan;
+<<<<<<< HEAD
+=======
+	private DAOPhatSinhMa daoMa;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	private int ngay, thang, nam;
 	private JComboBox<Object> cbbChucVu;
 	private JComboBox<Object> cbbGioiTinh;
@@ -99,7 +111,11 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		return this.pMain;
 	}
 	
+<<<<<<< HEAD
 	public FrmNhanVien()  {
+=======
+	public FrmNhanVien(String sHeaderTenNV, String sHeaderMaNV, Date dNgayHienTai)  {
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		//connect database
 		try {
 		    	ConnectDB.getinstance().connect();
@@ -111,6 +127,10 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		dfNgaySinh= new SimpleDateFormat("yyyy-MM-dd");
 		daoNhanVien = new DAONhanVien();
 		daoTaiKhoan = new DAOTaiKhoan();
+<<<<<<< HEAD
+=======
+		daoMa = new DAOPhatSinhMa();
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		regex=new Regex();
 		IconFontSwing.register(FontAwesome.getIconFont());
 	
@@ -124,7 +144,11 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		
 		JLabel lbltitle = new JLabel("BẢNG NHÂN VIÊN");
 		lbltitle.setFont(new Font("SansSerif", Font.PLAIN, 30));
+<<<<<<< HEAD
 		lbltitle.setBounds(675, 10, 350, 56);
+=======
+		lbltitle.setBounds(650, 10, 350, 56);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		lbltitle.setForeground(new Color(164, 44, 167));
 		pMain.add(lbltitle);
 		
@@ -167,6 +191,10 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		
 		modelCbbChucVu = new DefaultComboBoxModel<>();
 		modelCbbChucVu.setSelectedItem("");
+<<<<<<< HEAD
+=======
+		modelCbbChucVu.addElement("HCNS");
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		modelCbbChucVu.addElement("Quản lí");
 		modelCbbChucVu.addElement("Chấm công");
 		modelCbbChucVu.addElement("Kế toán");
@@ -181,7 +209,11 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		now = LocalDate.now();
 		ngay = now.getDayOfMonth(); 
 		thang = now.getMonthValue()-1;
+<<<<<<< HEAD
 		nam = now.getYear();
+=======
+		nam = now.getYear()-1900;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		dnow = new Date(nam, thang, ngay);
 		
 		JLabel lblSubNgaySinh = new JLabel("Ngày sinh: ");
@@ -382,6 +414,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		//btnXoaNV.setIcon(iconXoaNV);
 		pNhanSu.add(btnSuaNV);
 		
+<<<<<<< HEAD
 		btnLamMoiNV = new FixButton("🔄 Làm mới");
 		btnLamMoiNV.setForeground(Color.white);
 		btnLamMoiNV.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -391,6 +424,8 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		//btnXoaNV.setIcon(iconXoaNV);
 		pNhanSu.add(btnLamMoiNV);
 		
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		btnTimKiemNV = new FixButton("🔍 Tra cứu");
 		btnTimKiemNV.setForeground(Color.white);
 		btnTimKiemNV.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -400,6 +435,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		//btnXoaNV.setIcon(iconXoaNV);
 		pNhanSu.add(btnTimKiemNV);
 		
+<<<<<<< HEAD
 		btnInDS = new FixButton("📃 Xuất Excels");
 		btnInDS.setForeground(Color.white);
 		btnInDS.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -409,11 +445,44 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		//btnXoaNV.setIcon(iconXoaNV);
 		loadDanhSachNV();
 		pNhanSu.add(btnInDS);
+=======
+		btnLuu = new FixButton("💾 Lưu");
+		btnLuu.setForeground(Color.white);
+		btnLuu.setFont(new Font("SansSerif", Font.BOLD, 16));
+		btnLuu.setBackground(new Color(247, 220, 111));
+		btnLuu.setBounds(187, 467, 140, 50);
+		btnLuu.setEnabled(false);
+		pNhanSu.add(btnLuu);
+		
+		btnLamMoiNV = new FixButton("🔄 Làm mới");
+		btnLamMoiNV.setForeground(Color.white);
+		btnLamMoiNV.setFont(new Font("SansSerif", Font.BOLD, 16));
+		btnLamMoiNV.setBackground(new Color(114, 23, 153));
+		btnLamMoiNV.setBounds(187, 527, 140, 50);
+		//Icon iconXoaNV = IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 20, new Color(255, 255 ,255));
+		//btnXoaNV.setIcon(iconXoaNV);
+		pNhanSu.add(btnLamMoiNV);
+		
+		
+		btnInDS = new FixButton("Xuất Excels");
+		btnInDS.setForeground(Color.white);
+		btnInDS.setFont(new Font("SansSerif", Font.BOLD, 16));
+		btnInDS.setBackground(new Color(0, 128, 0));
+		btnInDS.setBounds(1095, 25, 159, 33);
+		Icon iconExcel = IconFontSwing.buildIcon(FontAwesome.FILE_EXCEL_O, 20, Color.white);
+		btnInDS.setIcon(iconExcel);
+		loadDanhSachNV();
+		pMain.add(btnInDS);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		
 		btnThemNV.addActionListener(this);
 		btnXoaNV.addActionListener(this);
 		btnLamMoiNV.addActionListener(this);
 		btnSuaNV.addActionListener(this);
+<<<<<<< HEAD
+=======
+		btnLuu.addActionListener(this);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		btnInDS.addActionListener(this);
 		btnTimKiemNV.addActionListener(this);
 		radSXtheoMaNV.addActionListener(this);
@@ -468,6 +537,10 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 			ArrayList<NhanVien> lstNV = daoNhanVien.getAllDanhSachNV();
 			for(NhanVien nv : lstNV) {
 				if(maNV.equals(nv.getMaNV())) {
+<<<<<<< HEAD
+=======
+					txtMaNV.setBackground(new Color(164, 44, 167, 30));
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 					txtMaNV.setText(maNV);
 					txtTenNV.setText(nv.getTenNV());
 					txtSDT.setText(nv.getSdt());
@@ -506,9 +579,45 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
+<<<<<<< HEAD
 		if(o.equals(btnThemNV)) {
 			addNV();
 		}
+=======
+//		if(o.equals(btnThemNV)) {
+//			addNV();
+//		}
+		if (o.equals(btnThemNV)) {
+			if (btnThemNV.getText().equalsIgnoreCase("➕ Thêm")) {
+				txtMaNV.setText(daoMa.getMaNV());
+				txtMaNV.setEnabled(false);
+				txtMaNV.setBackground(new Color(164, 44, 167, 30));
+				btnLuu.setEnabled(true);
+				btnSuaNV.setEnabled(false);
+				btnXoaNV.setEnabled(false);
+				btnTimKiemNV.setEnabled(false);
+				btnThemNV.setText("Hủy");
+				tbNhanVien.setEnabled(false);
+			} else if (btnThemNV.getText().equalsIgnoreCase("Hủy")) {
+				txtMaNV.setBackground(Color.white);
+				btnLuu.setEnabled(false);
+				btnSuaNV.setEnabled(true);
+				btnXoaNV.setEnabled(true);
+				btnTimKiemNV.setEnabled(true);
+				tbNhanVien.setEnabled(true);
+				btnThemNV.setText("➕ Thêm");
+				LamMoi();
+				
+			}
+
+		}
+		
+		if(o.equals(btnLuu)) {
+			addNV();
+			txtMaNV.setText(daoMa.getMaNV());
+		}
+		
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		if(o.equals(btnTimKiemNV)) {
 			findNV();
 		}
@@ -569,6 +678,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		String diaChi = txtDiaChi.getText().trim();
 		String chucVu = cbbChucVu.getSelectedItem().toString();
 		String cccd = txtCCCD.getText().trim();
+<<<<<<< HEAD
 		String gioiTinh = cbbGioiTinh.getSelectedItem().toString();
 		
 		
@@ -583,16 +693,32 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 				String matKhau = maNV;
 
 				if(hoTen.equals("") || sdt.equals("") || diaChi.equals("") || cccd.equals("")) {
+=======
+		String gioiTinh = cbbGioiTinh.getSelectedItem().toString();	
+		java.util.Date date = chooserNgaySinh.getDate();
+		
+
+				if(hoTen.equals("") || sdt.equals("") || diaChi.equals("") || cccd.equals("")||chucVu.equals("")||gioiTinh.equals("")||date == null) {
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 					JOptionPane.showMessageDialog(this,  "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 					txtTenNV.requestFocus();
 				}
 				else {
+<<<<<<< HEAD
 					if(regex.regexTen(txtTenNV) && regex.regexSDT(txtSDT) && regex.regexDiaChi(txtDiaChi) && regex.regexCCCD(txtCCCD)) {
 						if(daoNhanVien.checkSdtNV(sdt)) {
 							if(daoNhanVien.checkCccdNV(cccd)) {
 								java.util.Date date = chooserNgaySinh.getDate();
 								Date ngaySinh = new Date(date.getYear(), date.getMonth(), date.getDate());
 								int age = nam - date.getYear();
+=======
+					if(regex.regexTen(txtTenNV) && regex.regexSDT(txtSDT) && regex.regexCCCD(txtCCCD)) {
+						if(daoNhanVien.checkSdtNV(sdt)) {
+							if(daoNhanVien.checkCccdNV(cccd)) {
+								Date ngaySinh = new Date(date.getYear(), date.getMonth(), date.getDate());
+								int age = nam - ngaySinh.getYear();
+								String matKhau = maNV;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 								if(age>=18 && ngaySinh.getDate()>0 && ngaySinh.getDate()<=31 && ngaySinh.getMonth()>0 && ngaySinh.getMonth()<=12 && ngaySinh.getYear()>0 && ngaySinh.getYear()<nam) { 
 									TaiKhoan tk1=new TaiKhoan();
 									tk1.setMaTK(maNV);
@@ -621,8 +747,11 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 										JOptionPane.showMessageDialog(this,  "Thêm tai khoan thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 									}
 									LamMoi();
+<<<<<<< HEAD
 									removeDanhSachNV(modelNhanVien);
 									loadDanhSachNV();
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 									String mkTK = "\nMật khẩu: "+matKhau;
 									JOptionPane.showMessageDialog(this, "Thêm thành công!\nMã tài khoản: "+maNV +mkTK, "Thong bao", JOptionPane.INFORMATION_MESSAGE);
 								} else
@@ -634,6 +763,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 					}
 				}
 			}
+<<<<<<< HEAD
 			else {
 				JOptionPane.showMessageDialog(this,  "Mã nhân viên đã tồn tại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 			}
@@ -644,6 +774,11 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		}
 	
 	}
+=======
+
+	
+	
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	
 	@SuppressWarnings({ "deprecation"})
 	private void findNV() {
@@ -688,6 +823,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 	//Lam moi 
 	@SuppressWarnings("unused")
 	private void LamMoi() {
+<<<<<<< HEAD
 			txtMaNV.setText("");
 			txtMaNV.setEnabled(true);
 			txtTenNV.setText("");
@@ -700,6 +836,36 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 			txtMaNV.requestFocus();
 			removeDanhSachNV(modelNhanVien);
 			loadDanhSachNV();
+=======
+			if(btnThemNV.getText().equals("Hủy")) {
+				txtTenNV.setText("");
+				modelCbbChucVu.setSelectedItem("");
+				modelCbbGioiTinh.setSelectedItem("");
+				txtDiaChi.setText("");
+				txtSDT.setText("");
+				txtCCCD.setText("");
+				chooserNgaySinh.setDate(null);
+				txtMaNV.requestFocus();
+				removeDanhSachNV(modelNhanVien);
+				loadDanhSachNV();
+			}
+			else {
+				txtMaNV.setBackground(Color.white);
+				txtMaNV.setText("");
+				txtMaNV.setEnabled(true);
+				txtTenNV.setText("");
+				modelCbbChucVu.setSelectedItem("");
+				modelCbbGioiTinh.setSelectedItem("");
+				txtDiaChi.setText("");
+				txtSDT.setText("");
+				txtCCCD.setText("");
+				chooserNgaySinh.setDate(null);
+				txtMaNV.requestFocus();
+				removeDanhSachNV(modelNhanVien);
+				loadDanhSachNV();
+			}
+			
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 			
 	}
 	
@@ -710,7 +876,10 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 			if(delete == JOptionPane.YES_OPTION) {
 				String maNV = (String) tbNhanVien.getValueAt(row, 0);
 				try {
+<<<<<<< HEAD
 						daoTaiKhoan.xoaTK(maNV);
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 						daoNhanVien.xoaNV(maNV);
 						removeDanhSachNV(modelNhanVien);
 						JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

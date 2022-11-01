@@ -84,10 +84,13 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 	private app.FrmQLLuongNV frmQLLuongNV;
 	
+<<<<<<< HEAD
 	private FrmThongKe frmThongKe;
 	
 	private FrmChamCongNV frmChamCongNV;
 	
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	private String currenMenu = "";
 
 	private JButton btnSelectSP;
@@ -103,11 +106,19 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	
 	@SuppressWarnings("deprecation")
 
+<<<<<<< HEAD
 	public FrmQuanLy() {
 		//this.headerNV = nv;
 
 		IconFontSwing.register(FontAwesome.getIconFont());
 		ImageIcon logoApp = (ImageIcon) IconFontSwing.buildIcon(FontAwesome.FOURSQUARE, 50, new Color(164, 44, 167));
+=======
+	public FrmQuanLy(NhanVien nv) {
+		this.headerNV = nv;
+
+		IconFontSwing.register(FontAwesome.getIconFont());
+		ImageIcon logoApp = new ImageIcon("data\\icon\\imgApp.png"); 
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		setIconImage(logoApp.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Quản lý nhân viên");
@@ -297,6 +308,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		
 		btnSelectSP = new JButton("Sản Phẩm");
 		btnSelectSP.setVerticalAlignment(SwingConstants.TOP);
+<<<<<<< HEAD
 
 		btnSelectSP.setBounds(950, 0, 111, 31);
 		pSelected.add(btnSelectSP);
@@ -320,11 +332,38 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 		btnSelectTSX.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 
+		btnSelectSP.setBounds(950, 0, 111, 31);
+		pSelected.add(btnSelectSP);
+
+		btnSelectSP.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+
+		btnSelectCD = new JButton("Công Đoạn");
+		btnSelectCD.setVerticalAlignment(SwingConstants.TOP);
+		btnSelectCD.setBounds(1050, 0, 111, 31);
+
+		pSelected.add(btnSelectCD);
+
+		btnSelectCD.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
+<<<<<<< HEAD
 		btnSelectCD.setVisible(false);
 		btnSelectSP.setVisible(false);
 		btnSelectTSX.setVisible(false);
+=======
+		
+		btnSelectTSX = new JButton("Tổ Sản Xuất");
+		btnSelectTSX.setVerticalAlignment(SwingConstants.TOP);
+		btnSelectTSX.setBounds(1150, 0, 111, 31);
+
+		pSelected.add(btnSelectTSX);
+
+		btnSelectTSX.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		
+
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 //		btnSelectNV = new JButton("Nhân Viên");
 //
 //			
@@ -355,6 +394,11 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 		// Load frm mac dinh 
 		if(btnHeaderInfo.getText().contains("QL")){
+<<<<<<< HEAD
+=======
+			currenMenu = "MENU_QL_NHANSU";
+			setColorActive(btnSelectNV);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 			loadFrmNhanVien();
 		}
 //		else if(btnHeaderInfo.getText().contains("TN")) {
@@ -409,6 +453,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		pContent.removeAll();
 		btnItemNhanSu.setBackground(new Color(192, 255, 255)); // new Color(233,136,236)
 		btnItemNhanSu.setBorder(BorderFactory.createLineBorder(Color.white));
+<<<<<<< HEAD
 			frmNhanVien = new FrmNhanVien();
 			pContent.add(frmNhanVien.getPanel());
 			togglebtnSelect(true);
@@ -416,16 +461,30 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 	public void loadFrmCongNhan() {
 		setTitle("Quản lý công nhân");
+=======
+			frmNhanVien = new FrmNhanVien("QL",lblHeaderMaNV.getText(),dNow);
+			pContent.add(frmNhanVien.getPanel());
+
+	}
+
+	public void loadFrmCongNhan() {
+		setTitle("Quản lý coong n");
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		resetColorMenu();
 		pContent.removeAll();
 		btnItemNhanSu.setBackground(new Color(192, 255, 255)); // new Color(233,136,236)
 		btnItemNhanSu.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmCongNhan = new FrmCongNhan();
 			pContent.add(frmCongNhan.getPanel());
+<<<<<<< HEAD
 			togglebtnSelect(true);
 
 	}
 
+=======
+
+	}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public void loadFrmSanPham() {
 		setTitle("Quản Lý Lương");
 		resetColorMenu();
@@ -434,7 +493,10 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLSP.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmQLSanPham = new FrmQLSanPham(currenMenu, currenMenu, dNow);
 			pContent.add(frmQLSanPham.getFrmQLSanPham());
+<<<<<<< HEAD
 			togglebtnSelect(false);
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		
 	}
 	public void loadFrmCongDoan	() {
@@ -445,8 +507,12 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLSP.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmQLCongDoan = new FrmQLCongDoan(currenMenu, currenMenu, dNow);
 			pContent.add(frmQLCongDoan.getFrmQLCongDoan());
+<<<<<<< HEAD
 			
 			togglebtnSelect(false);
+=======
+		
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	}
 	public void loadFrmToSanXuat() {
 		setTitle("Quản Lý Lương");
@@ -456,6 +522,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLSP.setBorder(BorderFactory.createLineBorder(Color.white));
 			frmQLToSanXuat = new FrmQLToSanXuat(null, currenMenu, currenMenu, dNow);
 			pContent.add(frmQLToSanXuat.getFrmQLToSanXuat());
+<<<<<<< HEAD
 		
 			togglebtnSelect(false);
 		
@@ -463,6 +530,12 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	
 	public void loadFrmQLCCCN() {
 
+=======
+		
+	}
+	
+	public void loadFrmQLCC() {
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		setTitle("Quản lý Chấm Công");
 		resetColorMenu();
 		pContent.removeAll();
@@ -470,6 +543,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		btnItemQLCC.setBorder(BorderFactory.createLineBorder(Color.white));
 		frmChamCongCN = new FrmChamCongCN();
 		pContent.add(frmChamCongCN.getFrmChamCong());
+<<<<<<< HEAD
 		togglebtnSelect(true);
 
 	}
@@ -526,6 +600,70 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 	}
 	
+=======
+
+	}
+
+//	public void loadFrmQLBH() {
+//		setTitle("Quản lý thanh toán");
+//		resetColorMenu();
+//		pContent.removeAll();
+//		btnItemQLCC.setBackground(new Color(192,255,255));
+//		btnItemQLCC.setBorder(BorderFactory.createLineBorder(Color.white));
+//		frmQLBH = new FrmThanhToan(this,"QL",lblHeaderMaNV.getText(), dNow);
+//		pContent.add(frmQLBH.getFrmQLBH());
+//	
+//	}
+//	public void loadFrmDDP() {
+//		setTitle("Quản lý đơn đặt phòng");
+//		resetColorMenu();
+//		pContent.removeAll();
+//		btnItemQLSP.setBackground(new Color(192,255,255));
+//		btnItemQLSP.setBorder(BorderFactory.createLineBorder(Color.white));
+//
+//		frmDDP = new FrmDonDatPhong("QL",lblHeaderMaNV.getText(), dNow);
+//		pContent.add(frmDDP.getFrmDDP());
+//
+//		
+//
+//	
+//	}
+//	
+	public void loadFrmQLLuongCN() {
+		setTitle("Quản lý lương CN");
+		resetColorMenu();
+		pContent.removeAll();
+		btnItemQLLuong.setBackground(new Color(192, 255, 255));
+		btnItemQLLuong.setBorder(BorderFactory.createLineBorder(Color.white));
+		frmQLLuongCN = new FrmQLLuongCN();
+		pContent.add(frmQLLuongCN.getFrmQLLuongCN());
+	}
+
+	public void loadFrmQLLuongNV() {
+		setTitle("Quản lý lương NV");
+		resetColorMenu();
+		pContent.removeAll();
+		btnItemQLLuong.setBackground(new Color(192, 255, 255));
+		btnItemQLLuong.setBorder(BorderFactory.createLineBorder(Color.white));
+
+		frmQLLuongNV = new FrmQLLuongNV();
+		pContent.add(frmQLLuongNV.getFrmQLLuongNV());
+	}
+
+//	}
+//	
+//	public void loadFrmThongKe() {
+//		setTitle("Quản lý thống kê");
+//		resetColorMenu();
+//		pContent.removeAll();
+//		btnItemTK.setBackground(new Color(192,255,255));
+//		btnItemTK.setBorder(BorderFactory.createLineBorder(Color.white));
+//		frmThongKe = new FrmThongKe("QL",lblHeaderMaNV.getText(),dNow);
+//		pContent.add(frmThongKe.getFrmThongKe());
+//		
+//	
+//	}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public void setColorActive(JButton btn) {
 		btn.setBackground(new Color(192, 255, 255));
 		String btnSelectCNText = btnSelectCN.getText().toString();
@@ -533,11 +671,14 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		String btnSelectSPText = btnSelectSP.getText().toString();
 		String btnSelectCDText = btnSelectCD.getText().toString();
 		String btnSelectTSXText = btnSelectTSX.getText().toString();
+<<<<<<< HEAD
 		
 		
 	
 		
 		
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		if(btn.getText().equals(btnSelectCNText)) {
 			btnSelectNV.setBackground(new Color(255,255,255));
 			btnSelectSP.setBackground(new Color(255,255,255));
@@ -566,6 +707,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 						}
 	}
 
+<<<<<<< HEAD
 	private void togglebtnSelect(boolean visible) {
 		btnSelectCD.setVisible(!visible);
 		btnSelectSP.setVisible(!visible);
@@ -575,6 +717,8 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	}
 
 
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public void dangXuat() {
 		int optDangXuat = JOptionPane.showConfirmDialog(this, "Bạn có chắn chắn muốn đăng xuất không?", "Thông báo",
 				JOptionPane.YES_NO_OPTION);
@@ -604,6 +748,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 		}
 		if (o.equals(btnItemQLCC)) {
 			currenMenu = "MENU_QLCC";
+<<<<<<< HEAD
 			loadFrmQLCCNV();
 		}
 		if(o.equals(btnItemQLSP)) {
@@ -611,6 +756,15 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 			setColorActive(btnSelectSP);
 			loadFrmSanPham();
 		}
+=======
+			loadFrmQLCC();
+		}
+		if(o.equals(btnItemQLSP)) {
+			currenMenu = "MENU_QL_SP";
+			setColorActive(btnSelectSP);
+			loadFrmSanPham();
+		}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 //		if(o.equals(btnItemQLSP)) {
 //			loadFrmDDP();
 //		}
@@ -631,9 +785,12 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 			case "MENU_QL_NHANSU":
 				loadFrmCongNhan();
 				break;
+<<<<<<< HEAD
 			case "MENU_QLCC":
 				loadFrmQLCCCN();
 				break;
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 			default:
 				break;
 			}
@@ -647,9 +804,12 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 			case "MENU_QL_NHANSU":
 				loadFrmNhanVien();
 				break;
+<<<<<<< HEAD
 			case "MENU_QLCC":
 				loadFrmQLCCNV();
 				break;
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 			default:
 				break;
 			}	
@@ -678,6 +838,7 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 				break;
 			}
 		}
+<<<<<<< HEAD
 		if(o.equals(btnItemTK)) {
 			loadFrmThongKe();
 		}
@@ -685,6 +846,14 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	}
 		
 		
+=======
+
+	}
+//		
+//		if(o.equals(btnItemTK)) {
+//			loadFrmThongKe();
+//		}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 
 //		if(o.equals(popItem)) {
 //			String[] commands = {"cmd", "/c", "data\\help\\HELP.chm"};

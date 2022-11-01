@@ -1,5 +1,15 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=a954ff0ab0f100226ef7e6deebe4b3477a243399
 eclipse.preferences.version=1
 encoding//src/app/FrmChamCongCN.java=UTF-8
+encoding//src/app/FrmChamCongNV.java=UTF-8
+encoding//src/app/FrmCongNhan.java=UTF-8
 encoding//src/app/FrmDangNhap.java=UTF-8
+encoding//src/app/FrmNhanVien.java=UTF-8
+encoding//src/app/FrmQLLuongNV.java=UTF-8
 encoding//src/app/FrmQuanLy.java=UTF-8
+encoding//src/app/XuatExcels.java=UTF-8
+encoding//src/dao/DAOPhatSinhMa.java=UTF-8
 encoding//src/dao/DAOToSanXuat.java=UTF-8
+encoding/<project>=UTF-8

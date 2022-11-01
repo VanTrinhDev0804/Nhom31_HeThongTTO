@@ -201,6 +201,63 @@ public class DAOSanPham {
 		return lsSanPham;
 
 	}
+<<<<<<< HEAD
+=======
+//	/**
+//	 * Sắp xếp giá mặt hàng theo kiểu tăng dần/ giảm dần thông qua chuỗi truyền vào trong bảng mặt hàng từ SQL Server
+//	 * @param ksx
+//	 * @return ArrayList<MatHang> lstMatHang
+//	 */
+//	public ArrayList<MatHang> sortGia(String ksx) {
+//		ArrayList<MatHang> lstMH = new ArrayList<>();
+//		ConnectDB.getinstance();
+//		Connection con = ConnectDB.getConnection();
+//		String sql = "select * from MatHang	order by giaMH "+ksx+"";
+//		try {
+//			PreparedStatement stm = con.prepareStatement(sql);
+//			ResultSet rs = stm.executeQuery();
+//			while(rs.next()) {
+//				MatHang mh = new MatHang();
+//				mh.setMaMatHang(rs.getString(1));
+//				mh.setLoaiMatHang(new LoaiMatHang(rs.getString(2)));
+//				mh.setTenMatHang(rs.getString(3));
+//				mh.setSoLuongMatHang(rs.getInt(4));
+//				mh.setGiaMatHang(rs.getDouble(5));
+//				lstMH.add(mh);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return lstMH;
+//	}
+//	/**
+//	 * Sắp xếp mã loại mặt hàng theo kiểu sắp xếp truyền vào từ bảng loại mặt hàng trong SQL Server
+//	 * @param ksx
+//	 * @return ArrayList<MatHang> lstMH
+//	 */
+//	public ArrayList<MatHang> sortLMH(String ksx) {
+//		ArrayList<MatHang> lstMH = new ArrayList<>();
+//		ConnectDB.getinstance();
+//		Connection con = ConnectDB.getConnection();
+//		String sql = "select * from MatHang	order by maLoaiMH "+ksx+"";
+//		try {
+//			PreparedStatement stm = con.prepareStatement(sql);
+//			ResultSet rs = stm.executeQuery();
+//			while(rs.next()) {
+//				MatHang mh = new MatHang();
+//				mh.setMaMatHang(rs.getString(1));
+//				mh.setLoaiMatHang(new LoaiMatHang(rs.getString(2)));
+//				mh.setTenMatHang(rs.getString(3));
+//				mh.setSoLuongMatHang(rs.getInt(4));
+//				mh.setGiaMatHang(rs.getDouble(5));
+//				lstMH.add(mh);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return lstMH;
+//	}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	/**
 	 * Lấy tên mặt hàng với tên cần tìm được truyền vào trong bảng mặt hàng từ SQL Server
 	 * @param tenMH
@@ -227,7 +284,37 @@ public class DAOSanPham {
 		}
 		return lstSP;
 	}
+<<<<<<< HEAD
 	
+=======
+	/**
+	 * Lấy toàn bộ thông tin bảng loại mặt hàng theo mã loại mặt hàng được truyền vào 
+	 * @param tenLMH
+	 * @return ArrayList<MatHang> lstMH
+	 */
+//	public ArrayList<MatHang> getLMH(String tenLMH) {
+//		ArrayList<MatHang> lstMH = new ArrayList<>();
+//		ConnectDB.getinstance();
+//		Connection con = ConnectDB.getConnection();
+//		String sql = "select * from MatHang	where maLoaiMH like N'"+tenLMH+"'";
+//		try {
+//			PreparedStatement stm = con.prepareStatement(sql);
+//			ResultSet rs = stm.executeQuery();
+//			while(rs.next()) {
+//				MatHang mh = new MatHang();
+//				mh.setMaMatHang(rs.getString(1));
+//				mh.setLoaiMatHang(new LoaiMatHang(rs.getString(2)));
+//				mh.setTenMatHang(rs.getString(3));
+//				mh.setSoLuongMatHang(rs.getInt(4));
+//				mh.setGiaMatHang(rs.getDouble(5));
+//				lstMH.add(mh);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return lstMH;
+//	}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public ArrayList<SanPham> getSanPhamDangSanXuat() {
 		ArrayList< SanPham> dsSP = new ArrayList<SanPham>();
 		ConnectDB.getinstance();

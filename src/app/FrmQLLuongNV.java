@@ -20,6 +20,11 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.Collections;
+import java.util.Comparator;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 import java.util.Date;
 
 import javax.swing.ButtonGroup;
@@ -235,6 +240,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 
 		txtLuong.setColumns(20);
 
+<<<<<<< HEAD
 		/**
 		 * Tìm kiếm
 		 */
@@ -281,6 +287,59 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		Icon iconTim = IconFontSwing.buildIcon(FontAwesome.SEARCH, 20, Color.white);
 		btnTim.setIcon(iconTim);
 		pMain.add(btnTim);
+=======
+		JLabel lbltitle = new JLabel("BẢNG LƯƠNG NHÂN VIÊN");
+		lbltitle.setFont(new Font("SansSerif", Font.PLAIN, 30));
+		lbltitle.setBounds(550, 30, 450, 56);
+		lbltitle.setForeground(new Color(164, 44, 167));
+		pMain.add(lbltitle);
+//		/**
+//		 * Tìm kiếm
+//		 */
+//		JLabel lblTim = new JLabel("Tìm kiếm:");
+//		lblTim.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		lblTim.setBounds(350, 11, 90, 35);
+//		pMain.add(lblTim);
+//
+//		txtTim = new JTextField();
+//		txtTim.setToolTipText("Thông tin tìm kiếm");
+//		txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
+//		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
+//		txtTim.setForeground(Colors.LightGray);
+//		txtTim.setBorder(new LineBorder(new Color(114, 23, 153), 2, true));
+//		txtTim.setBounds(425, 11, 670, 33);
+//		txtTim.addFocusListener(new FocusAdapter() {
+//			@Override
+//			public void focusGained(FocusEvent e) {
+//				if (txtTim.getText().equals("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd")) {
+//					txtTim.setFont(new Font("SansSerif", Font.PLAIN, 15));
+//					txtTim.setForeground(Color.BLACK);
+//					txtTim.setText("");
+//				}
+//			}
+//
+//			@Override
+//			public void focusLost(FocusEvent e) {
+//				if (txtTim.getText().equals("")) {
+//					txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
+//					txtTim.setForeground(Colors.LightGray);
+//					txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
+//				}
+//			}
+//		});
+//		pMain.add(txtTim);
+//
+//		btnTim = new FixButton("Tìm");
+//		btnTim.setToolTipText("Tìm kiếm");
+//		btnTim.setForeground(Color.WHITE);
+//		btnTim.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		btnTim.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
+//		btnTim.setBackground(new Color(114, 23, 153));
+//		btnTim.setBounds(1101, 12, 159, 33);
+//		Icon iconTim = IconFontSwing.buildIcon(FontAwesome.SEARCH, 20, Color.white);
+//		btnTim.setIcon(iconTim);
+//		pMain.add(btnTim);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 
 		/**
 		 * Nút xuất file Excel JButton btnExcel Icon iconExcel
@@ -320,6 +379,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		/**
 		 * Panel sắp xếp
 		 */
+<<<<<<< HEAD
 		JPanel pSapXep = new JPanel();
 		pSapXep.setToolTipText("Sắp xếp dữ liệu");
 		pSapXep.setBorder(new TitledBorder(new LineBorder(new Color(114, 23, 153), 1, true), "Sắp xếp",
@@ -372,6 +432,60 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		bgRdo.add(rdoTheoSoNgayCong);
 		bgRdo.add(rdoTheoLuongNV);
 		bgRdo.clearSelection();
+=======
+//		JPanel pSapXep = new JPanel();
+//		pSapXep.setToolTipText("Sắp xếp dữ liệu");
+//		pSapXep.setBorder(new TitledBorder(new LineBorder(new Color(114, 23, 153), 1, true), "Sắp xếp",
+//				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+//		pSapXep.setBackground(new Color(171, 192, 238));
+//		pSapXep.setBounds(350, 49, 909, 47);
+//		pMain.add(pSapXep);
+//		pSapXep.setLayout(null);
+
+//		cboSapXep = new JComboBox<Object>(new Object[] { "Tăng dần", "Giảm dần" });
+//		cboSapXep.setBounds(25, 12, 120, 28);
+//		cboSapXep.setFont(new Font("SansSerif", Font.PLAIN, 15));
+//		cboSapXep.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+//		cboSapXep.setBackground(Color.WHITE);
+//		cboSapXep.setToolTipText("Sắp xếp theo kiểu tăng dần/ giảm dần");
+//		pSapXep.add(cboSapXep);
+//
+//		rdoTheoTenNV = new JRadioButton("Theo tên NV");
+//		rdoTheoTenNV.setBounds(200, 13, 150, 27);
+//		rdoTheoTenNV.setSelected(true);
+//		rdoTheoTenNV.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoTenNV.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoTenNV);
+//
+//		rdoTheoSoNgayCong = new JRadioButton("Theo số ngày công");
+//		rdoTheoSoNgayCong.setBounds(350, 13, 175, 27);
+//		rdoTheoSoNgayCong.setSelected(true);
+//		rdoTheoSoNgayCong.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoSoNgayCong.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoSoNgayCong);
+//
+//		rdoTheoChucVu = new JRadioButton("Theo chức vụ");
+//		rdoTheoChucVu.setBounds(560, 13, 150, 27);
+//		rdoTheoChucVu.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoChucVu.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoChucVu);
+//
+//		rdoTheoLuongNV = new JRadioButton("Theo lương ");
+//		rdoTheoLuongNV.setBounds(735, 13, 135, 27);
+//		rdoTheoLuongNV.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoLuongNV.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoLuongNV);
+//
+//		/**
+//		 * Buttons Group
+//		 */
+//		bgRdo = new ButtonGroup();
+//		bgRdo.add(rdoTheoTenNV);
+//		bgRdo.add(rdoTheoChucVu);
+//		bgRdo.add(rdoTheoSoNgayCong);
+//		bgRdo.add(rdoTheoLuongNV);
+//		bgRdo.clearSelection();
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 
 		/**
 		 * Bảng chính
@@ -447,12 +561,17 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		/**
 		 * Sự kiện buttons, chuột, key
 		 */
+<<<<<<< HEAD
 		btnTim.addActionListener(this);
+=======
+//		btnTim.addActionListener(this);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		btnReset.addActionListener(this);
 		btnExcels.addActionListener(this);
 		btnTinhLuong.addActionListener(this);
 		tblLuong.addMouseListener(this);
 
+<<<<<<< HEAD
 		rdoTheoLuongNV.addActionListener(this);
 		rdoTheoChucVu.addActionListener(this);
 		rdoTheoTenNV.addActionListener(this);
@@ -464,6 +583,19 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		btnReset.addKeyListener(this);
 		btnTim.addKeyListener(this);
 		txtTim.addKeyListener(this);
+=======
+//		rdoTheoLuongNV.addActionListener(this);
+//		rdoTheoChucVu.addActionListener(this);
+//		rdoTheoTenNV.addActionListener(this);
+//		rdoTheoSoNgayCong.addActionListener(this);
+//		cboSapXep.addActionListener(this);
+		cboMaNV.addItemListener(this);
+
+//		txtTim.addKeyListener(this);
+		btnReset.addKeyListener(this);
+//		btnTim.addKeyListener(this);
+//		txtTim.addKeyListener(this);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 
 		/**
 		 * Load dữ liệu lên bảng
@@ -574,7 +706,11 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
+<<<<<<< HEAD
 				}
+=======
+				} 
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 				
 			}
 		} else {
@@ -642,6 +778,12 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 			}
 
 		}
+<<<<<<< HEAD
+=======
+//		if(rdoTheoTenNV.isSelected()) {
+//			SapXepModelTableTheoTenNV();
+//		}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 //		if (cboSapXep.getSelectedItem() == "Tăng dần") {
 //			if(o.equals(rdoTheoSoNgayCong)) {
 //				sortGiaTangDan(nv);
@@ -950,6 +1092,70 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 
 		xuat.xuatTable(tblLuong, "DANH SÁCH THÔNG LƯƠNG NHÂN VIÊN", fileName);
 	}
+<<<<<<< HEAD
+=======
+	//Lay du lieu tu bang vao arraylist
+			private ArrayList<PhieuLuongNV> getDataTuBang(){
+				ArrayList<PhieuLuongNV> lstNV = new ArrayList<PhieuLuongNV>();
+				int sodong = modelLuong.getRowCount();
+				if(sodong == 0)
+					return lstNV;
+				NhanVien nv;
+				String chucvu, manv, hoten, cccd;
+				int soNgayCong;
+				Date thang;
+				float luong;
+				for (int i = 0; i < sodong; i++) {
+					manv = (String) tblLuong.getValueAt(i, 0);
+					hoten = (String) tblLuong.getValueAt(i, 1);
+					chucvu = (String) tblLuong.getValueAt(i, 3);
+					soNgayCong = (int) tblLuong.getValueAt(i, 4);
+					thang =  (Date) tblLuong.getValueAt(i, 5);
+					luong = (float) tblLuong.getValueAt(i, 6);
+					cccd = (String) tblLuong.getValueAt(i, 2);
+					
+					nv = new NhanVien(manv, hoten, chucvu, null, null, null, cccd, null);
+					PhieuLuongNV plnv = new PhieuLuongNV(nv, thang, soNgayCong, luong);
+					lstNV.add(plnv);
+				}
+				return lstNV;
+			}
+			//Sap xep theo ten
+			@SuppressWarnings("unused")
+			private void SapXepModelTableTheoTenNV(){
+				ArrayList<PhieuLuongNV> lstNV = getDataTuBang();
+				if(cboSapXep.getSelectedItem().toString().equals("Tăng dần")) {
+					Collections.sort(lstNV, new Comparator<PhieuLuongNV>() {
+					@Override
+						public int compare(PhieuLuongNV o1, PhieuLuongNV o2) {
+							// TODO Auto-generated method stub
+							return o1.getMaNV().getTenNV().compareTo(o2.getMaNV().getTenNV());
+						}
+					});
+				}
+				if(cboSapXep.getSelectedItem().toString().equals("Giảm dần")) {
+					Collections.sort(lstNV, new Comparator<PhieuLuongNV>() {
+						@Override
+						public int compare(PhieuLuongNV o1, PhieuLuongNV o2) {
+							// TODO Auto-generated method stub
+							return o2.getMaNV().getTenNV().compareTo(o1.getMaNV().getTenNV());
+						}
+					});
+				}
+//				removeDanhSachLuong(modelLuong);
+//				for(PhieuLuongNV plNV : lstNV) {
+//					modelLuong.addRow(new Object[] {
+//							NV.getMaNV(), NV.getTenNV(), NV.getChucVu(), NV.getNgaySinh(), NV.getGioiTinh(), NV.getDiaChi(), NV.getCccd(), NV.getSdt()
+//					});
+//				}
+				loadTable(lstNV);
+			}
+			private void removeDanhSachLuong(DefaultTableModel defaultTableModel) {
+				while(tblLuong.getRowCount() > 0){
+					modelLuong.removeRow(0);
+				}
+			}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 
 	/**
 	 * ResetAll giúp làm mới lại form lương nhân viên

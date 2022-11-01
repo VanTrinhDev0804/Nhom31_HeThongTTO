@@ -6,8 +6,11 @@ import java.awt.Cursor;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 import java.awt.font.ImageGraphicAttribute;
 import java.io.Console;
 import java.net.URL;
@@ -18,7 +21,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -40,7 +46,11 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTCnf;
 
 import connection.ConnectDB;
 import custom.FixButton;
+<<<<<<< HEAD
 import custom.FixRenderJList;
+=======
+import custom.FixRenderJTree;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 import custom.FixRenderTree;
 import dao.DAOCongNhan;
 import dao.DAOPhieuChamCong;
@@ -69,12 +79,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
+<<<<<<< HEAD
 import javax.naming.spi.DirStateFactory.Result;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
 
 public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelectionListener,MouseListener  {
+=======
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+
+public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelectionListener {
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	
 	private Panel pMain;
 	private JTree JTToSX;
@@ -106,6 +123,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	private JTextField txtSoluong;
 	private JScrollPane scrollCNTable;
 	private JTable tableCN;
+<<<<<<< HEAD
 	private DefaultTableModel modelChamCong;
 	
 	
@@ -122,6 +140,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	private JButton btnResetList;
 	private DefaultTreeModel defaultTreeModel;
 	private JScrollPane pTreeToSX;
+=======
+	private DefaultTableModel modelNV;
+	private JList<CongNhan> listCN;
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	
 	public Panel getFrmChamCong() {
 		return pMain;
@@ -263,6 +285,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		
 		txtHoTenCN = new JTextField();
 		txtHoTenCN.setEditable(false);
+<<<<<<< HEAD
+=======
+		txtHoTenCN.setText("Nguyễn Văn Trinh");
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		txtHoTenCN.setFont(new Font("Arial", Font.ITALIC, 15));
 		txtHoTenCN.setColumns(10);
 		txtHoTenCN.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
@@ -276,6 +302,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		
 		txtTenTo = new JTextField();
 		txtTenTo.setEditable(false);
+<<<<<<< HEAD
+=======
+		txtTenTo.setText("Tổ 1");
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		txtTenTo.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtTenTo.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		txtTenTo.setBounds(132, 81, 196, 32);
@@ -306,6 +336,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		lblChucVu.setBounds(10, 124, 98, 29);
 		pNhapThongTin.add(lblChucVu);
 		
+<<<<<<< HEAD
 		cboCaLamViec = new JComboBox<Object>(new Object[]{});
 		cboCaLamViec.setModel(new DefaultComboBoxModel(new String[] {"Ca 1", "Ca 2", "Ca 3"}));
 		cboCaLamViec.setToolTipText("Chọn ca làm việc \r\n");
@@ -314,6 +345,16 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		cboCaLamViec.setBackground(Color.WHITE);
 		cboCaLamViec.setBounds(132, 124, 196, 32);
 		pNhapThongTin.add(cboCaLamViec);
+=======
+		cboChucVu = new JComboBox<Object>(new Object[]{});
+		cboChucVu.setModel(new DefaultComboBoxModel(new String[] {"Ca 1", "Ca 2", "Ca 3"}));
+		cboChucVu.setToolTipText("Chọn ca làm việc \r\n");
+		cboChucVu.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboChucVu.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+		cboChucVu.setBackground(Color.WHITE);
+		cboChucVu.setBounds(132, 124, 196, 32);
+		pNhapThongTin.add(cboChucVu);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		
 		btnLuuChamCong = new FixButton("Lưu");
 		btnLuuChamCong.setText("Chấm Công");
@@ -355,6 +396,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		
 		txtMaCN = new JTextField();
 		txtMaCN.setEditable(false);
+<<<<<<< HEAD
+=======
+		txtMaCN.setText("CN001");
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		txtMaCN.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtMaCN.setColumns(10);
 		txtMaCN.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
@@ -368,6 +413,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		
 		txtMaTo = new JTextField();
 		txtMaTo.setEditable(false);
+<<<<<<< HEAD
+=======
+		txtMaTo.setText("T001");
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		txtMaTo.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtMaTo.setColumns(10);
 		txtMaTo.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
@@ -560,6 +609,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		}
 		
 		
+<<<<<<< HEAD
 		
 		
 		
@@ -873,7 +923,139 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			}
 		}
 		return result;
+=======
 	
+		
+		txtTimCN = new JTextField();
+		txtTimCN.setBounds(5, 580, 112, 28);
+		pFormList.add(txtTimCN);
+		txtTimCN.setColumns(10);
+		
+		JButton btnTimCN = new JButton("Tìm");
+		btnTimCN.setBounds(120, 580, 64, 28);
+		pFormList.add(btnTimCN);
+		
+		JLabel lblNewLabel = new JLabel("Danh Sách Công Nhân");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(28, 6, 145, 28);
+		pFormList.add(lblNewLabel);
+		
+		JPanel pControl = new JPanel();
+		pControl.setBackground(Color.WHITE);
+		pControl.setBounds(426, 584, 832, 39);
+		pMain.add(pControl);
+		pControl.setLayout(null);
+		
+		JComboBox<Object> cboThang = new JComboBox<Object>(new Object[]{});
+		cboThang.setModel(new DefaultComboBoxModel
+				(new String[] {"Tháng ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		cboThang.setBounds(338, 5, 88, 24);
+		cboThang.setToolTipText("Chọn Tháng \r\n");
+		cboThang.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboThang.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+		cboThang.setBackground(Color.WHITE);
+		pControl.add(cboThang);
+		
+		JComboBox<Object> cboNam = new JComboBox<Object>(new Object[]{});
+		cboNam.setModel(new DefaultComboBoxModel
+				(new String[] {"Năm", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"}));
+		cboNam.setToolTipText("Chọn Năm\r\n");
+		cboNam.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboNam.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+		cboNam.setBackground(Color.WHITE);
+		cboNam.setBounds(438, 5, 88, 24);
+		pControl.add(cboNam);
+		
+		FixButton btnLoc = new FixButton("Thêm");
+		btnLoc.setText("Lọc");
+		btnLoc.setForeground(Color.BLACK);
+		btnLoc.setFont(new Font("SansSerif", Font.BOLD, 14));
+		btnLoc.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
+		btnLoc.setBackground(new Color(204, 204, 204));
+		btnLoc.setBounds(541, 4, 107, 35);
+		pControl.add(btnLoc);
+		
+		FixButton btnXuatPhieu = new FixButton("Thêm");
+		btnXuatPhieu.setText("In Phiếu Chấm Công");
+		btnXuatPhieu.setForeground(Color.BLACK);
+		btnXuatPhieu.setFont(new Font("SansSerif", Font.BOLD, 14));
+		btnXuatPhieu.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
+		btnXuatPhieu.setBackground(new Color(255, 153, 51));
+		btnXuatPhieu.setBounds(660, 3, 166, 36);
+		pControl.add(btnXuatPhieu);
+		
+		
+//  xử lý sự kiện chọn tổ
+		JTToSX.addTreeSelectionListener(this);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
+	
+	}
+
+
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		// TODO Auto-generated method stub
+	    DefaultMutableTreeNode node = (DefaultMutableTreeNode) JTToSX.getLastSelectedPathComponent();
+	    
+	    if(node == null)
+	    	return;
+	    
+	    
+	    
+	    Object nodeObject = node.getUserObject();
+	    if(nodeObject instanceof ToSanXuat) {
+	    	ToSanXuat toSanXuat = (ToSanXuat) nodeObject;
+	    	
+	    	ArrayList<CongNhan> listCNTo = new ArrayList<CongNhan>();
+	    	
+//	    	listCNTo = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
+	    	
+	    	
+	    	loadListCNCungTo2JTree(listCNTo);
+	    }
+	}
+
+
+
+	private void loadListCNCungTo2JTree(ArrayList<CongNhan> listCNTo) {
+		// TODO Auto-generated method stub
+		DefaultListModel<CongNhan> item = new DefaultListModel<CongNhan>();
+		for(CongNhan cn : listCNTo) {
+			item.addElement(cn);
+		}
+		listCN = new JList<CongNhan>(item);
+		listCN.setCellRenderer(new FixRenderJTree());
+		scrollList.setViewportView(listCN);
+	
+		
+		listCN.addListSelectionListener(new ListSelectionListener() {
+				
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					CongNhan cNhan = listCN.getSelectedValue();
+					addThongTinCongNhan2Form(cNhan);
+					
+				}
+			});
+	}
+
+
+
+	protected void addThongTinCongNhan2Form(CongNhan cn) {
+		
+		txtHoTenCN.setText(cn.getTenCN());
+		txtMaCN.setText(cn.getMaCN());
+		txtMaTo.setText(cn.getToSanXuat().getMaTo());
+		txtTenTo.setText(cn.getToSanXuat().getTenTo());
+		
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 

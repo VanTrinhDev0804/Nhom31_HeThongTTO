@@ -67,6 +67,32 @@ public class DAOPhieuLuongCN {
 		}
 		return lstPhieuLuongCN ;
 	}
+<<<<<<< HEAD
+=======
+	public ArrayList<PhieuLuongCN> getAllPhieuLuongCN(String ma){
+		ArrayList<PhieuLuongCN> lstPhieuLuongCN = new ArrayList<PhieuLuongCN>();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("select PhieuLuongCN.maCN, CongNhan.tenCN, CongNhan.cccd, CongNhan.maTo,PhieuLuongCN.soSPSX,PhieuLuongCN.thang, PhieuLuongCN.tienLuong\r\n"
+					+ "		from\n"
+					+ "		PhieuLuongCN Join CongNhan on PhieuLuongCN.maCN = CongNhan.maCN"
+					+ " where PhieuLuongCN.maCN = '" + ma +"'");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				PhieuLuongCN phieuLuongCN = new PhieuLuongCN();
+				phieuLuongCN.setMaCN(new CongNhan(rs.getString(1), rs.getString(2),new ToSanXuat(rs.getString(4)) , null, null, null, rs.getString(3), null));
+				phieuLuongCN.setSoSPSX(rs.getInt(5));
+				phieuLuongCN.setThang(rs.getDate(6));
+				phieuLuongCN.setTienLuong(rs.getFloat(7));
+				lstPhieuLuongCN.add(phieuLuongCN);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lstPhieuLuongCN ;
+	}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public PhieuLuongCN getPhieuLuongCN(String ma){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -116,6 +142,7 @@ public class DAOPhieuLuongCN {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		try {
+<<<<<<< HEAD
 			PreparedStatement ps = con.prepareStatement("select PhieuLuongCN.maCN, CongNhan.tenCN, CongNhan.cccd, CongNhan.chucVu,PhieuLuongCN.soNgayCong,PhieuLuongCN.thang, PhieuLuongCN.tienLuong\r\n"
 					+ "		from\n"
 					+ "		PhieuLuongCN Join CongNhan on PhieuLuongCN.maCN = CongNhan.maCN"
@@ -125,6 +152,17 @@ public class DAOPhieuLuongCN {
 				PhieuLuongCN phieuLuongCN = new PhieuLuongCN();
 //				phieuLuongCN.setMaCN(new CongNhan(rs.getString(1), rs.getString(2), rs.getString(4), null, null, null, rs.getString(3), null));
 //				phieuLuongCN.setSoNgayCong(rs.getInt(5));
+=======
+			PreparedStatement ps = con.prepareStatement("select PhieuLuongCN.maCN, CongNhan.tenCN, CongNhan.cccd, CongNhan.maTo,PhieuLuongCN.soSPSX,PhieuLuongCN.thang, PhieuLuongCN.tienLuong\r\n"
+					+ "		from\n"
+					+ "		PhieuLuongCN Join CongNhan on PhieuLuongCN.maCN = CongNhan.maCN"
+					+ "where PhieuLuongCN.maCN = '"+ ma +"'");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				PhieuLuongCN phieuLuongCN = new PhieuLuongCN();
+				phieuLuongCN.setMaCN(new CongNhan(rs.getString(1), rs.getString(2),new ToSanXuat(rs.getString(4)) , null, null, null, rs.getString(3), null));
+				phieuLuongCN.setSoSPSX(rs.getInt(5));
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 				phieuLuongCN.setThang(rs.getDate(6));
 				phieuLuongCN.setTienLuong(rs.getFloat(7));
 				lstPhieuLuongCN.add(phieuLuongCN);
@@ -157,6 +195,7 @@ public class DAOPhieuLuongCN {
 		}
 		return lstPhieuLuongCN ;
 	}
+<<<<<<< HEAD
 	
 	public ArrayList<PhieuLuongCN> getSLTPSX(String ma){
 		ArrayList<PhieuLuongCN> lstPLCN = new ArrayList<PhieuLuongCN>();
@@ -181,6 +220,8 @@ public class DAOPhieuLuongCN {
 		return lstPLCN;
 	}
 	
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public Integer getCountLuongCN(String thang){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -218,6 +259,7 @@ public Integer getCountLuongCN(String maCN, String thang){
 		return -1;
 	}	 
 }
+<<<<<<< HEAD
 public Integer getCountLuongCN(int thang){
 	ConnectDB.getinstance();
 	Connection con = ConnectDB.getConnection();
@@ -236,6 +278,9 @@ public Integer getCountLuongCN(int thang){
 		return -1;
 	}		 
 }
+=======
+
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 public Integer getCountLuongCN(String maCN, int thang){
 ConnectDB.getinstance();
 Connection con = ConnectDB.getConnection();
@@ -255,5 +300,23 @@ try {
 	return -1;
 }	 
 }
+<<<<<<< HEAD
+=======
+public boolean deletePhieuLuongCN(String maCN) throws SQLException {
+	Connection con = ConnectDB.getConnection();
+	String sql = "delete from PhieuLuongCN where maCN = ?";
+	try {
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, maCN);
+
+		return ps.executeUpdate() > 0;
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	con.close();
+	return false;
+
+}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 }
 

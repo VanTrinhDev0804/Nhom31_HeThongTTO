@@ -1,7 +1,10 @@
 package dao;
 
 import java.sql.Connection;
+<<<<<<< HEAD
 import java.sql.Date;
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +42,11 @@ public class DAOPhieuChamCong {
 		return lstCCCN ;
 	}
 	//them NV
+<<<<<<< HEAD
 	public boolean themCCCN(ChamCongCN info) throws SQLException {
+=======
+	public boolean themCCNV(ChamCongCN info) throws SQLException {
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "insert into ChamCongCN values (?,?,?,?,?)";
@@ -82,7 +89,10 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public void xoaPhieuChamCongCN(String ma)throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -106,6 +116,7 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 
 	public ArrayList<ChamCongNV> getDSChamCongNVTungNV(String maNV){
 		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
@@ -153,6 +164,8 @@ public class DAOPhieuChamCong {
 	
 	
 
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public ArrayList<ChamCongNV> getChamCongNhanVien(NhanVien nv, int month){
 		ArrayList<ChamCongNV> lstCCNV = new ArrayList<ChamCongNV>();
 		
@@ -164,7 +177,11 @@ public class DAOPhieuChamCong {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				ChamCongNV chamCongNV = new ChamCongNV();
+<<<<<<< HEAD
 				chamCongNV.setMaNV(rs.getString(1));
+=======
+				chamCongNV.setMaNV(new NhanVien(rs.getString(1)));
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 				chamCongNV.setNgayVang(rs.getDate(2));
 				
 //				chamCongCN.setMaC(rs.getString(1));
@@ -180,8 +197,11 @@ public class DAOPhieuChamCong {
 		}
 		return lstCCNV ;
 	}
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public Integer getSoNgayVangNhanVien(String maNV){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -200,6 +220,7 @@ public class DAOPhieuChamCong {
 			return -1;
 		}			 
 	}
+<<<<<<< HEAD
 	public Integer getSoSPSX(String maCN, int thang, int nam){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -260,6 +281,31 @@ public class DAOPhieuChamCong {
 		Connection con = ConnectDB.getConnection();
 		String sql = "select sum(luongngay) from ChamCongCN "
 				+ "where maCN = '"+ maCN + "' and  MONTH(ngay) = " + thang + " and YEAR(ngay) = " + nam;
+=======
+//	public int getSoSPSX(String maCN, int thang, int nam){
+//		ConnectDB.getinstance();
+//		Connection con = ConnectDB.getConnection();
+//		String sql = "select sum(soLuongSX) from ChamCongCN "
+//				+ "where maNV = '"+ maCN + "' and  MONTH(ngay) = " + thang + " and YEAR(ngay) = " + nam;
+//		int dem =0;
+//		try {
+//			Statement stm = con.createStatement();
+//			ResultSet rs = stm.executeQuery(sql);
+//			rs.next();
+//			dem = rs.getInt(1);
+//			rs.close();
+//			return dem;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return -1;
+//		}			 
+//	}
+	public int getSoSPSX(String maCN){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(soLuongSX) from ChamCongCN "
+				+ "where maCN = '"+ maCN + "' ";
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 		int dem =0;
 		try {
 			Statement stm = con.createStatement();
@@ -273,6 +319,27 @@ public class DAOPhieuChamCong {
 			return -1;
 		}			 
 	}
+<<<<<<< HEAD
+=======
+//	public Integer getTienLuongCN(String maCN, int thang, int nam){
+//		ConnectDB.getinstance();
+//		Connection con = ConnectDB.getConnection();
+//		String sql = "select sum(luongngay) from ChamCongCN "
+//				+ "where maCN = '"+ maCN + "' and  MONTH(ngay) = " + thang + " and YEAR(ngay) = " + nam;
+//		int dem =0;
+//		try {
+//			Statement stm = con.createStatement();
+//			ResultSet rs = stm.executeQuery(sql);
+//			rs.next();
+//			dem = rs.getInt(1);
+//			rs.close();
+//			return dem;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return -1;
+//		}			 
+//	}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	public Integer getTienLuongCN(String maCN){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -291,5 +358,38 @@ public class DAOPhieuChamCong {
 			return -1;
 		}			 
 	}
+<<<<<<< HEAD
 
+=======
+	public boolean deleteChamCongNV(String maNV) throws SQLException {
+		Connection con = ConnectDB.getConnection();
+		String sql = "delete from ChamCongNV where maNV = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maNV);
+
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+
+	}
+	public boolean deleteChamCongCN(String maCN) throws SQLException {
+		Connection con = ConnectDB.getConnection();
+		String sql = "delete from ChamCongCN where maCN = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maCN);
+
+			return ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+
+	}
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 }

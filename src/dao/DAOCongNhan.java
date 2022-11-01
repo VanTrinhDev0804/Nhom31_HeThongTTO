@@ -16,7 +16,12 @@ import entity.ToSanXuat;
 public class DAOCongNhan {
 	
 	private DAOToSanXuat daoToSanXuat= new DAOToSanXuat();
+<<<<<<< HEAD
 	
+=======
+	private DAOPhieuChamCong daoPhieuChamCong = new DAOPhieuChamCong();
+	private DAOPhieuLuongCN daoPhieuLuongCN = new DAOPhieuLuongCN();
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 	//get ds Công nhân
 	public ArrayList<CongNhan> getDSCongNhan(){
 		ArrayList<CongNhan> lstCN = new ArrayList<CongNhan>();
@@ -141,6 +146,11 @@ public class DAOCongNhan {
 		Connection con = ConnectDB.getConnection();
 		String sql = "delete from CongNhan where maCN = ?";
 		try {
+<<<<<<< HEAD
+=======
+			daoPhieuChamCong.deleteChamCongCN(maCN);
+			daoPhieuLuongCN.deletePhieuLuongCN(maCN);
+>>>>>>> d1e3cbcb816c61050b5a7eb857d90d7351f5db61
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, maCN);
 	
