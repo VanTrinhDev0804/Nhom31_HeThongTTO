@@ -246,13 +246,13 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 //		FrmQuanLy frmQuanLy = new FrmQuanLy();
 //		frmQuanLy.setVisible(true);
 //		this.setVisible(false);
-		
-		
+//		
+//		
 		String maTK = txtTaiKhoan.getText().toString().trim();
 
 		String mk = txtMatKhau.getText().toString().trim();
 		TaiKhoan tk = daoTK.getTaiKhoanTheoMa(maTK);
-	
+//	
 		
 		
 		
@@ -269,6 +269,5 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 				this.setVisible(false);
 			}
 			
-		
-	}
+			}
 }
