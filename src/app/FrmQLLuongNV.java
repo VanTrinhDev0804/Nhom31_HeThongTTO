@@ -20,14 +20,16 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import javax.swing.JOptionPane;
 
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -59,7 +61,6 @@ import entity.PhieuLuongNV;
 //import entity.MatHang;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
-import app.XuatExcels;
 
 public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListener, KeyListener, ItemListener {
 	private static final long serialVersionUID = 1L;
@@ -100,6 +101,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 	private JTextField txtNam;
 	private SimpleDateFormat dfDate;
 	private SimpleDateFormat dfDate1;
+	private SimpleDateFormat dfThang1;
 
 	public Panel getFrmQLLuongNV() {
 		return this.pMain;
@@ -135,7 +137,8 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		regex = new Regex();
 		dfLuong = new DecimalFormat("##,###,###");
 		dfNam = new SimpleDateFormat("yyyy");
-		dfThang = new SimpleDateFormat("MM");
+		dfThang = new SimpleDateFormat("MM/yyyy");
+		dfThang1 = new SimpleDateFormat("MM");
 		dfDate = new SimpleDateFormat("dd/MM/yyyy");
 		dfDate1 = new SimpleDateFormat("yyyy-MM-dd");
 		// dfNgaySinh
@@ -234,52 +237,57 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 
 		txtLuong.setColumns(20);
 
-		/**
-		 * Tìm kiếm
-		 */
-		JLabel lblTim = new JLabel("Tìm kiếm:");
-		lblTim.setFont(new Font("SansSerif", Font.BOLD, 14));
-		lblTim.setBounds(350, 11, 90, 35);
-		pMain.add(lblTim);
-
-		txtTim = new JTextField();
-		txtTim.setToolTipText("Thông tin tìm kiếm");
-		txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
-		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
-		txtTim.setForeground(Colors.LightGray);
-		txtTim.setBorder(new LineBorder(new Color(114, 23, 153), 2, true));
-		txtTim.setBounds(425, 11, 670, 33);
-		txtTim.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (txtTim.getText().equals("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd")) {
-					txtTim.setFont(new Font("SansSerif", Font.PLAIN, 15));
-					txtTim.setForeground(Color.BLACK);
-					txtTim.setText("");
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (txtTim.getText().equals("")) {
-					txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
-					txtTim.setForeground(Colors.LightGray);
-					txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
-				}
-			}
-		});
-		pMain.add(txtTim);
-
-		btnTim = new FixButton("Tìm");
-		btnTim.setToolTipText("Tìm kiếm");
-		btnTim.setForeground(Color.WHITE);
-		btnTim.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnTim.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-		btnTim.setBackground(new Color(114, 23, 153));
-		btnTim.setBounds(1101, 12, 159, 33);
-		Icon iconTim = IconFontSwing.buildIcon(FontAwesome.SEARCH, 20, Color.white);
-		btnTim.setIcon(iconTim);
-		pMain.add(btnTim);
+		JLabel lbltitle = new JLabel("BẢNG LƯƠNG NHÂN VIÊN");
+		lbltitle.setFont(new Font("SansSerif", Font.PLAIN, 30));
+		lbltitle.setBounds(550, 30, 450, 56);
+		lbltitle.setForeground(new Color(164, 44, 167));
+		pMain.add(lbltitle);
+//		/**
+//		 * Tìm kiếm
+//		 */
+//		JLabel lblTim = new JLabel("Tìm kiếm:");
+//		lblTim.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		lblTim.setBounds(350, 11, 90, 35);
+//		pMain.add(lblTim);
+//
+//		txtTim = new JTextField();
+//		txtTim.setToolTipText("Thông tin tìm kiếm");
+//		txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
+//		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
+//		txtTim.setForeground(Colors.LightGray);
+//		txtTim.setBorder(new LineBorder(new Color(114, 23, 153), 2, true));
+//		txtTim.setBounds(425, 11, 670, 33);
+//		txtTim.addFocusListener(new FocusAdapter() {
+//			@Override
+//			public void focusGained(FocusEvent e) {
+//				if (txtTim.getText().equals("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd")) {
+//					txtTim.setFont(new Font("SansSerif", Font.PLAIN, 15));
+//					txtTim.setForeground(Color.BLACK);
+//					txtTim.setText("");
+//				}
+//			}
+//
+//			@Override
+//			public void focusLost(FocusEvent e) {
+//				if (txtTim.getText().equals("")) {
+//					txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
+//					txtTim.setForeground(Colors.LightGray);
+//					txtTim.setText("Tìm nhân viên theo mã nhân viên, tên nhân viên, chức vụ, cccd");
+//				}
+//			}
+//		});
+//		pMain.add(txtTim);
+//
+//		btnTim = new FixButton("Tìm");
+//		btnTim.setToolTipText("Tìm kiếm");
+//		btnTim.setForeground(Color.WHITE);
+//		btnTim.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		btnTim.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
+//		btnTim.setBackground(new Color(114, 23, 153));
+//		btnTim.setBounds(1101, 12, 159, 33);
+//		Icon iconTim = IconFontSwing.buildIcon(FontAwesome.SEARCH, 20, Color.white);
+//		btnTim.setIcon(iconTim);
+//		pMain.add(btnTim);
 
 		/**
 		 * Nút xuất file Excel JButton btnExcel Icon iconExcel
@@ -319,63 +327,63 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		/**
 		 * Panel sắp xếp
 		 */
-		JPanel pSapXep = new JPanel();
-		pSapXep.setToolTipText("Sắp xếp dữ liệu");
-		pSapXep.setBorder(new TitledBorder(new LineBorder(new Color(114, 23, 153), 1, true), "Sắp xếp",
-				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pSapXep.setBackground(new Color(171, 192, 238));
-		pSapXep.setBounds(350, 49, 909, 47);
-		pMain.add(pSapXep);
-		pSapXep.setLayout(null);
+//		JPanel pSapXep = new JPanel();
+//		pSapXep.setToolTipText("Sắp xếp dữ liệu");
+//		pSapXep.setBorder(new TitledBorder(new LineBorder(new Color(114, 23, 153), 1, true), "Sắp xếp",
+//				TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+//		pSapXep.setBackground(new Color(171, 192, 238));
+//		pSapXep.setBounds(350, 49, 909, 47);
+//		pMain.add(pSapXep);
+//		pSapXep.setLayout(null);
 
-		cboSapXep = new JComboBox<Object>(new Object[] { "Tăng dần", "Giảm dần" });
-		cboSapXep.setBounds(25, 12, 120, 28);
-		cboSapXep.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		cboSapXep.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		cboSapXep.setBackground(Color.WHITE);
-		cboSapXep.setToolTipText("Sắp xếp theo kiểu tăng dần/ giảm dần");
-		pSapXep.add(cboSapXep);
-
-		rdoTheoTenNV = new JRadioButton("Theo tên NV");
-		rdoTheoTenNV.setBounds(200, 13, 150, 27);
-		rdoTheoTenNV.setSelected(true);
-		rdoTheoTenNV.setFont(new Font("SansSerif", Font.BOLD, 14));
-		rdoTheoTenNV.setBackground(new Color(171, 192, 238));
-		pSapXep.add(rdoTheoTenNV);
-
-		rdoTheoSoNgayCong = new JRadioButton("Theo số ngày công");
-		rdoTheoSoNgayCong.setBounds(350, 13, 175, 27);
-		rdoTheoSoNgayCong.setSelected(true);
-		rdoTheoSoNgayCong.setFont(new Font("SansSerif", Font.BOLD, 14));
-		rdoTheoSoNgayCong.setBackground(new Color(171, 192, 238));
-		pSapXep.add(rdoTheoSoNgayCong);
-
-		rdoTheoChucVu = new JRadioButton("Theo chức vụ");
-		rdoTheoChucVu.setBounds(560, 13, 150, 27);
-		rdoTheoChucVu.setFont(new Font("SansSerif", Font.BOLD, 14));
-		rdoTheoChucVu.setBackground(new Color(171, 192, 238));
-		pSapXep.add(rdoTheoChucVu);
-
-		rdoTheoLuongNV = new JRadioButton("Theo lương ");
-		rdoTheoLuongNV.setBounds(735, 13, 135, 27);
-		rdoTheoLuongNV.setFont(new Font("SansSerif", Font.BOLD, 14));
-		rdoTheoLuongNV.setBackground(new Color(171, 192, 238));
-		pSapXep.add(rdoTheoLuongNV);
-
-		/**
-		 * Buttons Group
-		 */
-		bgRdo = new ButtonGroup();
-		bgRdo.add(rdoTheoTenNV);
-		bgRdo.add(rdoTheoChucVu);
-		bgRdo.add(rdoTheoSoNgayCong);
-		bgRdo.add(rdoTheoLuongNV);
-		bgRdo.clearSelection();
+//		cboSapXep = new JComboBox<Object>(new Object[] { "Tăng dần", "Giảm dần" });
+//		cboSapXep.setBounds(25, 12, 120, 28);
+//		cboSapXep.setFont(new Font("SansSerif", Font.PLAIN, 15));
+//		cboSapXep.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+//		cboSapXep.setBackground(Color.WHITE);
+//		cboSapXep.setToolTipText("Sắp xếp theo kiểu tăng dần/ giảm dần");
+//		pSapXep.add(cboSapXep);
+//
+//		rdoTheoTenNV = new JRadioButton("Theo tên NV");
+//		rdoTheoTenNV.setBounds(200, 13, 150, 27);
+//		rdoTheoTenNV.setSelected(true);
+//		rdoTheoTenNV.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoTenNV.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoTenNV);
+//
+//		rdoTheoSoNgayCong = new JRadioButton("Theo số ngày công");
+//		rdoTheoSoNgayCong.setBounds(350, 13, 175, 27);
+//		rdoTheoSoNgayCong.setSelected(true);
+//		rdoTheoSoNgayCong.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoSoNgayCong.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoSoNgayCong);
+//
+//		rdoTheoChucVu = new JRadioButton("Theo chức vụ");
+//		rdoTheoChucVu.setBounds(560, 13, 150, 27);
+//		rdoTheoChucVu.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoChucVu.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoChucVu);
+//
+//		rdoTheoLuongNV = new JRadioButton("Theo lương ");
+//		rdoTheoLuongNV.setBounds(735, 13, 135, 27);
+//		rdoTheoLuongNV.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		rdoTheoLuongNV.setBackground(new Color(171, 192, 238));
+//		pSapXep.add(rdoTheoLuongNV);
+//
+//		/**
+//		 * Buttons Group
+//		 */
+//		bgRdo = new ButtonGroup();
+//		bgRdo.add(rdoTheoTenNV);
+//		bgRdo.add(rdoTheoChucVu);
+//		bgRdo.add(rdoTheoSoNgayCong);
+//		bgRdo.add(rdoTheoLuongNV);
+//		bgRdo.clearSelection();
 
 		/**
 		 * Bảng chính
 		 */
-		String cn[] = { "Mã NV", "Tên NV", "CCCD", "Chức Vụ", "SoNgayCong", "Lương" };
+		String cn[] = { "Mã NV", "Tên NV", "CCCD", "Chức Vụ", "SoNgayCong","Tháng","Lương" };
 		modelLuong = new DefaultTableModel(cn, 0);
 
 		tblLuong = new JTable(modelLuong);
@@ -409,7 +417,8 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		tblLuong.getColumnModel().getColumn(2).setPreferredWidth(100);
 		tblLuong.getColumnModel().getColumn(3).setPreferredWidth(80);
 		tblLuong.getColumnModel().getColumn(4).setPreferredWidth(80);
-		tblLuong.getColumnModel().getColumn(5).setPreferredWidth(200);
+		tblLuong.getColumnModel().getColumn(5).setPreferredWidth(80);
+		tblLuong.getColumnModel().getColumn(6).setPreferredWidth(200);
 
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
@@ -421,6 +430,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		tblLuong.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 		tblLuong.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 		tblLuong.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+		tblLuong.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
 		spMatHang.setViewportView(tblLuong);
 
 		/**
@@ -444,28 +454,28 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		/**
 		 * Sự kiện buttons, chuột, key
 		 */
-		btnTim.addActionListener(this);
+//		btnTim.addActionListener(this);
 		btnReset.addActionListener(this);
 		btnExcels.addActionListener(this);
 		btnTinhLuong.addActionListener(this);
 		tblLuong.addMouseListener(this);
 
-		rdoTheoLuongNV.addActionListener(this);
-		rdoTheoChucVu.addActionListener(this);
-		rdoTheoTenNV.addActionListener(this);
-		rdoTheoSoNgayCong.addActionListener(this);
-		cboSapXep.addActionListener(this);
+//		rdoTheoLuongNV.addActionListener(this);
+//		rdoTheoChucVu.addActionListener(this);
+//		rdoTheoTenNV.addActionListener(this);
+//		rdoTheoSoNgayCong.addActionListener(this);
+//		cboSapXep.addActionListener(this);
 		cboMaNV.addItemListener(this);
 
-		txtTim.addKeyListener(this);
+//		txtTim.addKeyListener(this);
 		btnReset.addKeyListener(this);
-		btnTim.addKeyListener(this);
-		txtTim.addKeyListener(this);
+//		btnTim.addKeyListener(this);
+//		txtTim.addKeyListener(this);
 
 		/**
 		 * Load dữ liệu lên bảng
 		 */
-//		loadTableMH();
+		loadTable();
 	}
 
 	/**
@@ -478,22 +488,38 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 //		String nam = cboNam.getSelectedItem().toString();
 		daoPhieuLuongNV.updateLuongNV();
 		if (maNV.equals("Tất cả")) {
+			loadTable();
+			btnTinhLuong.setEnabled(false);
+		} else {
+			clearTable();
+			loadTableTheoMa();}
+
+	}
+	public void loadTable() {
+//		String thang = cboThang.getSelectedItem().toString();
+//		String nam = cboNam.getSelectedItem().toString();
+		daoPhieuLuongNV.updateLuongNV();	
 			clearTable();
 			ArrayList<PhieuLuongNV> lsPLNV = daoPhieuLuongNV.getAllPhieuLuongNV();
 			for (PhieuLuongNV phieuLuongNV : lsPLNV) {
 				modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
 						phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(),
-						phieuLuongNV.getSoNgayCong(), dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
+						phieuLuongNV.getSoNgayCong(), dfThang.format(phieuLuongNV.getThang()) , dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
 			}
-			btnTinhLuong.setEnabled(false);
-		} else {
-			PhieuLuongNV phieuLuongNV = daoPhieuLuongNV.getPhieuLuongNV(maNV);
-			modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
-					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(), phieuLuongNV.getSoNgayCong(),
-					dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
-		}
-
 	}
+	public void loadTableTheoMa() {
+		String maNV = cboMaNV.getSelectedItem().toString();
+//		String thang = cboThang.getSelectedItem().toString();
+//		String nam = cboNam.getSelectedItem().toString();
+		daoPhieuLuongNV.updateLuongNV();	
+		ArrayList<PhieuLuongNV> lsPLNV = daoPhieuLuongNV.getAllPhieuLuongNV(maNV);
+		for (PhieuLuongNV phieuLuongNV : lsPLNV) {
+			modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
+					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(),
+					phieuLuongNV.getSoNgayCong(), dfThang.format(phieuLuongNV.getThang()) ,dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
+		}
+	}
+	
 
 	public void detelePhieuChamCong() {
 		String maNV = cboMaNV.getSelectedItem().toString();
@@ -531,7 +557,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		clearTable();
 		for (PhieuLuongNV phieuLuongNV : lsPLNV) {
 			modelLuong.addRow(new Object[] { phieuLuongNV.getMaNV().getMaNV(), phieuLuongNV.getMaNV().getTenNV(),
-					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(), phieuLuongNV.getSoNgayCong(),
+					phieuLuongNV.getMaNV().getCccd(), phieuLuongNV.getMaNV().getChucVu(), phieuLuongNV.getSoNgayCong(), dfThang.format(phieuLuongNV.getThang()) ,
 					dfLuong.format(Math.round(phieuLuongNV.getTienLuong())) });
 
 		}
@@ -555,13 +581,14 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-				}
+				} 
 				
 			}
 		} else {
 			ArrayList<NhanVien> lstNV = daoNhanVien.getTenNVTheoMa(maNV);
 			for (NhanVien nhanVien : lstNV) {
 				int x = daoCCNV.getSoNgayVangNhanVien(nhanVien.getMaNV());
+				
 				try {
 					if (x > 0) {
 						daoPhieuLuongNV.themPhieuLuongNV(new PhieuLuongNV(nhanVien, new Date(), 26 - x, 0));
@@ -594,7 +621,7 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 		clearTable();
 		cboSapXep.setSelectedIndex(0);
 		bgRdo.clearSelection();
-//		loadTableMH();
+		loadTable();
 	}
 
 	/**
@@ -622,6 +649,9 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 			}
 
 		}
+//		if(rdoTheoTenNV.isSelected()) {
+//			SapXepModelTableTheoTenNV();
+//		}
 //		if (cboSapXep.getSelectedItem() == "Tăng dần") {
 //			if(o.equals(rdoTheoSoNgayCong)) {
 //				sortGiaTangDan(nv);
@@ -930,6 +960,67 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 
 		xuat.xuatTable(tblLuong, "DANH SÁCH THÔNG LƯƠNG NHÂN VIÊN", fileName);
 	}
+	//Lay du lieu tu bang vao arraylist
+			private ArrayList<PhieuLuongNV> getDataTuBang(){
+				ArrayList<PhieuLuongNV> lstNV = new ArrayList<PhieuLuongNV>();
+				int sodong = modelLuong.getRowCount();
+				if(sodong == 0)
+					return lstNV;
+				NhanVien nv;
+				String chucvu, manv, hoten, cccd;
+				int soNgayCong;
+				Date thang;
+				float luong;
+				for (int i = 0; i < sodong; i++) {
+					manv = (String) tblLuong.getValueAt(i, 0);
+					hoten = (String) tblLuong.getValueAt(i, 1);
+					chucvu = (String) tblLuong.getValueAt(i, 3);
+					soNgayCong = (int) tblLuong.getValueAt(i, 4);
+					thang =  (Date) tblLuong.getValueAt(i, 5);
+					luong = (float) tblLuong.getValueAt(i, 6);
+					cccd = (String) tblLuong.getValueAt(i, 2);
+					
+					nv = new NhanVien(manv, hoten, chucvu, null, null, null, cccd, null);
+					PhieuLuongNV plnv = new PhieuLuongNV(nv, thang, soNgayCong, luong);
+					lstNV.add(plnv);
+				}
+				return lstNV;
+			}
+			//Sap xep theo ten
+			@SuppressWarnings("unused")
+			private void SapXepModelTableTheoTenNV(){
+				ArrayList<PhieuLuongNV> lstNV = getDataTuBang();
+				if(cboSapXep.getSelectedItem().toString().equals("Tăng dần")) {
+					Collections.sort(lstNV, new Comparator<PhieuLuongNV>() {
+					@Override
+						public int compare(PhieuLuongNV o1, PhieuLuongNV o2) {
+							// TODO Auto-generated method stub
+							return o1.getMaNV().getTenNV().compareTo(o2.getMaNV().getTenNV());
+						}
+					});
+				}
+				if(cboSapXep.getSelectedItem().toString().equals("Giảm dần")) {
+					Collections.sort(lstNV, new Comparator<PhieuLuongNV>() {
+						@Override
+						public int compare(PhieuLuongNV o1, PhieuLuongNV o2) {
+							// TODO Auto-generated method stub
+							return o2.getMaNV().getTenNV().compareTo(o1.getMaNV().getTenNV());
+						}
+					});
+				}
+//				removeDanhSachLuong(modelLuong);
+//				for(PhieuLuongNV plNV : lstNV) {
+//					modelLuong.addRow(new Object[] {
+//							NV.getMaNV(), NV.getTenNV(), NV.getChucVu(), NV.getNgaySinh(), NV.getGioiTinh(), NV.getDiaChi(), NV.getCccd(), NV.getSdt()
+//					});
+//				}
+				loadTable(lstNV);
+			}
+			private void removeDanhSachLuong(DefaultTableModel defaultTableModel) {
+				while(tblLuong.getRowCount() > 0){
+					modelLuong.removeRow(0);
+				}
+			}
 
 	/**
 	 * ResetAll giúp làm mới lại form lương nhân viên
@@ -953,10 +1044,9 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 			int row = tblLuong.getSelectedRow();
 			cboMaNV.setSelectedItem(modelLuong.getValueAt(row, 0).toString());
 			cboTenNV.setSelectedItem(modelLuong.getValueAt(row, 1).toString());
-//			cboThang.setSelectedItem(modelLuong.getValueAt(row, 5).toString());
+			txtThang.setText(modelLuong.getValueAt(row, 5).toString());
 //			cboNam.setSelectedItem(modelLuong.getValueAt(row, 6).toString());
-			txtLuong.setText(modelLuong.getValueAt(row, 5).toString());
-
+			txtLuong.setText(modelLuong.getValueAt(row, 6).toString());
 		}
 	}
 
@@ -1013,12 +1103,17 @@ public class FrmQLLuongNV extends JFrame implements ActionListener, MouseListene
 			String maNV = (String) cboMaNV.getSelectedItem();
 			ArrayList<NhanVien> lsNV = daoNhanVien.getTenNVTheoMa(maNV);
 			cboTenNV.removeAllItems();
-			if (cboMaNV.getSelectedIndex() == 0)
+			if (cboMaNV.getSelectedIndex() == 0) {
 				cboTenNV.addItem("Tất cả");
+				loadTable();
+			}
+			else {
 			for (NhanVien nv : lsNV) {
 				cboTenNV.addItem(nv.getTenNV());
-			}
-		}
+				clearTable();
+				loadTableTheoMa();
+		}}
+	}
 	}
 
 //		}	

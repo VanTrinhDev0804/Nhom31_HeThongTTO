@@ -248,4 +248,23 @@ public class DAOCongDoan {
 		}
 		return lstCD;
 	}
+	
+	public Integer getGiaTP(String maCD) {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select giaSX from CongDoan\r\n"
+				+ "where maCD ='" + maCD +"'";
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}	
+	}
 }

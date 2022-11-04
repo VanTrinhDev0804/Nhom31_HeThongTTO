@@ -113,7 +113,7 @@ public class Regex {
 	}
 	public boolean regexSoLuong(JTextField txtSoLuong) {
 		String input = txtSoLuong.getText();
-		String regex = "^[1-9]+[0-9]*$";
+		String regex = "^[0-9]+[0-9]*$";
 		if (!input.matches(regex)) {
 			JOptionPane.showMessageDialog(null,
 					"Số lượng không được để trống, không được nhập chữ và phải lớn hơn 0\nVí dụ: 1000000", "Thông báo",

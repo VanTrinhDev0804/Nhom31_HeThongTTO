@@ -257,5 +257,33 @@ public class DAONhanVien implements Serializable {
 		}
 		return true;
 	}
+	
+	public static NhanVien getNVTheoTK(String maTK) { 
+		NhanVien nv = new NhanVien();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select * from NhanVien where maNV = '"+maTK+"'";
+
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				nv.setMaNV(rs.getString(1));
+
+				nv.setTenNV(rs.getString(2));
+				nv.setChucVu(rs.getString(3));
+				nv.setNgaySinh(rs.getDate(4));
+				nv.setGioiTinh(rs.getString(5));
+
+				nv.setDiaChi(rs.getString(6));
+				nv.setCccd(rs.getString(7));
+				nv.setSdt(rs.getString(8));
+		
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nv;
+	}
 
 }

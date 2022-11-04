@@ -121,6 +121,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	private DefaultTableModel modelCongDoan;
 	private JTable tblCongDoan;
 	private JButton btnExcels;
+	private DecimalFormat dfGiaSX;
 
 
 	/**
@@ -177,6 +178,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		add(pMain);
 		pMain.setLayout(null);
 
+		dfGiaSX=new DecimalFormat("###,###");
 		/**
 		 * Nhập thông tin công đoạn mới
 		 * Panel pNhapThongTin
@@ -557,7 +559,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		ArrayList<SanPham> lstSP = daoSanPham.getDSSanPham();
 		for(SanPham infoSP : lstSP) {
 			modelSanPham.addRow(new Object[] {
-					infoSP.getMaSP(), infoSP.getTenSP(), infoSP.getGiaSX(), infoSP.getSoLuong()
+					infoSP.getMaSP(), infoSP.getTenSP(), dfGiaSX.format(infoSP.getGiaSX()), infoSP.getSoLuong()
 			});
 		}
 	}

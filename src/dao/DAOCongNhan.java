@@ -51,7 +51,7 @@ public class DAOCongNhan {
 	}
 	
 	//get ds Công nhân theo mã Công Nhân
-	public CongNhan getDSCongNhanFromMaCN(String ma){
+	public CongNhan getCongNhanFromMaCN(String ma){
 		
 		
 		ConnectDB.getinstance();
@@ -81,6 +81,40 @@ public class DAOCongNhan {
 		}
 		return null;
 	}
+	
+	//get ds Công nhân theo Ma
+			public ArrayList<CongNhan> getDSCongNhanFromMa(String ma){
+			ArrayList<CongNhan> lstCN = new ArrayList<CongNhan>();
+				
+				ConnectDB.getinstance();
+				Connection con = ConnectDB.getConnection();
+				try {
+					PreparedStatement ps = con.prepareStatement("select * from CongNhan where maCN = '"+ ma +"'");
+					ResultSet rs = ps.executeQuery();
+					while(rs.next()) {
+						CongNhan CongNhan = new CongNhan();
+						
+						CongNhan.setMaCN(rs.getString(1));
+						CongNhan.setTenCN(rs.getString(2));
+						CongNhan.setGioiTinh(rs.getString(4));
+						CongNhan.setNgaySinh(rs.getDate(5));
+						CongNhan.setDiaChi(rs.getString(6));
+						CongNhan.setCccd(rs.getString(7));
+						CongNhan.setSdt(rs.getString(8));
+						
+						String maTo= rs.getString(3);
+						ToSanXuat toSanXuat  = daoToSanXuat.getToSXfromMaToSX(maTo);
+						
+						CongNhan.setToSanXuat(toSanXuat);
+						
+						lstCN.add(CongNhan);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return lstCN ;
+			}
+	
 	public boolean themCN(CongNhan cn) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();

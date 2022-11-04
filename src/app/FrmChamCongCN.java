@@ -42,6 +42,7 @@ import connection.ConnectDB;
 import custom.FixButton;
 import custom.FixRenderJList;
 import custom.FixRenderTree;
+import custom.TblCCModelCtrl;
 import dao.DAOCongDoan;
 import dao.DAOCongNhan;
 import dao.DAOPhieuChamCong;
@@ -49,6 +50,7 @@ import dao.DAOToSanXuat;
 import entity.ChamCongCN;
 import entity.CongDoan;
 import entity.CongNhan;
+import entity.TemplateCCCN;
 import entity.ToSanXuat;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -69,9 +71,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 import javax.naming.spi.DirStateFactory.Result;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
@@ -86,34 +90,16 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	private DAOCongNhan daoCongNhan;
 	private DAOPhieuChamCong daoPhieuChamCong;
 	private DAOCongDoan daoCongDoan;
-	
-	private JPanel pFormList;
-	private JScrollPane scrollList;
 
 	private JTextField txtTimCN;
 	private JPanel pNhapThongTin;
 	private JLabel lblNhapThongTin;
-	private JLabel lblHoTen;
-	private JTextField txtHoTenCN;
-	private JLabel lblToSX;
-	private JTextField txtTenTo;
 	private JLabel lblNgay;
 	private JDateChooser chooserNgay;
-	private JLabel lblChucVu;
-	private JComboBox<Object> cboCaLamViec;
-	private FixButton btnLuuChamCong,btnCCTo,btnOpenFormMulti, btnLuuMulti , btnTimCN;
-	private JLabel lblMaCN;
-	private JTextField txtMaCN;
-	private JLabel lblMato;
-	private JTextField txtMaTo;
-	private JLabel lblSoLuong;
-	private JTextField txtSoluong;
+	private FixButton btnLuuChamCong , btnTimCN;
 	private JScrollPane scrollCNTable;
 	private JTable tableCN;
 	private DefaultTableModel modelChamCong;
-	
-	
-	private JList<CongNhan> listCN;
 	
 	
 	private SimpleDateFormat dfNgay;
@@ -126,6 +112,15 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	private JButton btnResetList;
 	private DefaultTreeModel defaultTreeModel;
 	private JScrollPane pTreeToSX;
+	private JTable tableCCCN;
+	private DefaultTableModel modelActionChamCong;
+	private JComboBox<String> comboBox;
+	private Component scrollPane;
+	private TblCCModelCtrl modelCC;
+//	check load cc
+	private  ToSanXuat toSXSelected;
+	private  CongNhan congNhanSelected;
+	private boolean statusTOSXSelected;
 	
 	public Panel getFrmChamCong() {
 		return pMain;
@@ -173,28 +168,12 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		
 		dNow = new Date(nam-1900,thang-1,ngay);
 		
-				
-				pFormList = new JPanel();
-				pFormList.setBackground(Color.BLACK);
-				pFormList.setBorder(null);
-				pFormList.setBounds(378, 45, 340, 85);
-				pMain.add(pFormList);
-				pFormList.setLayout(null);
-				
-				scrollList = new JScrollPane();
-				scrollList.setBounds(0, 0, 340, 121);
-				pFormList.add(scrollList);
-				
-				listCN = new JList();
-				scrollList.setViewportView(listCN);
-				pFormList.setVisible(false);
-		
 		
 		scrollCNTable = new JScrollPane((Component) null, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollCNTable.setToolTipText("Danh sách thông tin nhân viên");
 		scrollCNTable.setBorder(new LineBorder(new Color(164, 44, 167), 2, true));
 		scrollCNTable.setBackground(Color.WHITE);
-		scrollCNTable.setBounds(368, 182, 890, 402);
+		scrollCNTable.setBounds(332, 309, 890, 275);
 		pMain.add(scrollCNTable);
 		
 		String col[] = {"Mã ","Công Nhân" , "Tổ",  "Ngày ", "Ca làm", "Số lượng " , "Lương ngày"};
@@ -229,8 +208,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		tableCN.getColumnModel().getColumn(6).setPreferredWidth(130);
 
 
-		DefaultTableCellRenderer rightRenderer=new DefaultTableCellRenderer();
-		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+	
 
 		scrollCNTable.setViewportView(tableCN);
 		
@@ -240,19 +218,11 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		pNhapThongTin.setToolTipText("Các thông tin nhân viên cần nhập");
 		pNhapThongTin.setBorder(new LineBorder(new Color(114, 23, 153), 2));
 		pNhapThongTin.setBackground(Color.WHITE);
-		pNhapThongTin.setBounds(368, 10, 890, 160);
+		pNhapThongTin.setBounds(332, 12, 890, 275);
 		pMain.add(pNhapThongTin);
 		
 		
-		btnLuuMulti = new FixButton("Lưu Multi");
-		btnLuuMulti.setText("Chấm Công ");
-		btnLuuMulti.setForeground(Color.BLACK);
-		btnLuuMulti.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnLuuMulti.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-		btnLuuMulti.setBackground(new Color(57, 210, 247));
-		btnLuuMulti.setBounds(633, 121, 151, 34);
-		btnLuuMulti.setVisible(false);
-		pNhapThongTin.add(btnLuuMulti);
+
 		
 		lblNhapThongTin = new JLabel("Chấm Công Công Nhân");
 		lblNhapThongTin.setHorizontalAlignment(SwingConstants.CENTER);
@@ -260,34 +230,9 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		lblNhapThongTin.setBounds(10, 4, 239, 29);
 		pNhapThongTin.add(lblNhapThongTin);
 		
-		lblHoTen = new JLabel("Họ và tên:");
-		lblHoTen.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblHoTen.setBounds(10, 45, 90, 29);
-		pNhapThongTin.add(lblHoTen);
-		
-		txtHoTenCN = new JTextField();
-		txtHoTenCN.setEditable(false);
-		txtHoTenCN.setFont(new Font("Arial", Font.ITALIC, 15));
-		txtHoTenCN.setColumns(10);
-		txtHoTenCN.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		txtHoTenCN.setBounds(132, 40, 196, 34);
-		pNhapThongTin.add(txtHoTenCN);
-		
-		lblToSX = new JLabel("Tổ sản xuất:");
-		lblToSX.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblToSX.setBounds(6, 83, 98, 29);
-		pNhapThongTin.add(lblToSX);
-		
-		txtTenTo = new JTextField();
-		txtTenTo.setEditable(false);
-		txtTenTo.setFont(new Font("SansSerif", Font.ITALIC, 15));
-		txtTenTo.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		txtTenTo.setBounds(132, 81, 196, 32);
-		pNhapThongTin.add(txtTenTo);
-		
 		lblNgay = new JLabel("Ngày:");
 		lblNgay.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblNgay.setBounds(579, 7, 54, 25);
+		lblNgay.setBounds(637, 7, 54, 25);
 		pNhapThongTin.add(lblNgay);
 		
 		
@@ -300,24 +245,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		chooserNgay.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		chooserNgay.setDateFormatString("dd/MM/yyyy");
 		chooserNgay.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		chooserNgay.setBounds(633, 10, 181, 29);
+		chooserNgay.setBounds(699, 4, 181, 29);
 		chooserNgay.setDate(dNow);
 		chooserNgay.setEnabled(false);
 		pNhapThongTin.add(chooserNgay);
-		
-		lblChucVu = new JLabel("Ca làm việc:");
-		lblChucVu.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblChucVu.setBounds(10, 124, 98, 29);
-		pNhapThongTin.add(lblChucVu);
-		
-		cboCaLamViec = new JComboBox<Object>(new Object[]{});
-		cboCaLamViec.setModel(new DefaultComboBoxModel(new String[] {"Ca 1", "Ca 2", "Ca 3"}));
-		cboCaLamViec.setToolTipText("Chọn ca làm việc \r\n");
-		cboCaLamViec.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		cboCaLamViec.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		cboCaLamViec.setBackground(Color.WHITE);
-		cboCaLamViec.setBounds(132, 124, 196, 32);
-		pNhapThongTin.add(cboCaLamViec);
 		
 		btnLuuChamCong = new FixButton("Lưu");
 		btnLuuChamCong.setText("Chấm Công");
@@ -325,93 +256,34 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		btnLuuChamCong.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnLuuChamCong.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
 		btnLuuChamCong.setBackground(new Color(57, 210, 247));
-		btnLuuChamCong.setBounds(638, 122, 132, 33);
+		btnLuuChamCong.setBounds(699, 197, 132, 33);
 		pNhapThongTin.add(btnLuuChamCong);
 		
-		btnCCTo = new FixButton("Lưu Tổ");
-		btnCCTo.setText("Chấm Công");
-		btnCCTo.setForeground(Color.BLACK);
-		btnCCTo.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnCCTo.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-		btnCCTo.setBackground(new Color(57, 210, 247));
-		btnCCTo.setBounds(633, 121, 151, 34);
-		btnCCTo.setVisible(false);
-		pNhapThongTin.add(btnCCTo);
+
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(20, 43, 615, 222);
+		pNhapThongTin.add(scrollPane);
 		
 		
-	
-		
-		btnOpenFormMulti = new FixButton("Open");
-		btnOpenFormMulti.setText("Chọn Công Nhân");
-		btnOpenFormMulti.setForeground(Color.BLACK);
-		btnOpenFormMulti.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnOpenFormMulti.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-		btnOpenFormMulti.setBackground(new Color(57, 210, 247));
-		btnOpenFormMulti.setBounds(368, 37, 151, 38);
-		btnOpenFormMulti.setVisible(false);
-		pNhapThongTin.add(btnOpenFormMulti);
-		
-		
-		lblMaCN = new JLabel("Mã CN:");
-		lblMaCN.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblMaCN.setBounds(368, 44, 72, 25);
-		pNhapThongTin.add(lblMaCN);
-		
-		txtMaCN = new JTextField();
-		txtMaCN.setEditable(false);
-		txtMaCN.setFont(new Font("SansSerif", Font.ITALIC, 15));
-		txtMaCN.setColumns(10);
-		txtMaCN.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		txtMaCN.setBounds(462, 42, 145, 29);
-		pNhapThongTin.add(txtMaCN);
-		
-		lblMato = new JLabel("Mã Tổ Sản Xuất:");
-		lblMato.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblMato.setBounds(368, 81, 83, 25);
-		pNhapThongTin.add(lblMato);
-		
-		txtMaTo = new JTextField();
-		txtMaTo.setEditable(false);
-		txtMaTo.setFont(new Font("SansSerif", Font.ITALIC, 15));
-		txtMaTo.setColumns(10);
-		txtMaTo.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		txtMaTo.setBounds(462, 83, 145, 29);
-		pNhapThongTin.add(txtMaTo);
-		
-		lblSoLuong = new JLabel("Số lượng:");
-		lblSoLuong.setFont(new Font("SansSerif", Font.BOLD, 15));
-		lblSoLuong.setBounds(368, 126, 83, 25);
-		pNhapThongTin.add(lblSoLuong);
-		
-		txtSoluong = new JTextField();
-		txtSoluong.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		txtSoluong.setColumns(10);
-		txtSoluong.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		txtSoluong.setBounds(462, 122, 145, 33);
-		pNhapThongTin.add(txtSoluong);
+//		String colCC[] = {"Mã ","Công Nhân" , "Tổ", "Ca làm", "Số lượng " };
+//		
+//		modelActionChamCong = new DefaultTableModel(colCC, 0);
+		tableCCCN = new JTable();
+	  
+	    		  
+//		scrollPane.setViewportView(tableCCCN);
 		
 		pTreeToSX = new JScrollPane();
 		pTreeToSX.setBorder(new LineBorder(new Color(114, 23, 153), 2, true));
 		pTreeToSX.setBackground(Color.WHITE);
-		pTreeToSX.setBounds(17, 10, 339, 568);
+		pTreeToSX.setBounds(17, 10, 308, 568);
 		pMain.add(pTreeToSX);
 		
 		
 		loadDSToSX2Jtree();
 		
 		
-		
-		
-		
-		
-		
-		
-	
-		
-	
-		
-		
-
 		
 		JPanel pControlJList = new JPanel();
 		pControlJList.setLayout(null);
@@ -459,9 +331,6 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 //		btn click
 		btnLuuChamCong.addActionListener(this);
-		btnCCTo.addActionListener(this);
-		btnOpenFormMulti.addActionListener(this);
-		btnLuuMulti.addActionListener(this);
 		btnTimCN.addActionListener(this);
 		btnResetList.addActionListener(this);
 //		load ds
@@ -517,21 +386,19 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	    	listCNTo = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
 	    	
 	    	
-	    	togleJList(true);
-	    	addTo2FormThongin(toSanXuat);
+
+	    	toSXSelected = toSanXuat;
+	    	statusTOSXSelected = true;
 	    	loadDSChamCongTo(toSanXuat);
-	    	activeCCBasic(false);
-	    	loadListCNCungTo2JTree(listCNTo);
-	    	
+ 	
 	    }
 
 	    if(nodeObject instanceof CongNhan) {
 	    	CongNhan cNhan = (CongNhan) nodeObject;
-	    	togleJList(true);
-			activeCCBasic(true);
-			addThongTinCongNhan2Form(cNhan);
+	    	statusTOSXSelected = false;
+	    	congNhanSelected =cNhan;
 			loadDSChamCongNhan(cNhan);
-			resetStatusCC(checkChamCong(cNhan));
+
 	    }
 	    
 	}
@@ -563,81 +430,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			
 		}
 		
-		
-		
-		
-		
-		
-
-//load
-	private void loadListCNCungTo2JTree(ArrayList<CongNhan> listCNTo) {
-		DefaultListModel<CongNhan> item = new DefaultListModel<CongNhan>();
-		for(CongNhan cn : listCNTo) {
-			if(checkChamCong(cn)) {
-				item.addElement(cn);
-			}	
-		}
-		if(item.isEmpty()) {
-			btnOpenFormMulti.setVisible(false);
-			pFormList.setVisible(false);
-			btnLuuChamCong.setVisible(false);
-			System.out.println(item);
-			btnCCTo.setText("Đã Chấm Công Tổ!");
-			btnCCTo.setBackground(new Color(102, 205, 170));
-			btnCCTo.setToolTipText("Đã Chấm Công Cho Ngày" + dNow);
-			btnCCTo.setEnabled(false);
-//			btnLuuMulti.setText("Đã Chấm Công Muti!");
-//			btnLuuMulti.setBackground(new Color(102, 205, 170));
-//			btnLuuMulti.setToolTipText("Đã Chấm Công Cho Ngày" + dNow);
-//			btnLuuMulti.setEnabled(false);
-		}else {
-			btnOpenFormMulti.setVisible(true);
-			btnCCTo.setText("Chấm Công ");
-			btnCCTo.setForeground(Color.BLACK);
-			btnCCTo.setFont(new Font("SansSerif", Font.BOLD, 14));
-			btnCCTo.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-			btnCCTo.setBackground(new Color(57, 210, 247));
-			btnCCTo.setBounds(633, 121, 151, 34);
-			
-			
-		
-			btnCCTo.setEnabled(true);
-		}
-		
-		listCN = new JList<CongNhan>(item);
-		listCN.setCellRenderer(new FixRenderJList());
-		listCN.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		scrollList.setViewportView(listCN);
-		
-		
-
-		
-		listCN.addListSelectionListener(new ListSelectionListener() {
-				
-				@Override
-				public void valueChanged(ListSelectionEvent e) {
-						ArrayList<CongNhan> lstSelected = (ArrayList<CongNhan>) listCN.getSelectedValuesList();
-							
-				}
-			});
-		
-	}
-
-
-
-	private void addTo2FormThongin(ToSanXuat toSanXuat) {
-		lblNhapThongTin.setText("Chấm Công cho "+ toSanXuat.getTenTo());
-		txtMaTo.setText(toSanXuat.getMaTo());
-		txtTenTo.setText(toSanXuat.getTenTo());
-		chooserNgay.setDate(dNow);
-		txtSoluong.setText("");
-		
-		
-	}
-
-	
 	protected void loadDSChamCongNhan(CongNhan cNhan) {
-		
+		removeDSChamCong(modelChamCong);
+		removeDSActionsCC(modelCC);
+		ArrayList<TemplateCCCN> templateCCCNs = new ArrayList<>();
 		removeDSChamCong(modelChamCong);
 		ArrayList<ChamCongCN> lisctCCCN = daoPhieuChamCong.getChamCongCongNhan(cNhan.getMaCN());
 
@@ -651,22 +447,18 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			
 			});
 		}
+		if(checkChamCong(cNhan)) {
+			TemplateCCCN templateCCCN = new TemplateCCCN(cNhan.getMaCN(), cNhan.getTenCN() , cNhan.getToSanXuat().getTenTo() , "Ca 1", 0 );
+			templateCCCNs.add(templateCCCN);
+		}
+
+		modelCC = new TblCCModelCtrl(templateCCCNs);
+		loadTableCC(tableCCCN, modelCC);
+		
 	}
 
 
 
-	protected void addThongTinCongNhan2Form(CongNhan cn) {
-		lblNhapThongTin.setText("Chấm Công Công Nhân");
-		txtHoTenCN.setText(cn.getTenCN());
-		txtMaCN.setText(cn.getMaCN());
-		txtMaTo.setText(cn.getToSanXuat().getMaTo());
-		txtTenTo.setText(cn.getToSanXuat().getTenTo());
-		chooserNgay.setDate(dNow);
-		txtSoluong.setText("");
-	}
-
-
-	
 
 // set trang thai cham cong cho ngay
 	protected void resetStatusCC(boolean checkChamCong) {
@@ -686,25 +478,13 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	}
 
 
-// bat tat cham cong cho to hoac cham cong cho tung CN
-	
-	protected void activeCCBasic(boolean check) {
-		lblHoTen.setVisible(check);
-		lblMaCN.setVisible(check);
-		txtHoTenCN.setVisible(check);
-		txtMaCN.setVisible(check);
-		btnLuuChamCong.setVisible(check);
-		btnLuuChamCong.setVisible(check);
-		btnCCTo.setVisible(!check);
-		pFormList.setVisible(false);
-		btnOpenFormMulti.setVisible(!check);
-	}
 
 
 //	 form load 
 	private void loadDSChamCongTo(ToSanXuat toSanXuat) {
 		removeDSChamCong(modelChamCong);
-		
+		removeDSActionsCC(modelCC);
+		ArrayList<TemplateCCCN> templateCCCNs = new ArrayList<>();
 		ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());	
 		for (CongNhan cn : lstCN) {
 			ArrayList<ChamCongCN> lisctCCCN = daoPhieuChamCong.getChamCongCongNhan(cn.getMaCN());
@@ -716,12 +496,71 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 					
 				
 				});
+				
+			
+				
 			}
+			if(checkChamCong(cn)) {
+				
+				TemplateCCCN templateCCCN = new TemplateCCCN(cn.getMaCN(), cn.getTenCN() , cn.getToSanXuat().getTenTo() , "Ca 1", 0 );
+				templateCCCNs.add(templateCCCN);
+			}
+		
 			
 		}
+
+		modelCC = new TblCCModelCtrl(templateCCCNs);
+		loadTableCC(tableCCCN, modelCC);
+		
 		
 	}
 
+
+	private void loadTableCC(JTable tableCCCN,  TblCCModelCtrl modelCC2) {
+	
+		tableCCCN = new JTable(modelCC);
+		tableCCCN.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		tableCCCN.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		tableCCCN.setShowHorizontalLines(true); 
+		tableCCCN.setShowGrid(true);
+		tableCCCN.setBackground(Color.WHITE);
+		tableCCCN.setFont(new Font("SansSerif", Font.PLAIN, 13));
+		tableCCCN.setSelectionBackground(new Color(164, 44, 167, 30));
+		tableCCCN.setRowHeight(30);
+		tableCCCN.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableCCCN.setToolTipText("Chọn nhân viên để thực hiện chức năng");	
+		JTableHeader tbHeaderCC = tableCCCN.getTableHeader();
+		tbHeaderCC.setBackground(new Color(164, 44, 167));
+		tbHeaderCC.setForeground(Color.white);
+		tbHeaderCC.setFont(new Font("SansSerif", Font.BOLD, 14));
+		tbHeaderCC.setToolTipText("Danh sách Ngày công nhân viên");
+
+		tableCCCN.getColumnModel().getColumn(0).setPreferredWidth(80); 
+		tableCCCN.getColumnModel().getColumn(1).setPreferredWidth(170);
+		tableCCCN.getColumnModel().getColumn(2).setPreferredWidth(120); 
+		tableCCCN.getColumnModel().getColumn(3).setPreferredWidth(120); 
+		tableCCCN.getColumnModel().getColumn(4).setPreferredWidth(120); 
+	
+
+
+		DefaultTableCellRenderer rightRenderer=new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		
+//		Ca lam viec in table
+		  comboBox = new JComboBox<String>();
+	      comboBox.addItem("Ca 1");
+	      comboBox.addItem("Ca 2");
+	      comboBox.addItem("Ca 3");
+	      TableColumn tbColumn = tableCCCN.getColumnModel().getColumn(3);
+	      tbColumn.setCellEditor(new DefaultCellEditor(comboBox));
+	    		  
+	    	
+		
+		
+		
+		((JScrollPane) scrollPane).setViewportView(tableCCCN);
+		
+	}
 
 
 
@@ -729,20 +568,14 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	public void actionPerformed(ActionEvent e) {
 		Object o = e. getSource();
 		
+//		if(o.equals(btnLuuChamCong)) {
+//			addChamCongCongNhan();
+//		}
+		
 		if(o.equals(btnLuuChamCong)) {
-			addChamCongCongNhan();
+			notifyCCCN(LuuChamCongCn(modelCC.getLstchamCongCN()), toSXSelected , congNhanSelected );	
 		}
-		
-		if(o.equals(btnCCTo)) {
-			notifyCCCN(luuChamCongToCN());
-		}
-		if(o.equals(btnOpenFormMulti)) {
-			togleJList(pFormList.isVisible());
-		}
-		if(o.equals(btnLuuMulti)) {
-			notifyCCCN(addChamCongCNSelected(listCN.getSelectedValuesList()));
-		
-		}
+
 		if(o.equals(btnTimCN)) {
 			findCNJTree();
 		}
@@ -755,6 +588,42 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	
 	
 
+
+
+
+	private int LuuChamCongCn(ArrayList<TemplateCCCN> lstchamCongCN) {
+			int result = 0;
+		 for( TemplateCCCN t : lstchamCongCN) {
+			 if(t.getSoLuong() > 0 ) {
+					float giaSX = getGiaSXCDTo(t.getMa());
+					float luongNgay = tinhLuongNgay(t.getSoLuong() , giaSX);
+					
+					java.util.Date date = chooserNgay.getDate();
+					Date ngayFormat=new Date(date.getYear(), date.getMonth(), date.getDate());
+					
+					ChamCongCN input = new ChamCongCN();
+					input.setMaC(t.getMa());
+					input.setCaLam(t.getCaLam());
+					input.setNgayLam(ngayFormat);
+					input.setSoLuong(t.getSoLuong());
+					input.setLuongNgay(luongNgay);
+					try {
+						if(daoPhieuChamCong.themCCCN(input)) {
+							result = 1;
+						}
+								
+					}catch (SQLException e) {
+						e.printStackTrace();
+						result = 0;
+					}	
+			 }
+			
+			 
+			 
+		 }
+		 
+		 return result;
+	}
 
 
 
@@ -796,162 +665,26 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 
 
-	private void notifyCCCN(int status) {
-		
+	private void notifyCCCN(int status , ToSanXuat tsx , CongNhan congNhanSelected) {
+		System.out.println(status);
 		if(status==-1) {
-			JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-			txtSoluong.requestFocus();
+			JOptionPane.showMessageDialog(this, "Vui lòng cập nhật số lượng công nhân sản xuất!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(status == 0) {
 			JOptionPane.showMessageDialog(this, "Chấm công thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 		}
 		else if(status == 1) {
 			JOptionPane.showMessageDialog(this, "Chấm công thành công! ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-			if(txtMaTo.isVisible()) {
-				ToSanXuat toSanXuat = daoTSX.getToSXfromMaToSX(txtMaTo.getText());
-				ArrayList<CongNhan> ls= daoCongNhan.getDSCongNhanCungTo(txtMaTo.getText());
-				loadDSChamCongTo(toSanXuat);
-				loadListCNCungTo2JTree(ls);
+			if(statusTOSXSelected) {
+				 loadDSChamCongTo(tsx);
+			}else {
+				loadDSChamCongNhan(congNhanSelected);
 			}
-			else {
-				ToSanXuat toSanXuat = listCN.getSelectedValuesList().get(0).getToSanXuat();
-				ArrayList<CongNhan> ls= daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());
-				loadDSChamCongTo(toSanXuat);
-				loadListCNCungTo2JTree(ls);
-				
-				
-			}
-		
-		}
-	
-	}
-
-
-
-	
-
-
-
-	private int addChamCongCNSelected(List<CongNhan> selectedValuesList) {
-		String tenTo = txtTenTo.getText();
-		String caLam = cboCaLamViec.getSelectedItem().toString();
-		java.util.Date date = chooserNgay.getDate();
-		Date ngayFormat=new Date(date.getYear(), date.getMonth(), date.getDate());
-		 int result = 0;
-		
-		String soLuong = txtSoluong.getText();
-		if(soLuong.equalsIgnoreCase("")) {
 			
-			result = -1;
+		
 		}
-		else {
-			
-				
-			for ( CongNhan cn : selectedValuesList) {
-				int sl = Integer.parseInt(soLuong) ;
-				float giaSX = getGiaSXCDTo(cn.getToSanXuat());
-				float luongNgay = tinhLuongNgay(soLuong , giaSX);
-				
-				
-				
-				ChamCongCN input = new ChamCongCN();
-				input.setMaC(cn.getMaCN());
-				input.setCaLam(caLam);
-				input.setNgayLam(ngayFormat);
-				input.setSoLuong(sl);
-				input.setLuongNgay(luongNgay);
-				
-				if(checkChamCong(cn)) {
-					try {
-						
-						if(daoPhieuChamCong.themCCCN(input)) {
-							
-							result = 1;
-						}
-						
-						
-						}catch (SQLException e) {
-							e.printStackTrace();
-							
-							result = 0;
-						}
-				}
-				
-				
-				
-			}
-		}
-		return result;
 	
-		
 	}
-
-
-
-	private void togleJList(boolean CheckVisable) {
-		pFormList.setVisible(!CheckVisable);
-		btnLuuMulti.setVisible(!CheckVisable);
-		lblMato.setVisible(CheckVisable);
-		txtMaTo.setVisible(CheckVisable);
-		lblToSX.setVisible(CheckVisable);
-		
-		
-	}
-
-
-
-	private int luuChamCongToCN() {
-		String maTo = txtMaTo.getText();
-		String caLam = cboCaLamViec.getSelectedItem().toString();
-		java.util.Date date = chooserNgay.getDate();
-		Date ngayFormat=new Date(date.getYear(), date.getMonth(), date.getDate());
-		int result = 0;
-		
-		String soLuong = txtSoluong.getText();
-
-		ArrayList<CongNhan> lstCNTo = daoCongNhan.getDSCongNhanCungTo(maTo);
-		
-		if(soLuong.equalsIgnoreCase("")) {
-			result= -1;
-		}
-		else {
-				int sl = Integer.parseInt(soLuong) ;
-				ToSanXuat toSanXuat = daoTSX.getToSXfromMaToSX(maTo);
-				float giaSX = getGiaSXCDTo(toSanXuat);
-				float luongNgay = tinhLuongNgay(soLuong , giaSX);
-				
-			for ( CongNhan cn : lstCNTo) {
-				
-				ChamCongCN input = new ChamCongCN();
-				input.setMaC(cn.getMaCN());
-				input.setCaLam(caLam);
-				input.setNgayLam(ngayFormat);
-				input.setSoLuong(sl);
-				input.setLuongNgay(luongNgay);
-				
-				if(checkChamCong(cn)) {
-					try {
-						
-						if(daoPhieuChamCong.themCCCN(input)) {
-							result = 1;
-						}
-						
-						
-						}catch (SQLException e) {
-							e.printStackTrace();
-							result = 0;
-						}
-				}
-				
-				
-				
-			}
-		}
-		return result;
-	
-		
-	}
-
 
 
 	private void removeDSChamCong(DefaultTableModel defaultTableModel) {
@@ -959,71 +692,10 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			modelChamCong.removeRow(0);
 		}
 	}
-
-
-	private void addChamCongCongNhan() {
-		String  ma = txtMaCN.getText();
-		String tenCN = txtHoTenCN.getText();
-		String tenTo = txtTenTo.getText();
-		String calam = cboCaLamViec.getSelectedItem().toString();
-		String soLuong = txtSoluong.getText();
-		java.util.Date date = chooserNgay.getDate();
-		Date ngayFormat=new Date(date.getYear(), date.getMonth(), date.getDate());
-		String ngay =dfNgay.format(ngayFormat);
-		
-
-		
-
-		if(soLuong.equalsIgnoreCase("")) {
-			JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-			txtSoluong.requestFocus();
+	private void removeDSActionsCC(TblCCModelCtrl modelCC2) {
+		while(tableCCCN.getRowCount() > 0){
+			modelCC.removeRow(0);
 		}
-		else {
-//			TINH LUONG NGAY
-			CongNhan cNhan = daoCongNhan.getDSCongNhanFromMaCN(ma);
-			
-			ToSanXuat toSanXuat = cNhan.getToSanXuat();
-			float giaSX = getGiaSXCDTo(toSanXuat);
-			float luongNgay = tinhLuongNgay(soLuong , giaSX);
-			String luong = dfLuong.format(Math.round(luongNgay));
-			
-			int sl = Integer.parseInt(soLuong) ;
-			
-			ChamCongCN info = new ChamCongCN();
-			info.setMaC(ma);
-			info.setCaLam(calam);
-			info.setNgayLam(ngayFormat);
-			info.setSoLuong(sl);
-			info.setLuongNgay(luongNgay);
-			
-			
-			try {
-				if(daoPhieuChamCong.themCCCN(info)) {
-					btnLuuChamCong.setText("Đã Chấm Công!");
-					btnLuuChamCong.setBackground(new Color(102, 205, 170));
-					btnLuuChamCong.setToolTipText("Đã Chấm Công Cho Ngày" + dNow);
-					btnLuuChamCong.setEnabled(false);
-				}
-						
-			}catch (SQLException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Chấm công thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
-			}
-			resetAll();
-			modelChamCong.addRow(new Object[] {
-				ma, tenCN, tenTo, ngay, calam, soLuong,luong 
-			});
-			
-			
-			
-		}
-	
-		
-		
-		
-		
-		
-		
 	}
 
 
@@ -1031,10 +703,12 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 
 
-	private float getGiaSXCDTo(ToSanXuat toSanXuat) {
+
+	private float getGiaSXCDTo(String ma) {
 		
+		CongNhan cn = daoCongNhan.getCongNhanFromMaCN(ma);
 		
-		CongDoan cd = daoCongDoan.getCDTheoMaCD(toSanXuat.getMaCD());
+		CongDoan cd = daoCongDoan.getCDTheoMaCD(cn.getToSanXuat().getMaCD());
 		
 		float result  = cd.getGiaSX();
 		return result;
@@ -1042,69 +716,64 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 
 
-	private void resetAll() {
-		txtHoTenCN.setText("");
-		txtMaCN.setText("");
-		txtMaTo.setText("");
-		txtSoluong.setText("");
-		txtTenTo.setText("");
-		cboCaLamViec.setSelectedItem("Ca 1");
-		
-		
-	}
+//	private void resetAll() {
+//		txtHoTenCN.setText("");
+//		txtMaCN.setText("");
+//		txtMaTo.setText("");
+//		txtSoluong.setText("");
+//		txtTenTo.setText("");
+//		cboCaLamViec.setSelectedItem("Ca 1");
+//		
+//		
+//	}
 
 
 
-	private float tinhLuongNgay(String soLuong, float giaSX) {
-		float result = 0;
-		float sl = Float.parseFloat(soLuong);
-		
-		result = sl * giaSX;
-		
-		// TODO Auto-generated method stub
-		return result;
+	private float tinhLuongNgay(int soLuong, float giaSX) {
+	
+		return soLuong * giaSX;
 	}
 
 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		chooserPhieuChamCong();
+//		chooserPhieuChamCong();
 		
 	}
 
 
 
-	private void chooserPhieuChamCong() {
-		int selectRow = tableCN.getSelectedRow();
-		if(selectRow >= 0) {
-			String ma = (String) tableCN.getValueAt(selectRow, 0);
-			String tenCN = (String) tableCN.getValueAt(selectRow,1 );
-			String to = (String) tableCN.getValueAt(selectRow, 2);
-			String ngay = (String) tableCN.getValueAt(selectRow, 3);
-			String ca = (String) tableCN.getValueAt(selectRow, 4);
-			String soLuong = (String) String.valueOf(tableCN.getValueAt(selectRow, 5));
-			String luongNgay = (String) String.valueOf(tableCN.getValueAt(selectRow, 6));
-			
-
-			txtMaCN.setText(ma);
-			txtHoTenCN.setText(tenCN);
-			txtTenTo.setText(to);
-			txtSoluong.setText(soLuong);
-			cboCaLamViec.setSelectedItem(ca);
-			try {
-				chooserNgay.setDate(dfNgay.parse(ngay));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		
-			
-			
-		}
-		
-	}
+//	private void chooserPhieuChamCong() {
+//		int selectRow = tableCN.getSelectedRow();
+//		if(selectRow >= 0) {
+//			String ma = (String) tableCN.getValueAt(selectRow, 0);
+//			String tenCN = (String) tableCN.getValueAt(selectRow,1 );
+//			String to = (String) tableCN.getValueAt(selectRow, 2);
+//			String ngay = (String) tableCN.getValueAt(selectRow, 3);
+//			String ca = (String) tableCN.getValueAt(selectRow, 4);
+//			String soLuong = (String) String.valueOf(tableCN.getValueAt(selectRow, 5));
+//			String luongNgay = (String) String.valueOf(tableCN.getValueAt(selectRow, 6));
+//			
+//
+//			txtMaCN.setText(ma);
+//			txtHoTenCN.setText(tenCN);
+//			txtTenTo.setText(to);
+//			txtSoluong.setText(soLuong);
+//			cboCaLamViec.setSelectedItem(ca);
+//			try {
+//				chooserNgay.setDate(dfNgay.parse(ngay));
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//		
+//			
+//			
+//		}
+//		
+//	}
 
 
 

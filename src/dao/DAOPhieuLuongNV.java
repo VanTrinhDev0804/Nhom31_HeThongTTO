@@ -193,4 +193,29 @@ public Integer getCountLuongNV(String maNV, String thang){
 		return -1;
 	}	 
 }
+
+
+public ArrayList<PhieuLuongNV> getAllPhieuLuongNV(String ma){
+	ConnectDB.getinstance();
+	Connection con = ConnectDB.getConnection();
+	ArrayList<PhieuLuongNV> lstPhieuLuongNV = new ArrayList<PhieuLuongNV>();
+	try {
+		PreparedStatement ps = con.prepareStatement("select PhieuLuongNV.maNV, NhanVien.tenNV, NhanVien.cccd, NhanVien.chucVu,PhieuLuongNV.soNgayCong,PhieuLuongNV.thang, PhieuLuongNV.tienLuong\r\n"
+				+ "		from\n"
+				+ "		PhieuLuongNV Join NhanVien on PhieuLuongNV.maNV = NhanVien.maNV"
+				+ " where PhieuLuongNV.maNV = '" + ma +"'");
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()) {		
+			PhieuLuongNV phieuLuongNV = new PhieuLuongNV();
+			phieuLuongNV.setMaNV(new NhanVien(rs.getString(1), rs.getString(2), rs.getString(4), null, null, null, rs.getString(3), null));
+			phieuLuongNV.setSoNgayCong(rs.getInt(5));
+			phieuLuongNV.setThang(rs.getDate(6));
+			phieuLuongNV.setTienLuong(rs.getFloat(7));
+			lstPhieuLuongNV.add(phieuLuongNV);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return lstPhieuLuongNV ;
+}
 }

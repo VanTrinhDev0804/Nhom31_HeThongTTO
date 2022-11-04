@@ -175,4 +175,84 @@ public class DAOPhieuChamCong {
 		}			 
 	}
 
+	public int getSoSPSX(String maCN){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(soLuongSX) from ChamCongCN "
+				+ "where maCN = '"+ maCN + "' ";
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}			 
+	}
+	public Integer getSoSPSXTheoTo(String maTo){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(soSPSX)\r\n"
+				+ "from PhieuLuongCN   join CongNhan on PhieuLuongCN.maCN = CongNhan.maCN\r\n"
+				+ "where maTo ='" + maTo + "'";
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}			 
+	}
+	
+	public Integer getTienLuongCN(String maCN){
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select sum(luongngay) from ChamCongCN "
+				+ "where maCN = '" + maCN + "'";
+		int dem =0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			dem = rs.getInt(1);
+			rs.close();
+			return dem;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}			 
+	}
+	
+	public void xoaPhieuChamCongCN(String ma)throws SQLException {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("delete  from ChamCongCN"
+					+ " where maCN = '" + ma +"'");
+			 ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void xoaPhieuChamCongCN()throws SQLException {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("delete  from ChamCongCN");
+			 ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

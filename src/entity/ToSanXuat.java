@@ -33,6 +33,10 @@ public class ToSanXuat {
 		this.soLuongCN = soLuongCN;
 	}
 
+	public ToSanXuat(String string) {
+		this.maTo = string;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(iconToSX, maCD, maTo, soLuongCN, tenTo);
