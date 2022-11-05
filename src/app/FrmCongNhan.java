@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -48,6 +50,7 @@ import com.toedter.calendar.JDateChooser;
 
 import connection.ConnectDB;
 import dao.DAOCongNhan;
+import dao.DAOPhatSinhMa;
 import dao.DAOToSanXuat;
 import dao.Regex;
 import entity.CongNhan;
@@ -78,6 +81,8 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 	private JButton btnLamMoiCN;
 	private JButton btnTimKiemCN;
 	private JButton btnInDS;
+	private JButton btnLuu;
+	private JButton btnTaoTo;
 	private JLabel lblSoNV;
 	private JRadioButton radSXtheoMaCN;
 	private JRadioButton radSXtheoTen;
@@ -85,6 +90,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 	private JRadioButton radSXtheoNgaySinh;
 	private DAOCongNhan daoCongNhan;
 	private DAOToSanXuat daoToSX;
+	private DAOPhatSinhMa daoMa;
 	private int ngay, thang, nam;
 	private JComboBox<Object> cbbTo;
 	private JComboBox<Object> cbbSapXep;
@@ -117,6 +123,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		dfNgaySinh= new SimpleDateFormat("yyyy-MM-dd");
 		daoCongNhan = new DAOCongNhan();
 		daoToSX = new DAOToSanXuat();
+		daoMa = new DAOPhatSinhMa();
 		regex=new Regex();
 		IconFontSwing.register(FontAwesome.getIconFont());
 	
@@ -130,7 +137,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		
 		JLabel lbltitle = new JLabel("BẢNG CÔNG NHÂN");
 		lbltitle.setFont(new Font("SansSerif", Font.PLAIN, 30));
-		lbltitle.setBounds(675, 10, 350, 56);
+		lbltitle.setBounds(650, 10, 350, 56);
 		lbltitle.setForeground(new Color(164, 44, 167));
 		pMain.add(lbltitle);
 		
@@ -182,13 +189,20 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		cbbTo.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		cbbTo.setBackground(Color.WHITE);
 		cbbTo.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
-		cbbTo.setBounds(150, 127, 185, 30);
+		cbbTo.setBounds(150, 127, 95, 30);
 		pNhanSu.add(cbbTo);
+		
+		btnTaoTo = new JButton("Tạo tổ");
+		btnTaoTo.setForeground(Color.white);
+		btnTaoTo.setFont(new Font("SansSerif", Font.BOLD, 16));
+		btnTaoTo.setBackground(new Color(114, 23, 153));
+		btnTaoTo.setBounds(255, 127, 80, 30);
+		pNhanSu.add(btnTaoTo);
 		
 		now = LocalDate.now();
 		ngay = now.getDayOfMonth(); 
 		thang = now.getMonthValue()-1;
-		nam = now.getYear();
+		nam = now.getYear()-1900;
 		dnow = new Date(nam, thang, ngay);
 		
 		JLabel lblSubNgaySinh = new JLabel("Ngày sinh: ");
@@ -390,15 +404,6 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 //		btnXoaCN.setIcon(iconXoaCN);
 		pNhanSu.add(btnSuaCN);
 		
-		btnLamMoiCN = new FixButton("🔄 Làm mới");
-		btnLamMoiCN.setForeground(Color.WHITE);
-		btnLamMoiCN.setFont(new Font("SansSerif", Font.BOLD, 16));
-		btnLamMoiCN.setBackground(new Color(114, 23, 153));
-		btnLamMoiCN.setBounds(187, 467, 140, 50);
-//		Icon iconXoaNV = IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 20, new Color(255, 255 ,255));
-//		btnXoaNV.setIcon(iconXoaNV);
-		pNhanSu.add(btnLamMoiCN);
-		
 		btnTimKiemCN = new FixButton("🔍 Tra cứu");
 		btnTimKiemCN.setForeground(Color.white);
 		btnTimKiemCN.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -408,15 +413,33 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		//btnXoaNV.setIcon(iconXoaNV);
 		pNhanSu.add(btnTimKiemCN);
 		
-		btnInDS = new FixButton("📃 Xuất Excel");
+		btnLuu = new FixButton("💾 Lưu");
+		btnLuu.setForeground(Color.white);
+		btnLuu.setFont(new Font("SansSerif", Font.BOLD, 16));
+		btnLuu.setBackground(new Color(247, 220, 111));
+		btnLuu.setBounds(187, 467, 140, 50);
+		btnLuu.setEnabled(false);
+		pNhanSu.add(btnLuu);
+		
+		btnLamMoiCN = new FixButton("🔄 Làm mới");
+		btnLamMoiCN.setForeground(Color.white);
+		btnLamMoiCN.setFont(new Font("SansSerif", Font.BOLD, 16));
+		btnLamMoiCN.setBackground(new Color(114, 23, 153));
+		btnLamMoiCN.setBounds(187, 527, 140, 50);
+		//Icon iconXoaNV = IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 20, new Color(255, 255 ,255));
+		//btnXoaNV.setIcon(iconXoaNV);
+		pNhanSu.add(btnLamMoiCN);
+		
+		
+		btnInDS = new FixButton("Xuất Excels");
 		btnInDS.setForeground(Color.white);
 		btnInDS.setFont(new Font("SansSerif", Font.BOLD, 16));
 		btnInDS.setBackground(new Color(0, 128, 0));
-		btnInDS.setBounds(187, 527, 140, 50);
-		//Icon iconXoaNV = IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 20, new Color(255, 255 ,255));
-		//btnXoaNV.setIcon(iconXoaNV);
+		btnInDS.setBounds(1095, 25, 159, 33);
+		Icon iconExcel = IconFontSwing.buildIcon(FontAwesome.FILE_EXCEL_O, 20, Color.white);
+		btnInDS.setIcon(iconExcel);
+		pMain.add(btnInDS);
 		
-		pNhanSu.add(btnInDS);
 		
 		loadDanhSachCN();
 		
@@ -424,7 +447,9 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		btnXoaCN.addActionListener(this);
 		btnLamMoiCN.addActionListener(this);
 		btnSuaCN.addActionListener(this);
+		btnLuu.addActionListener(this);
 		btnInDS.addActionListener(this);
+		btnTaoTo.addActionListener(this);
 		btnTimKiemCN.addActionListener(this);
 		radSXtheoMaCN.addActionListener(this);
 		radSXtheoTen.addActionListener(this);
@@ -432,9 +457,11 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		radSXtheoNgaySinh.addActionListener(this);
 		cbbSapXep.addActionListener(this);
 		tbCongNhan.addMouseListener(this);
-		
-	
+        
 	}
+	
+	
+	
 	private void loadDanhSachCN()  {
 		//clearTable();
 		removeDanhSachCN(modelCongNhan);
@@ -452,19 +479,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 			modelCongNhan.removeRow(0);
 		}
 	}
-	private void checkEdit() {
-		 if(!statusEdit) {
-			 btnXoaCN.setVisible(true);
-			 btnLamMoiCN.setVisible(true);
-			 btnThemCN.setEnabled(true);
-		 }
-		 else {
-			 btnXoaCN.setVisible(true);
-			 btnLamMoiCN.setVisible(true);
-			 btnThemCN.setEnabled(true);
-		 }
-		
-	}
+	
 	
 	//Xuat excels
 	public void xuatExcel() throws IOException {
@@ -485,8 +500,8 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void addNV() {
-		String maCN = txtMaCN.getText().trim();
+	private void addCN() {
+		String maCN = daoMa.getMaCN();
 		String hoTen = txtTenCN.getText().trim();
 		String sdt = txtSDT.getText().trim();
 		String diaChi = txtDiaChi.getText().trim();
@@ -494,17 +509,9 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		String cccd = txtCCCD.getText().trim();
 		String gioiTinh = cbbGioiTinh.getSelectedItem().toString();
 		ToSanXuat tosanxuat = daoToSX.getToSXfromMaToSX(mato);
-		
+		java.util.Date date = chooserNgaySinh.getDate();
 
-//		kiem tra maNV
-		
-		String regexMaCN = "^((CN|cn)[0-9]{3})$";
-		if(maCN.matches(regexMaCN)) {
-			
-			if(daoCongNhan.checkmaCN(maCN)) {
-				
-
-				if(hoTen.equals("") || sdt.equals("") || diaChi.equals("") || cccd.equals("")) {
+		if(hoTen.equals("") || sdt.equals("") || diaChi.equals("") || cccd.equals("") || mato.equals("") || gioiTinh.equals("")||date == null) {
 					JOptionPane.showMessageDialog(this,  "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 					txtTenCN.requestFocus();
 				}
@@ -512,7 +519,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 					if(regex.regexTen(txtTenCN) && regex.regexSDT(txtSDT) && regex.regexDiaChi(txtDiaChi) && regex.regexCCCD(txtCCCD)) {
 						if(daoCongNhan.checkSdtCN(sdt)) {
 							if(daoCongNhan.checkCccdCN(cccd)) {
-								java.util.Date date = chooserNgaySinh.getDate();
+								
 								Date ngaySinh = new Date(date.getYear(), date.getMonth(), date.getDate());
 								int age = nam - date.getYear();
 								if(age>=18 && ngaySinh.getDate()>0 && ngaySinh.getDate()<=31 && ngaySinh.getMonth()>0 && ngaySinh.getMonth()<=12 && ngaySinh.getYear()>0 && ngaySinh.getYear()<nam) { 
@@ -532,34 +539,21 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 										
 									}catch (SQLException e) {
 										e.printStackTrace();
-										JOptionPane.showMessageDialog(this,  "Thêm nhân viên thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(pMain,  "Thêm công nhân thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 									} 
 									LamMoi();
-									modelCongNhan.addRow(new Object[] {
-											cn.getMaCN(), cn.getTenCN(), cn.getToSanXuat().getMaTo(), cn.getNgaySinh(), cn.getGioiTinh(), cn.getDiaChi(), cn.getCccd(), cn.getSdt()
-									});
-							
-									JOptionPane.showMessageDialog(this, "Thêm thành công!", "Thong bao", JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(pMain, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 								} else
-									JOptionPane.showMessageDialog(this, "Công nhân làm việc phải trên 18 tuổi!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+									JOptionPane.showMessageDialog(pMain, "Công nhân làm việc phải trên 18 tuổi!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 							} else
-								JOptionPane.showMessageDialog(this, "Căn cước công dân đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(pMain, "Căn cước công dân đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
 						} else 
-							JOptionPane.showMessageDialog(this, "Số điện thoại đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(pMain, "Số điện thoại đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
-			else {
-				JOptionPane.showMessageDialog(this,  "Mã công nhân đã tồn tại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
-			}
 			
-		}
-		else {
-			JOptionPane.showMessageDialog(this,  "Mã công nhân có định dạng CN00x!", "Thông báo", JOptionPane.ERROR_MESSAGE);
-		}
-	
-	}
-	
+
 	@SuppressWarnings({ "deprecation"})
 	private void findCN() {
 		String maCN = txtMaCN.getText();
@@ -581,10 +575,6 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 			maTo = "";
 		}
 		
-		
-		
-
-
 		java.util.Date date = chooserNgaySinh.getDate();
 		if(date == null) {
 			ngaySinh = new String("");
@@ -614,8 +604,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 	//Lam moi 
 	@SuppressWarnings("unused")
 	private void LamMoi() {
-			txtMaCN.setEnabled(true);
-			txtMaCN.setText("");
+		if(btnThemCN.getText().equals("Hủy")) {
 			txtTenCN.setText("");
 			ModelCbbTo.setSelectedItem("");
 			modelCbbGioiTinh.setSelectedItem("");
@@ -626,27 +615,43 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 			txtMaCN.requestFocus();
 			removeDanhSachCN(modelCongNhan);
 			loadDanhSachCN();
+		}
+		else {
+			txtMaCN.setBackground(Color.white);
+			txtMaCN.setText("");
+			txtMaCN.setEnabled(true);
+			txtTenCN.setText("");
+			ModelCbbTo.setSelectedItem("");
+			modelCbbGioiTinh.setSelectedItem("");
+			txtDiaChi.setText("");
+			txtSDT.setText("");
+			txtCCCD.setText("");
+			chooserNgaySinh.setDate(null);
+			txtMaCN.requestFocus();
+			removeDanhSachCN(modelCongNhan);
+			loadDanhSachCN();
+		}
 	}
 	
 	private void XoaNV() {
 		int row = tbCongNhan.getSelectedRow();
 		if(row>=0) {
-			int delete = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa công nhân này?", "Thông báo", JOptionPane.YES_NO_OPTION);
+			int delete = JOptionPane.showConfirmDialog(pMain, "Bạn muốn xóa công nhân này?", "Thông báo", JOptionPane.YES_NO_OPTION);
 			if(delete == JOptionPane.YES_OPTION) {
 				String maCN = (String) tbCongNhan.getValueAt(row, 0);
 				try {
 						daoCongNhan.xoaCN(maCN);
 						removeDanhSachCN(modelCongNhan);
-						JOptionPane.showMessageDialog(this, "Xóa công nhân thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(pMain, "Xóa công nhân thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				
 				}catch (SQLException e) {
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Xóa công nhân thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(pMain, "Xóa công nhân thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin nhân viên cần xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(pMain, "Vui lòng chọn thông tin nhân viên cần xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		
 
 		loadDanhSachCN();
@@ -655,7 +660,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 	}
 	
 	@SuppressWarnings({ "deprecation", "unused" })
-	private void updateNV() {
+	private void updateCN() {
 		int row = tbCongNhan.getSelectedRow();
 		if(row>=0) {
 			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin công nhân này?", "Thông báo", JOptionPane.YES_NO_OPTION);
@@ -688,16 +693,16 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 									CN.getMaCN(), CN.getTenCN(), CN.getToSanXuat().getMaTo(), CN.getNgaySinh(), CN.getGioiTinh(), CN.getDiaChi(), CN.getCccd(), CN.getSdt()
 							});
 						}
-						JOptionPane.showMessageDialog(this, "Thông tin nhân viên đã được sửa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(pMain, "Thông tin nhân viên đã được sửa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}catch (SQLException e) {
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Chỉnh sửa thông tin thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(pMain, "Chỉnh sửa thông tin thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin nhân viên cần sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(pMain, "Vui lòng chọn thông tin nhân viên cần sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		
 		loadDanhSachCN();
 	}
@@ -855,12 +860,11 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		
 		if(selectedRow >= 0) {
 			txtMaCN.setEditable(true);
-			statusEdit = true;
-			checkEdit();
 			String maCN = (String) tbCongNhan.getValueAt(selectedRow, 0);
 			ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhan();
 			for(CongNhan cn : lstCN) {
 				if(maCN.equals(cn.getMaCN())) {
+					txtMaCN.setBackground(new Color(164, 44, 167, 30));
 					txtMaCN.setEnabled(false);
 					txtMaCN.setText(maCN);
 					txtTenCN.setText(cn.getTenCN());
@@ -900,9 +904,56 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		if(o.equals(btnThemCN)) {
-			addNV();
+//		if(o.equals(btnThemCN)) {
+//			addNV();
+//		}
+		
+		if (o.equals(btnThemCN)) {
+			if (btnThemCN.getText().equalsIgnoreCase("➕ Thêm")) {
+				txtMaCN.setText(daoMa.getMaCN());
+				txtMaCN.setEnabled(false);
+				txtMaCN.setBackground(new Color(164, 44, 167, 30));
+				btnLuu.setEnabled(true);
+				btnSuaCN.setEnabled(false);
+				btnXoaCN.setEnabled(false);
+				btnTimKiemCN.setEnabled(false);
+				btnThemCN.setText("Hủy");
+				tbCongNhan.setEnabled(false);
+			} else if (btnThemCN.getText().equalsIgnoreCase("Hủy")) {
+				txtMaCN.setBackground(Color.white);
+				btnLuu.setEnabled(false);
+				btnSuaCN.setEnabled(true);
+				btnXoaCN.setEnabled(true);
+				btnTimKiemCN.setEnabled(true);
+				tbCongNhan.setEnabled(true);
+				btnThemCN.setText("➕ Thêm");
+				LamMoi();
+				
+			}
+
 		}
+		
+		if(o.equals(btnLuu)) {
+			addCN();
+			txtMaCN.setText(daoMa.getMaCN());
+		}
+		
+		if(o.equals(btnTaoTo)) {
+			String tenTo = JOptionPane.showInputDialog(pMain, "Tên tổ", "Tạo tổ", JOptionPane.PLAIN_MESSAGE);
+
+			String maTo = daoMa.getMaToSX();
+			if(tenTo.equals("")) {
+//				JOptionPane.showMessageDialog(pMain, "Tên tổ không được để trống!");
+				JOptionPane.showMessageDialog(pMain, "Tên tổ không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			}else {
+				ToSanXuat to = new ToSanXuat(maTo, tenTo, null, 0);
+				daoToSX.ThemTo(to);
+				ModelCbbTo.addElement(maTo);
+//				JOptionPane.showMessageDialog(pMain, "Tạo thành công! Mã tổ: "+maTo+"; Tên tổ: "+tenTo+"");
+				JOptionPane.showMessageDialog(pMain, "Tạo thành công! Mã tổ: \"+maTo+\"; Tên tổ: \"+tenTo+\"", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		
 		if(o.equals(btnTimKiemCN)) {
 			findCN();
 		}
@@ -913,7 +964,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 			XoaNV();;
 		}
 		if(o.equals(btnSuaCN)) {
-			updateNV();
+			updateCN();
 		}
 		
 		if(o.equals(btnInDS)) {

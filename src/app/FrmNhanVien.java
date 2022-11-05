@@ -620,7 +620,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		
 
 				if(hoTen.equals("") || sdt.equals("") || diaChi.equals("") || cccd.equals("")||chucVu.equals("")||gioiTinh.equals("")||date == null) {
-					JOptionPane.showMessageDialog(this,  "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(pMain,  "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 					txtTenNV.requestFocus();
 				}
 				else {
@@ -649,23 +649,23 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 										
 									}catch (SQLException e) {
 										e.printStackTrace();
-										JOptionPane.showMessageDialog(this,  "Thêm nhân viên thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(pMain,  "Thêm nhân viên thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 									} 
 									try {
 										daoTaiKhoan.createTK(tk1);
 									} catch (SQLException e2) {
 										e2.printStackTrace();
-										JOptionPane.showMessageDialog(this,  "Thêm tai khoan thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(pMain,  "Thêm tai khoan thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 									}
 									LamMoi();
 									String mkTK = "\nMật khẩu: "+matKhau;
-									JOptionPane.showMessageDialog(this, "Thêm thành công!\nMã tài khoản: "+maNV +mkTK, "Thong bao", JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(pMain, "Thêm thành công!\nMã tài khoản: "+maNV +mkTK, "Thong bao", JOptionPane.INFORMATION_MESSAGE);
 								} else
-									JOptionPane.showMessageDialog(this, "Nhân viên làm việc phải trên 18 tuổi!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+									JOptionPane.showMessageDialog(pMain, "Nhân viên làm việc phải trên 18 tuổi!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 							} else
-								JOptionPane.showMessageDialog(this, "Căn cước công dân đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(pMain, "Căn cước công dân đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
 						} else 
-							JOptionPane.showMessageDialog(this, "Số điện thoại đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(pMain, "Số điện thoại đã đăng ký", "Thông báo", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -705,7 +705,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		soNV = modelNhanVien.getRowCount();
 		lblSoNV.setText("Số nhân viên: "+soNV );
 		if(lstNV.size()==0) {
-			JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin nhân viên" , "Thông báo", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(pMain, "Không tìm thấy thông tin nhân viên" , "Thông báo", JOptionPane.ERROR_MESSAGE);
 			txtMaNV.requestFocus();
 			txtMaNV.selectAll();
 		}
@@ -750,22 +750,22 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 	private void XoaNV() {
 		int row = tbNhanVien.getSelectedRow();
 		if(row>=0) {
-			int delete = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa nhân viên này?", "Thông báo", JOptionPane.YES_NO_OPTION);
+			int delete = JOptionPane.showConfirmDialog(pMain, "Bạn muốn xóa nhân viên này?", "Thông báo", JOptionPane.YES_NO_OPTION);
 			if(delete == JOptionPane.YES_OPTION) {
 				String maNV = (String) tbNhanVien.getValueAt(row, 0);
 				try {
 						daoNhanVien.xoaNV(maNV);
 						removeDanhSachNV(modelNhanVien);
-						JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(pMain, "Xóa nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				
 				}catch (SQLException e) {
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Xóa nhân viên thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(pMain, "Xóa nhân viên thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin nhân viên cần xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(pMain, "Vui lòng chọn thông tin nhân viên cần xóa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		
 
 		loadDanhSachNV();
@@ -804,16 +804,16 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 									NV.getMaNV(), NV.getTenNV(), NV.getChucVu(), NV.getNgaySinh(), NV.getGioiTinh(), NV.getDiaChi(), NV.getCccd(), NV.getSdt()
 							});
 						}
-						JOptionPane.showMessageDialog(this, "Thông tin nhân viên đã được sửa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(pMain, "Thông tin nhân viên đã được sửa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}catch (SQLException e) {
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Chỉnh sửa thông tin thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(pMain, "Chỉnh sửa thông tin thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin nhân viên cần sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(pMain, "Vui lòng chọn thông tin nhân viên cần sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		
 		loadDanhSachNV();
 	}
