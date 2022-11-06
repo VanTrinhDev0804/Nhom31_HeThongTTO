@@ -1,4 +1,3 @@
-drop database QLLuongSP
 USE [master]
 GO
 /****** Object:  Database [QLLuongSP]    Script Date: 10/31/2022 1:33:59 AM ******/
@@ -142,6 +141,7 @@ CREATE TABLE [dbo].[CongNhan](
 	[diaChi] [nvarchar](255) NULL,
 	[cccd] [nvarchar](50) NULL,
 	[sdt] [nvarchar](255) NOT NULL,
+	[trangThai] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_CongNhan] PRIMARY KEY CLUSTERED 
 (
 	[maCN] ASC
@@ -194,6 +194,7 @@ CREATE TABLE [dbo].[NhanVien](
 	[diaChi] [nvarchar](255) NULL,
 	[cccd] [nvarchar](50) NULL,
 	[sdt] [nvarchar](50) NULL,
+	[trangThai] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_NhanVien] PRIMARY KEY CLUSTERED 
 (
 	[maNV] ASC
@@ -302,21 +303,21 @@ INSERT [dbo].[CongDoan] ([maCD], [maSP], [tenCD], [tenThanhPham], [giaSX], [tran
 INSERT [dbo].[CongDoan] ([maCD], [maSP], [tenCD], [tenThanhPham], [giaSX], [trangThaiCD]) VALUES (N'CD002', N'SP002', N'Sản Xuất Tay Áo', N'Tay Áo', 50000, N'Đang Sản Xuất')
 INSERT [dbo].[CongDoan] ([maCD], [maSP], [tenCD], [tenThanhPham], [giaSX], [trangThaiCD]) VALUES (N'CD003', N'SP001', N'Sản Xuất Cổ Áo', N'Cổ Áo', 100000, N'Đang Sản Xuất')
 GO
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN001', N'Nguyễn Văn Nam ', N'T001', N'nam', CAST(N'1999-12-12' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'014132141475', N'0312565742')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN002', N'Nguyễn Thị Hà', N'T001', N'nữ', CAST(N'1998-04-07' AS Date), N'60 Thống Nhất, p10, Q.Gò Vấp', N'051232137415', N'03155651214')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN003', N'Hà Văn Bảy', N'T002', N'nam', CAST(N'1997-04-12' AS Date), N'34 Nguyễn Văn Linh, Q.7', N'00253132152142', N'32123163354')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN004', N'Nguyễn Văn Đông ', N'T001', N'nam', CAST(N'1994-01-12' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'014132147954', N'0312564125')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN005', N'Nguyễn Thị Bánh', N'T001', N'nữ', CAST(N'1992-01-27' AS Date), N'123 Trần Quốc Thảo quận  3,TP.HCM', N'051232133112', N'03155651547')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN006', N'Hà Văn Tám', N'T002', N'nam', CAST(N'1997-04-12' AS Date), N'123 Trần Quốc Thảo quận  3,TP.HCM', N'00253132153475', N'32123169473')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN007', N'Nguyễn Văn Kiên ', N'T001', N'nam', CAST(N'2002-02-11' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'014132146451', N'0312523565')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN008', N'Nguyễn Thị Thảo', N'T001', N'nữ', CAST(N'2000-07-07' AS Date), N'60 Thống Nhất, p10, Q.Gò Vấp', N'051232137895', N'03155654851')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN009', N'Hà Văn Sáu', N'T002', N'nam', CAST(N'1997-06-17' AS Date), N'34 Nguyễn Văn Linh, Q.7', N'00253132157412', N'32123163674')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN010', N'Nguyễn Văn Ba ', N'T001', N'nam', CAST(N'1989-02-22' AS Date), N'123 Trần Quốc Thảo quận  3,TP.HCM', N'014132143150', N'0312785565')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN011', N'Nguyễn Thị Tứ', N'T001', N'nữ', CAST(N'1998-04-09' AS Date), N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'051232131248', N'03155124651')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN012', N'Hà Văn Anh', N'T002', N'nam', CAST(N'1993-04-22' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'00253132159653', N'32123523163')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN013', N'Nguyễn Văn Xu ', N'T001', N'nam', CAST(N'1991-12-02' AS Date), N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'014132143258', N'0314252565')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN014', N'Nguyễn Thị Lan', N'T001', N'nữ', CAST(N'1998-04-07' AS Date), N'60 Thống Nhất, p10, Q.Gò Vấp', N'051232131427', N'03155645251')
-INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt]) VALUES (N'CN015', N'Hà Văn Bảy', N'T002', N'nam', CAST(N'1997-04-12' AS Date), N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'0025313215', N'32124753163')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN001', N'Nguyễn Văn Nam ', N'T001', N'Nam', CAST(N'1999-12-12' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'014132141475', N'0312565742', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN002', N'Nguyễn Thị Hà', N'T001', N'Nữ', CAST(N'1998-04-07' AS Date), N'60 Thống Nhất, p10, Q.Gò Vấp', N'051232137415', N'0315565114', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN003', N'Hà Văn Bảy', N'T002', N'Nam', CAST(N'1997-04-12' AS Date), N'34 Nguyễn Văn Linh, Q.7', N'00253132152142', N'3212316354', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN004', N'Nguyễn Văn Đông ', N'T001', N'Nam', CAST(N'1994-01-12' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'014132147954', N'0312564125', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN005', N'Nguyễn Thị Bánh', N'T001', N'Nữ', CAST(N'1992-01-27' AS Date), N'123 Trần Quốc Thảo quận  3,TP.HCM', N'051232133112', N'0315561547', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN006', N'Hà Văn Tám', N'T002', N'Nam', CAST(N'1997-04-12' AS Date), N'123 Trần Quốc Thảo quận  3,TP.HCM', N'00253132153475', N'3212316473', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN007', N'Nguyễn Văn Kiên ', N'T001', N'Nam', CAST(N'2002-02-11' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'014132146451', N'0312523565', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN008', N'Nguyễn Thị Thảo', N'T001', N'Nữ', CAST(N'2000-07-07' AS Date), N'60 Thống Nhất, p10, Q.Gò Vấp', N'051232137895', N'0315564851', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN009', N'Hà Văn Sáu', N'T002', N'Nam', CAST(N'1997-06-17' AS Date), N'34 Nguyễn Văn Linh, Q.7', N'00253132157412', N'3212316374', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN010', N'Nguyễn Văn Ba ', N'T001', N'Nam', CAST(N'1989-02-22' AS Date), N'123 Trần Quốc Thảo quận  3,TP.HCM', N'01413213150', N'0312785565', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN011', N'Nguyễn Thị Tứ', N'T001', N'Nữ', CAST(N'1998-04-09' AS Date), N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'051232131248', N'0315514651', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN012', N'Hà Văn Anh', N'T002', N'Nam', CAST(N'1993-04-22' AS Date), N'15 Nguyễn Kiệm, Q.Gò Vấp', N'00253132159653', N'3212352163', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN013', N'Nguyễn Văn Xu ', N'T001', N'Nam', CAST(N'1991-12-02' AS Date), N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'014132143258', N'0314252565', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN014', N'Nguyễn Thị Lan', N'T001', N'Nữ', CAST(N'1998-04-07' AS Date), N'60 Thống Nhất, p10, Q.Gò Vấp', N'051232131427', N'03155645251', N'Đang làm')
+INSERT [dbo].[CongNhan] ([maCN], [tenCN], [maTo], [gioiTinh], [ngaySinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'CN015', N'Hà Văn Bảy', N'T002', N'Nam', CAST(N'1997-04-12' AS Date), N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'0025313215', N'3212475163', N'Đang làm')
 GO
 SET IDENTITY_INSERT [dbo].[CT_CD_SX_SP] ON 
 
@@ -329,18 +330,18 @@ INSERT [dbo].[CTLuongCB] ([maNV], [luongCB], [phuCap], [heSoLuong]) VALUES (N'NV
 INSERT [dbo].[CTLuongCB] ([maNV], [luongCB], [phuCap], [heSoLuong]) VALUES (N'NV002', 2000000, 500000, 3.2)
 INSERT [dbo].[CTLuongCB] ([maNV], [luongCB], [phuCap], [heSoLuong]) VALUES (N'NV003', 2000000, 500000, 3.2)
 GO
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV001', N'Nguyễn Văn Trinh', N'HCNS', CAST(N'2001-04-28' AS Date), N'Nam', N'15 Nguyễn Kiệm, Q.Gò Vấp', N'052210101453', N'0386200124 ')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV002', N'Đinh Đức Đạt', N'HCNS', CAST(N'2000-08-11' AS Date), N'Nam', N'34 Nguyễn Văn Linh, Q.7', N'547635625142', N'0332452056')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV003', N'Nguyễn Thị Nhi', N'HCNS', CAST(N'2002-08-04' AS Date), N'Nữ', N'60 Thống Nhất, p10, Q.Gò Vấp', N'754214245521', N'0984521475')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV004', N'Nguyễn Văn Tuấn', N'HCNS', CAST(N'1998-07-04' AS Date), N'Nam', N'23 Ngô Quyền, Gò Vấp, TPHCM', N'025610101353', N'0386200214')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV005', N'Trần Quốc Việt', N'HCNS', CAST(N'2002-08-12' AS Date), N'Nam', N'118 Hoàng Văn Thụ, Q.Phú Nhuận, Tp.HCM', N'547895425142', N'0332314756')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV006', N'Nguyễn Thị Mi', N'Quản lí', CAST(N'2002-10-18' AS Date), N'Nữ', N'12 Hai Bà Trưng, Bắc Ninh', N'754214845721', N'0984521245')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV007', N'Phạm Hữu Quốc Toàn', N'HCNS', CAST(N'2001-04-02' AS Date), N'Nam', N'784 Hai Bà Trưng, Huế', N'052214781353', N'0312400961')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV008', N'Đinh Thị Tiên', N'HCNS', CAST(N'1980-03-05' AS Date), N'Nữ', N'53 thống nhất, P11, gò vấp, TP. HCM', N'547647425142', N'1455324556')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV009', N'Nguyễn Thị Lan', N'Quản lí', CAST(N'1998-11-30' AS Date), N'Nữ', N'123 Trần Quốc Thảo quận  3,TP.HCM', N'754215621521', N'0984578556')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV010', N'Nguyễn Văn Đức', N'HCNS', CAST(N'1997-02-08' AS Date), N'Nam', N'50 Phan Văn Trị, Gò Vấp, TP.HCM', N'052148101353', N'0383650961')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV011', N'Phạm Văn Phúc', N'HCNS', CAST(N'1999-04-28' AS Date), N'Nam', N'68 Tân Kỳ Tân Qúy, TP. HCM', N'547632425142', N'0875318056')
-INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt]) VALUES (N'NV012', N'Trần Thị Anh', N'HCNS', CAST(N'2003-01-08' AS Date), N'Nữ', N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'754214785521', N'0984521245')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV001', N'Nguyễn Văn Trinh', N'HCNS', CAST(N'2001-04-28' AS Date), N'Nam', N'15 Nguyễn Kiệm, Q.Gò Vấp', N'052210101453', N'0386200124', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV002', N'Đinh Đức Đạt', N'HCNS', CAST(N'2000-08-11' AS Date), N'Nam', N'34 Nguyễn Văn Linh, Q.7', N'547635625142', N'0332452056', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV003', N'Nguyễn Thị Nhi', N'HCNS', CAST(N'2002-08-04' AS Date), N'Nữ', N'60 Thống Nhất, p10, Q.Gò Vấp', N'754214245521', N'0984521475', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV004', N'Nguyễn Văn Tuấn', N'HCNS', CAST(N'1998-07-04' AS Date), N'Nam', N'23 Ngô Quyền, Gò Vấp, TPHCM', N'025610101353', N'0386200214', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV005', N'Trần Quốc Việt', N'HCNS', CAST(N'2002-08-12' AS Date), N'Nam', N'118 Hoàng Văn Thụ, Q.Phú Nhuận, Tp.HCM', N'547895425142', N'0332314756', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV006', N'Nguyễn Thị Mi', N'Quản lí', CAST(N'2002-10-18' AS Date), N'Nữ', N'12 Hai Bà Trưng, Bắc Ninh', N'754214845721', N'0984521245', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV007', N'Phạm Hữu Quốc Toàn', N'HCNS', CAST(N'2001-04-02' AS Date), N'Nam', N'784 Hai Bà Trưng, Huế', N'052214781353', N'0312400961', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV008', N'Đinh Thị Tiên', N'HCNS', CAST(N'1980-03-05' AS Date), N'Nữ', N'53 thống nhất, P11, gò vấp, TP. HCM', N'547647425142', N'1455324556', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV009', N'Nguyễn Thị Lan', N'Quản lí', CAST(N'1998-11-30' AS Date), N'Nữ', N'123 Trần Quốc Thảo quận  3,TP.HCM', N'754215621521', N'0984578556', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV010', N'Nguyễn Văn Đức', N'HCNS', CAST(N'1997-02-08' AS Date), N'Nam', N'50 Phan Văn Trị, Gò Vấp, TP.HCM', N'052148101353', N'0383650961', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV011', N'Phạm Văn Phúc', N'HCNS', CAST(N'1999-04-28' AS Date), N'Nam', N'68 Tân Kỳ Tân Qúy, TP. HCM', N'547632425142', N'0875318056', N'Đang làm')
+INSERT [dbo].[NhanVien] ([maNV], [tenNV], [chucVu], [ngaySinh], [gioiTinh], [diaChi], [cccd], [sdt], [trangThai]) VALUES (N'NV012', N'Trần Thị Anh', N'HCNS', CAST(N'2003-01-08' AS Date), N'Nữ', N'23 Phú Mỹ Hưng quận 7,TP.HCM', N'754214785521', N'0984521245', N'Đang làm')
 
 GO
 SET IDENTITY_INSERT [dbo].[PhieuLuongCN] ON 
