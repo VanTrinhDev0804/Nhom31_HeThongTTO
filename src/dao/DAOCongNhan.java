@@ -24,7 +24,7 @@ public class DAOCongNhan {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			PreparedStatement ps = con.prepareStatement("select * from CongNhan");
+			PreparedStatement ps = con.prepareStatement("select * from CongNhan where trangThai = N'Đang làm'");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				CongNhan CongNhan = new CongNhan();
@@ -57,7 +57,7 @@ public class DAOCongNhan {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			PreparedStatement ps = con.prepareStatement("select * from CongNhan where maCN = '"+ ma+"'");
+			PreparedStatement ps = con.prepareStatement("select * from CongNhan where maCN = '"+ ma+"' and trangThai = N'Đang làm'");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				CongNhan congNhan = new CongNhan();
@@ -89,7 +89,7 @@ public class DAOCongNhan {
 				ConnectDB.getinstance();
 				Connection con = ConnectDB.getConnection();
 				try {
-					PreparedStatement ps = con.prepareStatement("select * from CongNhan where maCN = '"+ ma +"'");
+					PreparedStatement ps = con.prepareStatement("select * from CongNhan where maCN = '"+ ma +"' and trangThai = N'Đang làm'");
 					ResultSet rs = ps.executeQuery();
 					while(rs.next()) {
 						CongNhan CongNhan = new CongNhan();
@@ -118,7 +118,7 @@ public class DAOCongNhan {
 	public boolean themCN(CongNhan cn) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "insert into CongNhan values (?,?,?,?,?,?,?,?)";
+		String sql = "insert into CongNhan values (?,?,?,?,?,?,?,?,N'Đang làm')";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, cn.getMaCN());
@@ -140,7 +140,7 @@ public class DAOCongNhan {
 
 	public boolean xoaCN( String maCN) throws SQLException {
 		Connection con = ConnectDB.getConnection();
-		String sql = "delete from CongNhan where maCN = ?";
+		String sql = "update CongNhan set trangThai = N'Nghỉ việc' where maCN = ?";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, maCN);
@@ -183,7 +183,7 @@ public class DAOCongNhan {
 		ArrayList<CongNhan> lstCN=new ArrayList<>();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[CongNhan] where maCN like N'%"+ma+"%' and tenCN like N'%"+ten+"%' and maTo like N'%"+mato+"%' and ngaySinh like N'%"+ngaysinh+"%' and gioiTinh like N'%"+gioitinh+"%' and cccd like N'%"+cccd+"%' and sdt like N'%"+sdt+"%' and diaChi like N'%"+diachi+"%'";
+		String sql = "select * from [dbo].[CongNhan] where maCN like N'%"+ma+"%' and tenCN like N'%"+ten+"%' and maTo like N'%"+mato+"%' and ngaySinh like N'%"+ngaysinh+"%' and gioiTinh like N'%"+gioitinh+"%' and cccd like N'%"+cccd+"%' and sdt like N'%"+sdt+"%' and diaChi like N'%"+diachi+"%' and trangThai = N'Đang làm'";
 		try {
 			
 			Statement stm = con.createStatement();
@@ -228,7 +228,7 @@ public class DAOCongNhan {
 		CongNhan cn = new CongNhan();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[CongNhan] where maCN = '"+maCN+"'";
+		String sql = "select * from [dbo].[CongNhan] where maCN = '"+maCN+"' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -254,7 +254,7 @@ public class DAOCongNhan {
 		CongNhan cn = new CongNhan();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[CongNhan] where sdt = '"+sdt+"'";
+		String sql = "select * from [dbo].[CongNhan] where sdt = '"+sdt+"' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -281,7 +281,7 @@ public class DAOCongNhan {
 		CongNhan cn = new CongNhan();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[CongNhan] where cccd = '"+cccd+"'";
+		String sql = "select * from [dbo].[CongNhan] where cccd = '"+cccd+"' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);

@@ -21,7 +21,7 @@ public class DAONhanVien implements Serializable {
 	public boolean themNV(NhanVien nv) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "insert into NhanVien values (?,?,?,?,?,?,?,?)";
+		String sql = "insert into NhanVien values (?,?,?,?,?,?,?,?,N'Đang làm')";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, nv.getMaNV());
@@ -43,7 +43,8 @@ public class DAONhanVien implements Serializable {
 
 	public boolean xoaNV(String maNV) throws SQLException {
 		Connection con = ConnectDB.getConnection();
-		String sql = "delete from NhanVien where maNV = ?";
+//		String sql = "delete from NhanVien where maNV = ?";
+		String sql = "update NhanVien set trangThai = N'Nghỉ việc' where maNV = ?";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, maNV);
@@ -86,7 +87,7 @@ public class DAONhanVien implements Serializable {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			PreparedStatement ps = con.prepareStatement("select * from [dbo].[NhanVien]");
+			PreparedStatement ps = con.prepareStatement("select * from [dbo].[NhanVien] where trangThai = N'Đang làm'");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				NhanVien nv = new NhanVien();
@@ -149,7 +150,7 @@ public class DAONhanVien implements Serializable {
 		String sql = "select * from [dbo].[NhanVien] where maNV like N'%" + ma + "%' and tenNV like N'%" + ten
 				+ "%' and chucVu like N'%" + chucvu + "%' and ngaySinh like N'%" + ngaysinh + "%' and gioiTinh like N'%"
 				+ gioitinh + "%' and cccd like N'%" + cccd + "%' and sdt like N'%" + sdt + "%' and diaChi like N'%"
-				+ diachi + "%'";
+				+ diachi + "%' and trangThai = N'Đang làm'";
 		try {
 
 			Statement stm = con.createStatement();
@@ -178,7 +179,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[NhanVien] where maNV = '" + maNV + "'";
+		String sql = "select * from [dbo].[NhanVien] where maNV = '" + maNV + "' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -206,7 +207,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[NhanVien] where sdt = '" + sdt + "'";
+		String sql = "select * from [dbo].[NhanVien] where sdt = '" + sdt + "' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -234,7 +235,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[NhanVien] where cccd = '" + cccd + "'";
+		String sql = "select * from [dbo].[NhanVien] where cccd = '" + cccd + "' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -262,7 +263,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from NhanVien where maNV = '"+maTK+"'";
+		String sql = "select * from NhanVien where maNV = '"+maTK+"' and trangThai = N'Đang làm'";
 
 		try {
 			Statement stm = con.createStatement();
