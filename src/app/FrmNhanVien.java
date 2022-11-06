@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -39,6 +40,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -320,7 +322,18 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		
 		//Table Nhan Vien
 		String col [] = {"Mã NV", "Họ và Tên", "Chức vụ","Ngày sinh","Giới tính", "Địa chỉ","CCCD","SĐT"};
-		modelNhanVien = new DefaultTableModel(col,0);
+		modelNhanVien = new DefaultTableModel(col,0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
 		
 		tbNhanVien = new JTable(modelNhanVien);
 		tbNhanVien.setShowHorizontalLines(true);
@@ -334,7 +347,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		tbHeader.setFont(new Font("SansSerif", Font.BOLD, 16));
 		
 		tbNhanVien.getColumnModel().getColumn(0).setPreferredWidth(70); 
-		tbNhanVien.getColumnModel().getColumn(1).setPreferredWidth(160);
+		tbNhanVien.getColumnModel().getColumn(1).setPreferredWidth(180);
 		tbNhanVien.getColumnModel().getColumn(2).setPreferredWidth(90); 
 		tbNhanVien.getColumnModel().getColumn(3).setPreferredWidth(110); 
 		tbNhanVien.getColumnModel().getColumn(4).setPreferredWidth(90); 
@@ -342,7 +355,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		tbNhanVien.getColumnModel().getColumn(6).setPreferredWidth(120); 
 		tbNhanVien.getColumnModel().getColumn(7).setPreferredWidth(100); 
 		
-		tbNhanVien.setSelectionBackground(new Color(255, 255, 255,30));
+		tbNhanVien.setSelectionBackground(new Color(164, 44, 167,30));
 		tbNhanVien.setSelectionForeground(new Color(114, 23, 153));
 		tbNhanVien.setRowHeight(30);
 		
@@ -619,7 +632,7 @@ public class FrmNhanVien extends JFrame implements ActionListener, MouseListener
 		java.util.Date date = chooserNgaySinh.getDate();
 		
 
-				if(hoTen.equals("") || sdt.equals("") || diaChi.equals("") || cccd.equals("")||chucVu.equals("")||gioiTinh.equals("")||date == null) {
+				if(hoTen.trim().equals("") || sdt.trim().equals("") || diaChi.trim().equals("") || cccd.trim().equals("")||chucVu.equals("")||gioiTinh.equals("")||date == null) {
 					JOptionPane.showMessageDialog(pMain,  "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 					txtTenNV.requestFocus();
 				}

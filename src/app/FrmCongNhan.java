@@ -337,7 +337,18 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
         //Table Công Nhân
 		
 		String col [] = {"Mã CN", "Họ và Tên", "Mã tổ","Ngày sinh","Giới tính", "Địa chỉ","CCCD","SĐT"};
-		modelCongNhan = new DefaultTableModel(col,0);
+		modelCongNhan = new DefaultTableModel(col,0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
 		tbCongNhan = new JTable(modelCongNhan);
 		tbCongNhan.setShowHorizontalLines(true);
 		tbCongNhan.setShowGrid(true);
@@ -350,7 +361,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		tbHeader.setFont(new Font("SansSerif", Font.BOLD, 16));
 		
 		tbCongNhan.getColumnModel().getColumn(0).setPreferredWidth(70); 
-		tbCongNhan.getColumnModel().getColumn(1).setPreferredWidth(160);
+		tbCongNhan.getColumnModel().getColumn(1).setPreferredWidth(180);
 		tbCongNhan.getColumnModel().getColumn(2).setPreferredWidth(90); 
 		tbCongNhan.getColumnModel().getColumn(3).setPreferredWidth(110); 
 		tbCongNhan.getColumnModel().getColumn(4).setPreferredWidth(90); 
@@ -358,7 +369,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		tbCongNhan.getColumnModel().getColumn(6).setPreferredWidth(120); 
 		tbCongNhan.getColumnModel().getColumn(7).setPreferredWidth(100); 
 		
-		tbCongNhan.setSelectionBackground(new Color(255, 255, 255,30));
+		tbCongNhan.setSelectionBackground(new Color(164, 44, 167,30));
 		tbCongNhan.setSelectionForeground(new Color(114, 23, 153));
 		tbCongNhan.setRowHeight(30);
 		
@@ -511,7 +522,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 		ToSanXuat tosanxuat = daoToSX.getToSXfromMaToSX(mato);
 		java.util.Date date = chooserNgaySinh.getDate();
 
-		if(hoTen.equals("") || sdt.equals("") || diaChi.equals("") || cccd.equals("") || mato.equals("") || gioiTinh.equals("")||date == null) {
+		if(hoTen.trim().equals("") || sdt.trim().equals("") || diaChi.trim().equals("") || cccd.trim().equals("") || mato.equals("") || gioiTinh.equals("")||date == null) {
 					JOptionPane.showMessageDialog(this,  "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 					txtTenCN.requestFocus();
 				}
@@ -942,7 +953,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 			String tenTo = JOptionPane.showInputDialog(pMain, "Tên tổ", "Tạo tổ", JOptionPane.PLAIN_MESSAGE);
 
 			String maTo = daoMa.getMaToSX();
-			if(tenTo.equals("")) {
+			if(tenTo.trim().equals("")||tenTo == null) {
 //				JOptionPane.showMessageDialog(pMain, "Tên tổ không được để trống!");
 				JOptionPane.showMessageDialog(pMain, "Tên tổ không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 			}else {
@@ -950,7 +961,7 @@ public class FrmCongNhan extends JFrame implements ActionListener, MouseListener
 				daoToSX.ThemTo(to);
 				ModelCbbTo.addElement(maTo);
 //				JOptionPane.showMessageDialog(pMain, "Tạo thành công! Mã tổ: "+maTo+"; Tên tổ: "+tenTo+"");
-				JOptionPane.showMessageDialog(pMain, "Tạo thành công! Mã tổ: \"+maTo+\"; Tên tổ: \"+tenTo+\"", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(pMain, "Tạo thành công! Mã tổ: "+maTo+"; Tên tổ: "+tenTo+"", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		
