@@ -98,6 +98,8 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 	private FrmQLToSanXuat frmQLToSanXuat;
 
 	private NhanVien headerNV;
+
+	private FrmThongKe frmThongKe;
 	
 	@SuppressWarnings("deprecation")
 
@@ -509,17 +511,17 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 
 //	}
 //	
-//	public void loadFrmThongKe() {
-//		setTitle("Quản lý thống kê");
-//		resetColorMenu();
-//		pContent.removeAll();
-//		btnItemTK.setBackground(new Color(192,255,255));
-//		btnItemTK.setBorder(BorderFactory.createLineBorder(Color.white));
-//		frmThongKe = new FrmThongKe("QL",lblHeaderMaNV.getText(),dNow);
-//		pContent.add(frmThongKe.getFrmThongKe());
-//		
-//	
-//	}
+	public void loadFrmThongKe() {
+		setTitle("Quản lý thống kê");
+		resetColorMenu();
+		pContent.removeAll();
+		btnItemTK.setBackground(new Color(192,255,255));
+		btnItemTK.setBorder(BorderFactory.createLineBorder(Color.white));
+		frmThongKe = new FrmThongKe();
+		pContent.add(frmThongKe.getFrmThongKe());
+		
+	
+	}
 	public void setColorActive(JButton btn) {
 		btn.setBackground(new Color(192, 255, 255));
 		String btnSelectCNText = btnSelectCN.getText().toString();
@@ -671,12 +673,13 @@ public class FrmQuanLy extends JFrame implements ActionListener, MouseListener {
 				break;
 			}
 		}
+		if(o.equals(btnItemTK)) {
+			loadFrmThongKe();
+		}
 
 	}
 //		
-//		if(o.equals(btnItemTK)) {
-//			loadFrmThongKe();
-//		}
+		
 
 //		if(o.equals(popItem)) {
 //			String[] commands = {"cmd", "/c", "data\\help\\HELP.chm"};

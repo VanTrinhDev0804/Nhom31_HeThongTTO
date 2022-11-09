@@ -6,11 +6,15 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FileDialog;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Panel;
+import java.awt.Window;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
@@ -20,7 +24,11 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -33,22 +41,46 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import com.mindfusion.drawing.Colors;
+import com.toedter.calendar.JDateChooser;
+
 import connection.ConnectDB;
+import dao.DAOCT_CD_SX_SP;
 import dao.DAOCongDoan;
+import dao.DAOCongNhan;
+import dao.DAONhanVien;
 import dao.DAOPhieuChamCong;
+import dao.DAOPhieuLuongCN;
+import dao.DAOPhieuLuongNV;
+import dao.DAOSanPham;
 import dao.DAOToSanXuat;
 import dao.Regex;
+import entity.CT_CD_SX_SP;
+import entity.ChamCongCN;
 import entity.CongDoan;
+import entity.CongNhan;
+import entity.NhanVien;
+import entity.PhieuLuongCN;
+import entity.PhieuLuongNV;
+import entity.SanPham;
 import entity.ToSanXuat;
 
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.BorderUIResource;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.JButton;
+import javax.swing.JSeparator;
+import java.awt.Component;
+import javax.swing.table.TableModel;
+
+import org.apache.commons.math3.geometry.Space;
 
 	
 public class FrmThongKe extends JFrame implements KeyListener, ActionListener, MouseListener{
@@ -57,42 +89,276 @@ public class FrmThongKe extends JFrame implements KeyListener, ActionListener, M
 	 */
 	private static final long serialVersionUID = 1L;
 	private Panel pMain;
-	private JTable tableTK;
-	private DefaultTableModel modelTK;
-	private JLabel txt_TongTien;
-	private JLabel txt_TongSP;
-	private FixButton btnThongKe;
-	private FixButton btnXuatFile;
-	private FixButton btnTongTien;
-	private JTextField txtTK;
-	private FixButton btnTim;
-	private FixButton btnTongSP;
-	private JRadioButton radTheoSLTP;
-	private JRadioButton radTheoThanhTien;
-	private JComboBox<String> cbbSapXep;
-
-	
-	
-	
-	
-	private DAOToSanXuat daoToSanXuat;
+	private DefaultTableModel modelSanPham;
+	private DefaultTableModel modelThanhPham;
+	private DefaultTableModel modelCongNhan;
+	private DefaultTableModel modelNhanVien;
+	private JTable tblNhanVien;
+	private JPanel pThongKe;
+	private JTable tblSanPham;
+	private JTable tblThanhPham;
+	private JTable tblCongNhan;
+	private JLabel lblTongSP;
+	private JTextField txtTongSP;
+	private JLabel lblTongTP;
+	private JTextField txtTongTP;
+	private JLabel lblLuongThangCN;
+	private JTextField txtTongLuongThangCN;
+	private JLabel lblLuongThangNV;
+	private JTextField txtTongLuongThangNV;
+	private SimpleDateFormat dfThang;
+	private DAOSanPham daoSanPham;
 	private DAOCongDoan daoCongDoan;
+	private DAOToSanXuat daoToSanXuat;
 	private DAOPhieuChamCong daoCCCN;
+	private DAOPhieuLuongCN daoPLCN;
+	private DAOCongNhan daoCN;
+	private DAONhanVien daoNV;
+	private DAOPhieuLuongNV daoPLNV;
 	private DecimalFormat dfLuong;
+	private DAOCT_CD_SX_SP daoCT;
+	private SimpleDateFormat dfDate1;
+	private DAOPhieuChamCong daoPCC;
 	
 	public Panel getFrmThongKe() {
 		return this.pMain;
 	}
 	
+	
+	
+	
 	public FrmThongKe() {
+		
+		//Khai báo
+		dfDate1 = new SimpleDateFormat("yyyy-MM-dd");
+		dfThang = new SimpleDateFormat("MM/yyyy");
+		dfLuong = new DecimalFormat("##,###,###");
+		daoSanPham = new DAOSanPham();
+		daoCongDoan = new DAOCongDoan();
+		daoToSanXuat = new DAOToSanXuat();
+		daoCCCN = new DAOPhieuChamCong();
+		daoPLCN = new DAOPhieuLuongCN();
+		daoCN = new DAOCongNhan();
+		daoNV = new DAONhanVien();
+		daoPLNV = new DAOPhieuLuongNV();
+		daoCT = new DAOCT_CD_SX_SP();
+		daoPCC = new DAOPhieuChamCong();
+		
 		setTitle("Thống kê");
 		getContentPane().setLayout(null);
-		getContentPane().setSize(1281,629);
+		getContentPane().setSize(1299,778);
 		pMain= new Panel();
 		pMain.setBackground(Color.WHITE);
 		pMain.setBounds(0, 0, 1267, 629);
 		pMain.setLayout(null);
 		getContentPane().add(pMain);
+		
+		pThongKe = new JPanel();
+		pThongKe.setBorder(new LineBorder(new Color(164, 44, 167), 2, true));
+		pThongKe.setBackground(Color.WHITE);
+		pThongKe.setBounds(10, 11, 1252, 609);
+		pMain.add(pThongKe);
+		pThongKe.setLayout(null);
+		
+		//Sản phẩm
+				JLabel lblSP = new JLabel("Sản phẩm");
+				lblSP.setBounds(10, 11, 1232, 20);
+				lblSP.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
+				lblSP.setFont(new Font("SansSerif", Font.BOLD, 18));
+				pThongKe.add(lblSP);
+				
+				String sp [] = {"Mã sản phẩm", "Tên sản phẩm", "Số Lượng"};
+				modelSanPham = new DefaultTableModel(sp,0);
+				
+				tblSanPham = new JTable(modelSanPham);
+				tblSanPham.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				tblSanPham.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				tblSanPham.setShowHorizontalLines(true);
+				tblSanPham.setShowGrid(true);
+				tblSanPham.setBackground(Color.WHITE);
+				tblSanPham.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				tblSanPham.setSelectionBackground(new Color(164, 44, 167, 30));
+				tblSanPham.setSelectionForeground(new Color(114, 23, 153));
+				tblSanPham.setRowHeight(30);
+				
+				JTableHeader tbHeaderSP = tblSanPham.getTableHeader();
+				tbHeaderSP.setBackground(new Color(164, 44, 167));
+				tbHeaderSP.setForeground(Color.white);
+				tbHeaderSP.setFont(new Font("SansSerif", Font.BOLD, 14));
+				
+				JScrollPane spSanPham = new JScrollPane(tblSanPham, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				spSanPham.setBounds(10, 35, 1232, 100);
+				spSanPham.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
+				spSanPham.setBackground(new Color(164, 44, 167));
+				spSanPham.getHorizontalScrollBar();
+				pThongKe.add(spSanPham);
+				
+				tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(200);
+				tblSanPham.getColumnModel().getColumn(1).setPreferredWidth(250);
+				tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(450);
+				
+				//Thành phẩm
+				JLabel lblTP = new JLabel("Thành phẩm");
+				lblTP.setBounds(10, 146, 1232, 20);
+				lblTP.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
+				lblTP.setFont(new Font("SansSerif", Font.BOLD, 18));
+				pThongKe.add(lblTP);
+				
+				String tp [] = {"Tên thành phẩm", "Số Lượng"};
+				modelThanhPham = new DefaultTableModel(tp,0);
+				
+				tblThanhPham = new JTable(modelThanhPham);
+				tblThanhPham.setShowHorizontalLines(true);
+				tblThanhPham.setShowGrid(true);
+				tblThanhPham.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				tblThanhPham.setSelectionForeground(new Color(114, 23, 153));
+				tblThanhPham.setSelectionBackground(new Color(164, 44, 167, 30));
+				tblThanhPham.setRowHeight(30);
+				tblThanhPham.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				tblThanhPham.setBackground(Color.WHITE);
+				
+				JTableHeader tbHeaderTP = tblThanhPham.getTableHeader();
+				tbHeaderTP.setBackground(new Color(164, 44, 167));
+				tbHeaderTP.setForeground(Color.white);
+				tbHeaderTP.setFont(new Font("SansSerif", Font.BOLD, 14));
+				
+				JScrollPane spThanhPham = new JScrollPane(tblThanhPham, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				spThanhPham.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
+				spThanhPham.setBounds(10, 171, 1232, 100);
+				spThanhPham.setBackground(new Color(164, 44, 167));
+				spThanhPham.getHorizontalScrollBar();
+				pThongKe.add(spThanhPham);
+				
+				tblThanhPham.getColumnModel().getColumn(0).setPreferredWidth(450);
+				tblThanhPham.getColumnModel().getColumn(1).setPreferredWidth(450);
+				
+				//Công nhân
+				JLabel lblCN = new JLabel("Công nhân");
+				lblCN.setBounds(10, 281, 1232, 20);
+				lblCN.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
+				lblCN.setFont(new Font("SansSerif", Font.BOLD, 18));
+				pThongKe.add(lblCN);
+				
+				String cn [] = {"Mã công nhân", "Tên công nhân", "Tổ", "Số thành phẩm sản xuất", "Tiền lương"};
+				modelCongNhan = new DefaultTableModel(cn,0);
+				
+				tblCongNhan = new JTable(modelCongNhan);
+				tblCongNhan.setShowHorizontalLines(true);
+				tblCongNhan.setShowGrid(true);
+				tblCongNhan.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				tblCongNhan.setSelectionForeground(new Color(114, 23, 153));
+				tblCongNhan.setSelectionBackground(new Color(164, 44, 167, 30));
+				tblCongNhan.setRowHeight(30);
+				tblCongNhan.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				tblCongNhan.setBackground(Color.WHITE);
+				
+				JTableHeader tbHeaderCN = tblCongNhan.getTableHeader();
+				tbHeaderCN.setBackground(new Color(164, 44, 167));
+				tbHeaderCN.setForeground(Color.white);
+				tbHeaderCN.setFont(new Font("SansSerif", Font.BOLD, 14));
+				
+				JScrollPane spCongNhan = new JScrollPane(tblCongNhan, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				spCongNhan.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
+				spCongNhan.setBounds(10, 307, 1232, 100);
+				spCongNhan.setBackground(new Color(164, 44, 167));
+				spCongNhan.getHorizontalScrollBar();
+				pThongKe.add(spCongNhan);
+				
+				tblCongNhan.getColumnModel().getColumn(0).setPreferredWidth(100);
+				tblCongNhan.getColumnModel().getColumn(1).setPreferredWidth(250);
+				tblCongNhan.getColumnModel().getColumn(2).setPreferredWidth(50);
+				tblCongNhan.getColumnModel().getColumn(3).setPreferredWidth(250);
+				tblCongNhan.getColumnModel().getColumn(4).setPreferredWidth(150);
+				
+				//Nhân viên
+				JLabel lblNV = new JLabel("Nhân viên");
+				lblNV.setBounds(10, 416, 1232, 20);
+				lblNV.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
+				lblNV.setFont(new Font("SansSerif", Font.BOLD, 18));
+				pThongKe.add(lblNV);
+				
+				String nv [] = {"Mã nhân viên", "Tên nhân viên","Tiền lương"};
+				modelNhanVien = new DefaultTableModel(nv,0);
+				
+				tblNhanVien = new JTable(modelNhanVien);
+				tblNhanVien.setShowHorizontalLines(true);
+				tblNhanVien.setShowGrid(true);
+				tblNhanVien.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				tblNhanVien.setSelectionForeground(new Color(114, 23, 153));
+				tblNhanVien.setSelectionBackground(new Color(164, 44, 167, 30));
+				tblNhanVien.setRowHeight(30);
+				tblNhanVien.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				tblNhanVien.setBackground(Color.WHITE);
+				
+				JTableHeader tbHeaderNV = tblNhanVien.getTableHeader();
+				tbHeaderNV.setBackground(new Color(164, 44, 167));
+				tbHeaderNV.setForeground(Color.white);
+				tbHeaderNV.setFont(new Font("SansSerif", Font.BOLD, 14));
+				
+				JScrollPane spNhanVien = new JScrollPane(tblNhanVien, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				spNhanVien.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
+				spNhanVien.setBounds(10, 443, 1232, 100);
+				spNhanVien.setBackground(new Color(164, 44, 167));
+				spNhanVien.getHorizontalScrollBar();
+				pThongKe.add(spNhanVien);
+				
+				tblNhanVien.getColumnModel().getColumn(0).setPreferredWidth(250);
+				tblNhanVien.getColumnModel().getColumn(1).setPreferredWidth(250);
+				tblNhanVien.getColumnModel().getColumn(2).setPreferredWidth(250);
+				
+				//Tổng sản phẩm
+				lblTongSP = new JLabel("Tổng sản phẩm:");
+				lblTongSP.setBounds(10, 551, 175, 22);
+				lblTongSP.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				pThongKe.add(lblTongSP);
+				
+				txtTongSP = new JTextField();
+				txtTongSP.setBounds(130, 551, 100, 20);
+				txtTongSP.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
+				txtTongSP.setFont(new Font("SansSerif", Font.PLAIN, 12));
+				pThongKe.add(txtTongSP);
+				
+				//Tổng thành phẩm
+				lblTongTP = new JLabel("Tổng thành phẩm:");
+				lblTongTP.setBounds(10, 580, 175, 22);
+				lblTongTP.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				pThongKe.add(lblTongTP);
+						
+				txtTongTP = new JTextField();
+				txtTongTP.setBounds(130, 580, 100, 20);
+				txtTongTP.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
+				txtTongTP.setFont(new Font("SansSerif", Font.PLAIN, 12));
+				pThongKe.add(txtTongTP);
+						
+				//Tổng lương chi trả công nhân
+				lblLuongThangCN = new JLabel("Tổng lương trả công nhân:");
+				lblLuongThangCN.setBounds(250, 551, 175, 22);
+				lblLuongThangCN.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				pThongKe.add(lblLuongThangCN);
+						
+				txtTongLuongThangCN = new JTextField();
+				txtTongLuongThangCN.setBounds(435, 551, 100, 20);
+				txtTongLuongThangCN.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
+				txtTongLuongThangCN.setFont(new Font("SansSerif", Font.PLAIN, 12));
+				pThongKe.add(txtTongLuongThangCN);
+				
+				//Tổng lương chi trả nhân viên
+				lblLuongThangNV = new JLabel("Tổng lương trả nhân viên:");
+				lblLuongThangNV.setBounds(250, 580, 175, 22);
+				lblLuongThangNV.setFont(new Font("SansSerif", Font.PLAIN, 14));
+				pThongKe.add(lblLuongThangNV);
+						
+				txtTongLuongThangNV = new JTextField();
+				txtTongLuongThangNV.setBounds(435, 580, 100, 20);
+				txtTongLuongThangNV.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
+				txtTongLuongThangNV.setFont(new Font("SansSerif", Font.PLAIN, 12));
+				pThongKe.add(txtTongLuongThangNV);
+				
+				loadThongKe();
+				tongSP();
+				tongTP();
+				tongLuongTraCN();
+				tongLuongTraNV();
 		
 		
 		//connectDB
@@ -102,256 +368,8 @@ public class FrmThongKe extends JFrame implements KeyListener, ActionListener, M
 					e.printStackTrace();
 				}
 				
-		//DAO
-				daoToSanXuat = new DAOToSanXuat();
-				daoCongDoan = new DAOCongDoan();		
-				daoCCCN = new DAOPhieuChamCong();
-		
-				dfLuong=new DecimalFormat("##,###,###");		
-				
-		JPanel pTuyChinh = new JPanel();
-		pTuyChinh.setBackground(Color.WHITE);
-		pTuyChinh.setBounds(2, 0, 1264, 80);
-		pTuyChinh.setBorder(new LineBorder(new Color(164, 44, 167), 2, true));
-		
-		pMain.add(pTuyChinh);
-		pTuyChinh.setLayout(null);
-		
-		btnThongKe = new FixButton("Thống kê");
-		btnThongKe.setIcon(new ImageIcon("D:\\PTUDProject\\Nhom31_HeThongTTO\\data\\icon\\iconThongKe.png"));
-		btnThongKe.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnThongKe.setForeground(new Color(0, 0, 0));
-		btnThongKe.setBackground(new Color(255, 255, 0));
-		btnThongKe.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-		btnThongKe.setBounds(1100, 7, 150, 30);
-		pTuyChinh.add(btnThongKe);
-		
-		btnXuatFile = new FixButton("Xuất file");
-		btnXuatFile.setIcon(new ImageIcon("D:\\PTUDProject\\Nhom31_HeThongTTO\\data\\icon\\iconExcel.png"));
-		btnXuatFile.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnXuatFile.setForeground(new Color(0, 0, 0));
-		btnXuatFile.setBackground(new Color(0, 128, 0));
-		btnXuatFile.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-		btnXuatFile.setBounds(1100, 45, 150, 30);
-		pTuyChinh.add(btnXuatFile);
-		
-		JPanel pSapxep = new JPanel();
-		pSapxep.setBorder(new LineBorder(new Color(164, 44, 167), 2));
-		pSapxep.setBounds(10, 11, 751, 62);
-		pSapxep.setBackground(Color.WHITE);
-		pTuyChinh.add(pSapxep);
-		pSapxep.setLayout(null);
-		
-		radTheoSLTP = new JRadioButton("Số lượng sản phẩm");
-		radTheoSLTP.setBounds(300, 18, 161, 27);
-		radTheoSLTP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		radTheoSLTP.setSelected(true);
-		radTheoSLTP.setFont(new Font("SansSerif", Font.BOLD, 14));
-		radTheoSLTP.setBackground(Color.WHITE);
-		pSapxep.add(radTheoSLTP);
-		
-		radTheoThanhTien = new JRadioButton("Thành tiền");
-		radTheoThanhTien.setBounds(638, 16, 109, 30);
-		radTheoThanhTien.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		radTheoThanhTien.setSelected(true);
-		radTheoThanhTien.setFont(new Font("SansSerif", Font.BOLD, 14));
-		radTheoThanhTien.setBackground(Color.WHITE);
-		pSapxep.add(radTheoThanhTien);
-		
-		cbbSapXep = new JComboBox<String>();
-		cbbSapXep.setBounds(10, 17, 101, 28);
-		cbbSapXep.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		cbbSapXep.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		cbbSapXep.setBackground(Color.WHITE);
-		String cbSort[] = { "Tăng dần", "Giảm dần" };
-		for (int i = 0; i < cbSort.length; i++) {
-			cbbSapXep.addItem(cbSort[i]);
-		}
-		pSapxep.add(cbbSapXep);
-		
-		txtTK = new JTextField();
-		txtTK.setText("Tìm theo mã tổ sản xuất");
-		txtTK.setFont(new Font("SansSerif", Font.ITALIC, 15));
-		txtTK.setForeground(Colors.LightGray);
-		txtTK.setBorder(new LineBorder(new Color(114, 23, 153), 2, true));
-		txtTK.setBounds(800, 10, 265, 30);
-		txtTK.addFocusListener(new FocusAdapter() { // place holder
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (txtTK.getText().equals("Tìm theo mã sản phẩm")) {
-					txtTK.setFont(new Font("SansSerif", Font.PLAIN, 15));
-					txtTK.setForeground(Color.BLACK);
-					txtTK.setText("");
-				}
-			}
+	}
 
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (txtTK.getText().equals("")) {
-					txtTK.setFont(new Font("SansSerif", Font.ITALIC, 15));
-					txtTK.setForeground(Colors.LightGray);
-					txtTK.setText("Tìm theo mã sản phẩm");
-		
-				}
-			}
-		});
-		pTuyChinh.add(txtTK);
-		txtTK.setColumns(10);
-		
-		btnTim = new FixButton("Tìm");
-		btnTim.setIcon(new ImageIcon("D:\\PTUDProject\\Nhom31_HeThongTTO\\data\\icon\\iconTim.png"));
-		btnTim.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnTim.setBounds(800, 45, 265, 30);
-		btnTim.setBackground(new Color(114, 23, 153));
-		btnTim.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
-		pTuyChinh.add(btnTim);
-		
-		JPanel pThongKe = new JPanel();
-		pThongKe.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
-		pThongKe.setBackground(Color.WHITE);
-		pThongKe.setBounds(2, 91, 1264, 450);
-		pMain.add(pThongKe);
-		pThongKe.setLayout(new BorderLayout(0, 0));
-		
-		JScrollPane scrollTKTable = new JScrollPane();
-		scrollTKTable.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
-		scrollTKTable.setBackground(Color.WHITE);
-		pThongKe.add(scrollTKTable, BorderLayout.CENTER);
-		
-		String col[]= {"Mã tổ", "Tên tổ", "Tên sản phẩm", "Số lượng thành phẩm", "Thành tiền"};
-		modelTK = new DefaultTableModel(col,0);
-		
-		tableTK = new JTable(modelTK);
-		tableTK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		tableTK.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tableTK.setShowHorizontalLines(true);
-		tableTK.setShowGrid(true);
-		tableTK.setBackground(Color.WHITE);
-		tableTK.setFont(new Font("SansSerif", Font.PLAIN, 13));
-		tableTK.setSelectionBackground(new Color(164, 44, 167, 30));
-		tableTK.setSelectionForeground(new Color(114, 23, 153));
-		tableTK.setRowHeight(30);
-		
-		JTableHeader tbHeader = tableTK.getTableHeader();
-		tbHeader.setBackground(new Color(164, 44, 167));
-		tbHeader.setForeground(Color.white);
-		tbHeader.setFont(new Font("SansSerif", Font.BOLD, 14));
-		
-		tableTK.getColumnModel().getColumn(0).setPreferredWidth(130);
-		tableTK.getColumnModel().getColumn(1).setPreferredWidth(130);
-		tableTK.getColumnModel().getColumn(2).setPreferredWidth(200);
-		tableTK.getColumnModel().getColumn(3).setPreferredWidth(300);
-		tableTK.getColumnModel().getColumn(4).setPreferredWidth(500);
-		
-		DefaultTableCellRenderer rightRenderer=new DefaultTableCellRenderer();
-		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
-		leftRenderer.setHorizontalAlignment(JLabel.LEFT);
-		tableTK.getColumnModel().getColumn(0).setCellRenderer(leftRenderer);
-		tableTK.getColumnModel().getColumn(1).setCellRenderer(leftRenderer);
-		tableTK.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
-		tableTK.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
-		tableTK.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
-		
-		
-		scrollTKTable.setViewportView(tableTK);
-		
-		JPanel pTong = new JPanel();
-		pTong.setBorder(new LineBorder(new Color(164, 44, 167), 2));
-		pTong.setBounds(2, 550, 1264, 66);
-		pMain.add(pTong);
-		pTong.setLayout(null);
-		
-		btnTongTien = new FixButton("Tổng doanh thu");
-		btnTongTien.setForeground(Color.BLACK);
-		btnTongTien.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnTongTien.setIcon(new ImageIcon("D:\\PTUDProject\\Nhom31_HeThongTTO\\data\\icon\\iconDoanhThu.png"));
-		btnTongTien.setBackground(Color.YELLOW);
-		btnTongTien.setBounds(10, 25, 163, 27);
-		pTong.add(btnTongTien);
-		
-		txt_TongTien = new JLabel();
-		txt_TongTien.setBounds(177, 22, 200, 30);
-		txt_TongTien.setFont(new Font("SansSerif", Font.BOLD, 14));
-		txt_TongTien.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		pTong.add(txt_TongTien);
-		
-		btnTongSP = new FixButton("Tổng thành phẩm");
-		btnTongSP.setForeground(new Color(0, 0, 0));
-		btnTongSP.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnTongSP.setIcon(new ImageIcon("D:\\PTUDProject\\Nhom31_HeThongTTO\\data\\icon\\iconSanPham.png"));
-		btnTongSP.setBackground(new Color(0, 0, 255));
-		btnTongSP.setBounds(700, 25, 173, 27);
-		pTong.add(btnTongSP);
-		
-		txt_TongSP = new JLabel();
-		txt_TongSP.setBounds(875, 22, 200, 30);
-		txt_TongSP.setFont(new Font("SansSerif", Font.BOLD, 14));
-		txt_TongSP.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0))); 
-		pTong.add(txt_TongSP);
-		
-		//action
-		tableTK.addMouseListener(this);
-		cbbSapXep.addActionListener(this);
-		radTheoSLTP.addActionListener(this);
-		radTheoThanhTien.addActionListener(this);
-		txtTK.addKeyListener(this);
-		btnTim.addActionListener(this);
-		btnThongKe.addActionListener(this);
-		btnXuatFile.addActionListener(this);
-		btnTongSP.addActionListener(this);
-		btnTongTien.addActionListener(this);
-		
-		//Set enable
-		btnTongSP.setEnabled(false);
-		btnTongTien.setEnabled(false);
-		btnXuatFile.setEnabled(false);
-	}
-	//Xuất file
-	public void xuatExcel() throws IOException {
-		XuatExcels xuat = new XuatExcels();
-		FileDialog fileDialog  = new FileDialog(this, "Danh sách thống kê", FileDialog.SAVE);
-		fileDialog.setFile("Danh sách thống kê");
-		fileDialog .setVisible(true);
-		String name = fileDialog.getFile();
-		String fileName = fileDialog.getDirectory() + name;
-
-		if (name == null) 
-			return;
-			
-		if(!fileName.endsWith(".xlsx")||!fileName.endsWith(".xls")) 
-			fileName += ".xlsx";
-			
-		xuat.xuatTable(tableTK, "DANH SÁCH THỐNG KÊ", fileName);
-	}
-	
-//	clearTable
-	public void clearTable(DefaultTableModel defaultTableModel) {
-		while (tableTK.getRowCount() > 0) {
-			modelTK.removeRow(0);
-			
-		}
-	}
-	
-	
-	//Tìm
-//	private void timTheoMaTo() {
-//		ArrayList<ToSanXuat> lsTo = null;
-//		String input = txtTK.getText().trim();
-//		String regexMaTo = "((T|t)[0-9]{3})";
-//		if(!txtTK.equals("")) {
-//			if(input.matches(regexMaTo)) {
-//				
-//				lsTo = daoToSanXuat.getDSToSanXuatTheoMaT(input);
-//				thongKeLuong();
-//				
-//				if(lsTo.size() == 0) {
-//					JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin tìm kiếm phù hợp!");
-//					thongKeLuong();
-//				}
-//			}
-//		}
-//	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -373,144 +391,148 @@ public class FrmThongKe extends JFrame implements KeyListener, ActionListener, M
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
+//		if (o.equals(btnThongKe)) {
+//			loadThongKe();
+//			tongSP();
+//			tongTP();
+//			tongLuongTraCN();
+//			tongLuongTraNV();
+//		}
 		
-		if(o.equals(btnXuatFile)) {
-			try {
-				xuatExcel();
-			} catch (IOException e1) {
+	}
+	
+	
+	private void tongLuongTraNV() {
+		float tongLuongNV = 0;
+		ArrayList<NhanVien> lsNV = daoNV.getAllDanhSachNV();
+		for(NhanVien nv : lsNV) {
+			ArrayList<PhieuLuongNV> lsPLNV = daoPLNV.getPhieuLuongNVTheoMa(nv.getMaNV());
+			System.out.println( "danh sách NV1 :" + lsPLNV);
+			for(PhieuLuongNV phieuLuongNV : lsPLNV) {
+				System.out.println("danh sách NV2 :" + phieuLuongNV);
+				float tongLuong = daoPLNV.getCountLuongNV(nv.getMaNV(), dfDate1.format(new Date()));
+				tongLuongNV += tongLuong;
+			}
+		}
+		txtTongLuongThangNV.setText(String.valueOf(dfLuong.format(tongLuongNV) ) + " vnđ");
+		
+	}
+
+
+
+
+	private void tongLuongTraCN() {
+		float tongLuongCN = 0;
+		ArrayList<CongNhan> lsCN = daoCN.getDSCongNhan();
+		for(CongNhan cn : lsCN) {
+			ArrayList<ChamCongCN> lsCCCN = daoCCCN.getChamCongCongNhan(cn.getMaCN());
+			for(ChamCongCN chamCongCN : lsCCCN) {
 				
-				e1.printStackTrace();
+				float tongLuong = daoCCCN.getTienLuongCN(chamCongCN.getMaC());
+				tongLuongCN += tongLuong;
 			}
+					
 		}
-		
-		if(o.equals(btnTim)) {
-//			timTheoMaTo();
-		}
-		
-		if(o.equals(btnThongKe)) {
-			thongKeLuong();
-			btnTongSP.setEnabled(true);
-			btnTongTien.setEnabled(true);
-			btnXuatFile.setEnabled(true);
 			
-		}
+			
 		
-		if(o.equals(btnTongTien)) {
-			tongDoanhThu();
-		}
+			
 		
-		if(o.equals(btnTongSP)) {
-			tongSanPham();
-		}
+		txtTongLuongThangCN.setText(String.valueOf(dfLuong.format(tongLuongCN) ) + " vnđ");
 		
-//		if(cbbSapXep.getSelectedItem()=="Tăng dần") {
-//			if(o.equals(radTheoSLTP)) {
-//				tangDanSL();
-//			}
-//			if(o.equals(radTheoThanhTien)) {
-//				tangDanGia();
-//			}
-//		}
-//		
-//		if(cbbSapXep.getSelectedItem()=="Giảm dần") {
-//			if(o.equals(radTheoSLTP)) {
-//				giamDanSL();
-//			}
-//			if(o.equals(radTheoThanhTien)) {
-//				giamDanTien();
-//			}
-//		}
 	}
-	
 
 
-	//Giảm dần
-//	private void giamDanTien() {
-//		
-//	}
-//
-//	private void giamDanSL() {
-//		
-//	}
-//	
-//Tăng dần
-//	private void tangDanGia(CongDoan cd) {
-//		clearTable(modelTK);
-//		ArrayList<ToSanXuat> lstTSX = daoToSanXuat.getDSToSanXuat();
-//		
-//		for(ToSanXuat tsx: lstTSX) {
-//			ArrayList<CongDoan> lstCD = daoCongDoan.sortTheoGiaSX("");
-//			int soTPTo = daoCCCN.getSoSPSXTheoTo(tsx.getMaTo());
-//
-//			for(CongDoan CD: lstCD) {
-//				float tongTienTo = soTPTo * daoCongDoan.getGiaTP(CD.getMaCD());
-//				modelTK.addRow(new Object [] {tsx.getMaTo(), tsx.getTenTo(), 
-//						CD.getTenThanhPham(), soTPTo, tongTienTo} );
-//				modelTK.getRowCount();				
-//			}
-//		}
-//}
-//
-//	private void tangDanSL() {
-//		
-//	}
-//	
-//	private void tangDanTien() {
-//		
-//	}
 
-	//Tính tổng sản phẩm
-	private void tongSanPham() {
+
+	private void tongTP() {
+		int tongTP = 0;
+			ArrayList<CongNhan> lsCN = daoCN.getDSCongNhan();
+			for(CongNhan cn : lsCN) {
+				ArrayList<ChamCongCN> lsCCCN = daoCCCN.getChamCongCongNhan(cn.getMaCN());
+				for(ChamCongCN chamCongCN : lsCCCN) {
+					int soTP = daoCCCN.getSoSPSX(chamCongCN.getMaC());
+					tongTP += soTP;
+				}
+			}
+		
+		txtTongTP.setText(String.valueOf(tongTP) + " chiếc");
+		
+	}
+
+
+
+
+	private void tongSP() {
 		int tongSP = 0;
-		ArrayList<ToSanXuat> lstTSX = daoToSanXuat.getDSToSanXuat();
-		
-		for(ToSanXuat tsx: lstTSX) {
-			int soTPTo = daoCCCN.getSoSPSXTheoTo(tsx.getMaTo());
-			tongSP += soTPTo;
+		ArrayList<CongDoan> lsCD = daoCongDoan.getDanhSachCDDangSanXuat();
+		for(CongDoan cd : lsCD) {
+			ArrayList<CT_CD_SX_SP> lsChiTiet = daoCT.getCT_CD_SX_SPTheoMaCD(cd.getMaCD());
+			for(CT_CD_SX_SP chiTiet : lsChiTiet) {
+				ArrayList<SanPham> lsSP = daoSanPham.getSanPhamTheoMaSP(chiTiet.getSanPham().getMaSP());
+				for(SanPham sp : lsSP) {
+					int soSP = daoSanPham.getSoLuongSP(chiTiet.getSanPham().getMaSP());
+					tongSP += soSP;
+				}
+			}
 		}
-		txt_TongSP.setText(String.valueOf(tongSP) + " chiếc");
+		txtTongSP.setText(String.valueOf(tongSP) + " chiếc");
 		
 	}
 
-	//Tính tổng doanh thu
-	private void tongDoanhThu() {
-		float tongDT = 0;
-		ArrayList<ToSanXuat> lstTSX = daoToSanXuat.getDSToSanXuat();
-	
-		for(ToSanXuat tsx: lstTSX) {
-			ArrayList<CongDoan> lstCD = daoCongDoan.getCongDoanTheoMaCD(tsx.getMaCD());
-			int soTPTo = daoCCCN.getSoSPSXTheoTo(tsx.getMaTo());
+
+
+
+	private void loadThongKe() {
+		
+		//Thống kê sản phẩm
+		ArrayList<SanPham> lsSP = daoSanPham.getDSSanPham();
+		for(SanPham sp : lsSP) {
+			modelSanPham.addRow(new Object[] {sp.getMaSP(), sp.getTenSP()
+					, sp.getSoLuong()});
+		}
+		
+		//Thống kê thành phẩm
+		ArrayList<CongDoan> lsCD = daoCongDoan.getDanhSachCDDangSanXuat();
+			for(CongDoan cd : lsCD) {
+				ArrayList<CongNhan> lsCN = daoCN.getDSCongNhan();
+				for(CongNhan cn : lsCN) {
+					ArrayList<ChamCongCN> lsCCCN = daoCCCN.getChamCongCongNhan(cn.getMaCN());
+					for(ChamCongCN chamCongCN : lsCCCN) {
+						modelThanhPham.addRow(new Object[] {cd.getTenThanhPham(), chamCongCN.getSoLuong()});
+						
+					}
+				}
+				
+				
+				
+			}
+		//Thống kê công nhân
+		ArrayList<ToSanXuat> lsToSanXuat = daoToSanXuat.getDSToSanXuat();
+		for(ToSanXuat tsx : lsToSanXuat) {
+			ArrayList<CongNhan> lsCN = daoCN.getDSCongNhanCungTo(tsx.getMaTo());
+			for(CongNhan cn : lsCN) {
+				ArrayList<ChamCongCN> lsCCCN = daoCCCN.getChamCongCongNhan(cn.getMaCN());
+				for(ChamCongCN chamCongCN : lsCCCN) {
+					modelCongNhan.addRow(new Object[] {cn.getMaCN(), cn.getTenCN()
+							, cn.getToSanXuat().getTenTo(), chamCongCN.getSoLuong(), dfLuong.format(chamCongCN.getLuongNgay()) });
+				}
+			}
+		}
+		//Thống kê nhân viên
+		
+		ArrayList<NhanVien> lsNV = daoNV.getAllDanhSachNV();
+		for(NhanVien nv : lsNV) {
+			ArrayList<PhieuLuongNV> lsPLNV = daoPLNV.getAllPhieuLuongNV();
 			
-			for(CongDoan cd: lstCD) {
-				float tongTienTo = soTPTo * daoCongDoan.getGiaTP(cd.getMaCD());
-				tongDT += tongTienTo;
+			for(PhieuLuongNV phieuLuongNV : lsPLNV) {
+				modelNhanVien.addRow(new Object [] {nv.getMaNV(), nv.getTenNV(), dfLuong.format(phieuLuongNV.getTienLuong())});
 			}
+			
 		}
-		txt_TongTien.setText(String.valueOf(tongDT) + " vnđ");
-		
+	
 	}
 
-	//load bảng thống kê
-	private void thongKeLuong() {
-		clearTable(modelTK);
-		
-		ArrayList<ToSanXuat> lstTSX = daoToSanXuat.getDSToSanXuat();
-		
-		for(ToSanXuat tsx: lstTSX) {
-			ArrayList<CongDoan> lstCD = daoCongDoan.getCongDoanTheoMaCD(tsx.getMaCD());
-			int soTPTo = daoCCCN.getSoSPSXTheoTo(tsx.getMaTo());
-
-			for(CongDoan cd: lstCD) {
-				float tongTienTo = soTPTo * daoCongDoan.getGiaTP(cd.getMaCD());
-				modelTK.addRow(new Object [] {tsx.getMaTo(), tsx.getTenTo(), cd.getTenThanhPham(), soTPTo, dfLuong.format(tongTienTo)} );
-				modelTK.getRowCount();				
-			}
-		}
-	}
-	
-	
-
-	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		

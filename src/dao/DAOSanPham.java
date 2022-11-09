@@ -382,4 +382,21 @@ public class DAOSanPham {
 		}
 		return lsSP;
 	}
+	public Integer getSoLuongSP(String maSP) {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT sum(soLuong) FROM SanPham where maSP = '"+maSP+"'";
+		int tong = 0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			tong = rs.getInt(1);
+			rs.close();
+			return tong;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
 }

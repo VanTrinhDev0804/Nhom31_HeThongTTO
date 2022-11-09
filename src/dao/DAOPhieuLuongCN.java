@@ -142,7 +142,7 @@ public class DAOPhieuLuongCN {
 			PreparedStatement ps = con.prepareStatement("select PhieuLuongCN.maCN, CongNhan.tenCN, CongNhan.cccd, CongNhan.maTo,PhieuLuongCN.soSPSX,PhieuLuongCN.thang, PhieuLuongCN.tienLuong\r\n"
 					+ "		from\n"
 					+ "		PhieuLuongCN Join CongNhan on PhieuLuongCN.maCN = CongNhan.maCN"
-					+ "where PhieuLuongCN.maCN = '"+ ma +"'");
+					+ "where PhieuLuongCN.maCN like N'%"+ma+"%'");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				PhieuLuongCN phieuLuongCN = new PhieuLuongCN();
@@ -237,4 +237,5 @@ try {
 	return -1;
 }	 
 }
+
 }
