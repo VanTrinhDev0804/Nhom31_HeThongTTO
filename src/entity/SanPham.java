@@ -9,18 +9,20 @@ public class SanPham  implements Serializable{
 	private String tenSP;
 	private float giaSX;
 	private int soLuong;
+	private String trangThaiSP;
 	
 	public SanPham() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public SanPham(String maSP, String tenSP, float giaSX, int soLuong) {
+	
+	public SanPham(String maSP, String tenSP, float giaSX, int soLuong, String trangThaiCD) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
 		this.giaSX = giaSX;
 		this.soLuong = soLuong;
+		this.trangThaiSP = trangThaiCD;
 	}
 
 	public SanPham(String maSP) {
@@ -30,7 +32,7 @@ public class SanPham  implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(giaSX, maSP, soLuong, tenSP);
+		return Objects.hash(giaSX, maSP, soLuong, tenSP, trangThaiSP);
 	}
 
 	@Override
@@ -43,9 +45,9 @@ public class SanPham  implements Serializable{
 			return false;
 		SanPham other = (SanPham) obj;
 		return Float.floatToIntBits(giaSX) == Float.floatToIntBits(other.giaSX) && Objects.equals(maSP, other.maSP)
-				&& soLuong == other.soLuong && Objects.equals(tenSP, other.tenSP);
+				&& soLuong == other.soLuong && Objects.equals(tenSP, other.tenSP)
+				&& Objects.equals(trangThaiSP, other.trangThaiSP);
 	}
-	
 	
 
 	public String getMaSP() {
@@ -80,13 +82,24 @@ public class SanPham  implements Serializable{
 		this.soLuong = soLuong;
 	}
 
+	public String getTrangThaiSP() {
+		return trangThaiSP;
+	}
+
+	public void setTrangThaiSP(String trangThaiSP) {
+		this.trangThaiSP = trangThaiSP;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", giaSX=" + giaSX + ", soLuong=" + soLuong + "]";
+		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", giaSX=" + giaSX + ", soLuong=" + soLuong
+				+ ", trangThaiCD=" + trangThaiSP + "]";
 	}
+
+
 	
 }

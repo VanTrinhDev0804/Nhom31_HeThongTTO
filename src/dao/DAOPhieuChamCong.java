@@ -213,11 +213,13 @@ public class DAOPhieuChamCong {
 		}			 
 	}
 	
-	public Integer getTienLuongCN(String maCN){
+	public Integer getTienLuongCN(String maCN, int thang , int nam){
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select sum(luongngay) from ChamCongCN "
-				+ "where maCN = '" + maCN + "'";
+		String sql = " select sum(luongNgay) , MONTH(ngay), maCN from ChamCongCN  "
+				+ "where maCN ='"+maCN+"' and MONTH(ngay) = "+thang+" and year(ngay)="+nam+""
+						+ "group by MONTH(ngay), maCN ";
+				
 		int dem =0;
 		try {
 			Statement stm = con.createStatement();
@@ -255,4 +257,5 @@ public class DAOPhieuChamCong {
 			e.printStackTrace();
 		}
 	}
+	
 }

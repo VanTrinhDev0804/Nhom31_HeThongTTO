@@ -163,11 +163,11 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		btnExcels.setIcon(iconExcel);
 		pMain.add(btnExcels);
 		
-		JLabel lblHeaderSanPham = new JLabel("Chọn Sản Phẩm Đang Sản Xuất");
-		lblHeaderSanPham.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblHeaderSanPham = new JLabel("Sản Phẩm Đang Sản Xuất");
+		lblHeaderSanPham.setHorizontalAlignment(SwingConstants.LEFT);
 		lblHeaderSanPham.setFont(new Font("SansSerif", Font.BOLD, 18));
 	
-		lblHeaderSanPham.setBounds(10, 16, 208, 26);
+		lblHeaderSanPham.setBounds(10, 16, 280, 26);
 		pMain.add(lblHeaderSanPham);
 		
 		pSanPham = new JPanel();
@@ -181,7 +181,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		scrollPane.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		
 		
-		scrollPane.setBounds(10, 53, 216, 565);
+		scrollPane.setBounds(10, 53, 250, 565);
 		pMain.add(scrollPane);
 		
 		JPanel pCongDoan = new JPanel();
@@ -209,19 +209,19 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		
 		lblMaCD = new JLabel("");
 		lblMaCD.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 15));
-		lblMaCD.setBounds(100, 33, 71, 26);
+		lblMaCD.setBounds(100, 33, 150, 26);
 		pCongDoan.add(lblMaCD);
 		
 		lblTenCD = new JLabel("");
 		lblTenCD.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 15));
-		lblTenCD.setBounds(170, 33, 252, 26);
+		lblTenCD.setBounds(230, 33, 240, 26);
 		pCongDoan.add(lblTenCD);
 		
 		JPanel pDichVu = new JPanel();
 		pDichVu.setToolTipText("Thông tin sản phẩm");
 		pDichVu.setBorder(new TitledBorder(new LineBorder(new Color(114, 23 ,153), 1, true), "Thông Tin ", TitledBorder.CENTER, TitledBorder.TOP, null, Color.BLACK));
 		pDichVu.setBackground(Color.WHITE);
-		pDichVu.setBounds(228, 53, 281, 565);
+		pDichVu.setBounds(263, 53, 253, 568);
 		pMain.add(pDichVu);
 		pDichVu.setLayout(null);
 		
@@ -235,7 +235,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		txtTenTo.setBackground(new Color(255, 255, 255));
 		txtTenTo.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		txtTenTo.setBorder(new LineBorder(new Color(114, 23 ,153), 1, true));
-		txtTenTo.setBounds(10, 55, 260, 32);
+		txtTenTo.setBounds(10, 55, 235, 32);
 		pDichVu.add(txtTenTo);
 		txtTenTo.setColumns(10);
 		
@@ -248,7 +248,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		txtSoLuongCN.setBackground(new Color(255, 255, 255));
 		txtSoLuongCN.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		txtSoLuongCN.setBorder(new LineBorder(new Color(114, 23 ,153), 1, true));
-		txtSoLuongCN.setBounds(10, 120, 260, 32);
+		txtSoLuongCN.setBounds(10, 120, 235, 32);
 		pDichVu.add(txtSoLuongCN);
 		txtSoLuongCN.setColumns(10);
 		
@@ -257,7 +257,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		btnThemTSX.setFont(new Font("SansSerif", Font.BOLD, 14));
 		
 		btnThemTSX.setBackground(new Color(57, 210, 247));
-		btnThemTSX.setBounds(10, 400, 261, 33);
+		btnThemTSX.setBounds(10, 400, 235, 33);
 		
 		Icon iconThemMH = IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 20, new Color(255, 255 ,255));
 		btnThemTSX.setIcon(iconThemMH);
@@ -269,7 +269,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		btnXoaTSX.setFont(new Font("SansSerif", Font.BOLD, 14));
 		
 		btnXoaTSX.setBackground(new Color(0xE91940));
-		btnXoaTSX.setBounds(10, 450, 261, 33);
+		btnXoaTSX.setBounds(10, 450, 235, 33);
 		
 		Icon iconXoaMH = IconFontSwing.buildIcon(FontAwesome.TIMES_CIRCLE, 20, new Color(255, 255 ,255));
 		btnXoaTSX.setIcon(iconXoaMH);
@@ -279,7 +279,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		btnLamMoiTSX.setForeground(Color.WHITE);
 		btnLamMoiTSX.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnLamMoiTSX.setBackground(new Color(114, 23, 153));
-		btnLamMoiTSX.setBounds(10, 500, 261, 33);
+		btnLamMoiTSX.setBounds(10, 500, 235, 33);
 		
 		Icon iconLamMoiMH = IconFontSwing.buildIcon(FontAwesome.REFRESH, 20, new Color(255, 255 ,255));
 		btnLamMoiTSX.setIcon(iconLamMoiMH);
@@ -313,7 +313,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 		
 		JScrollPane spToSanXuat = new JScrollPane(tbToSanXuat);
 		spToSanXuat.setToolTipText("Danh sách các tổ sản xuất trong công đoạn.");
-		spToSanXuat.setBounds(520, 120, 736, 398);
+		spToSanXuat.setBounds(520, 120, 736, 500);
 		spToSanXuat.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
 		spToSanXuat.setBackground(new Color(164, 44, 167));
 		pMain.add(spToSanXuat);
@@ -414,8 +414,8 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 	public void loadInfo(CongDoan cd) {
 		lblMaSP.setText(cd.getSanPham().getMaSP());
 //		CongDoan cd = daoCD.getCDTheoMaSanPham(sp.getMaSP());
-		lblMaCD.setText(cd.getMaCD());
-		lblTenCD.setText("-       "+cd.getTenCD());
+		lblMaCD.setText(cd.getTenCD());
+		lblTenCD.setText("-       "+cd.getTenThanhPham());
 		loadTable(cd);
 	}
 	
@@ -522,7 +522,7 @@ public class FrmQLToSanXuat extends JPanel implements ActionListener, MouseListe
 	}
 	public void timKiem() {
 		if(regex.regexTimCongDoan(txtTim)) {
-			ToSanXuat t1 = daoToSanXuat.getTSXTheomaCD(txtTim.getText().toString());
+			ToSanXuat t1 = daoToSanXuat.getTSXTheoMaCD(txtTim.getText().toString());
 			if(t1!=null)
 				loadTableT(t1);
 			else 

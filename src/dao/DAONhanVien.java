@@ -12,7 +12,7 @@ import connection.ConnectDB;
 import entity.NhanVien;
 
 public class DAONhanVien implements Serializable {
-
+	
 	/**
 	 * 
 	 */
@@ -21,7 +21,7 @@ public class DAONhanVien implements Serializable {
 	public boolean themNV(NhanVien nv) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "insert into NhanVien values (?,?,?,?,?,?,?,?)";
+		String sql = "insert into NhanVien values (?,?,?,?,?,?,?,?,N'Đang làm')";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, nv.getMaNV());
@@ -32,7 +32,6 @@ public class DAONhanVien implements Serializable {
 			ps.setString(6, nv.getDiaChi());
 			ps.setString(7, nv.getCccd());
 			ps.setString(8, nv.getSdt());
-
 			return ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,7 +42,8 @@ public class DAONhanVien implements Serializable {
 
 	public boolean xoaNV(String maNV) throws SQLException {
 		Connection con = ConnectDB.getConnection();
-		String sql = "delete from NhanVien where maNV = ?";
+//		String sql = "delete from NhanVien where maNV = ?";
+		String sql = "update NhanVien set trangThai = N'Nghỉ việc' where maNV = ?";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, maNV);
@@ -86,7 +86,7 @@ public class DAONhanVien implements Serializable {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			PreparedStatement ps = con.prepareStatement("select * from [dbo].[NhanVien]");
+			PreparedStatement ps = con.prepareStatement("select * from [dbo].[NhanVien] where trangThai = N'Đang làm'");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				NhanVien nv = new NhanVien();
@@ -149,7 +149,7 @@ public class DAONhanVien implements Serializable {
 		String sql = "select * from [dbo].[NhanVien] where maNV like N'%" + ma + "%' and tenNV like N'%" + ten
 				+ "%' and chucVu like N'%" + chucvu + "%' and ngaySinh like N'%" + ngaysinh + "%' and gioiTinh like N'%"
 				+ gioitinh + "%' and cccd like N'%" + cccd + "%' and sdt like N'%" + sdt + "%' and diaChi like N'%"
-				+ diachi + "%'";
+				+ diachi + "%' and trangThai = N'Đang làm'";
 		try {
 
 			Statement stm = con.createStatement();
@@ -178,7 +178,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[NhanVien] where maNV = '" + maNV + "'";
+		String sql = "select * from [dbo].[NhanVien] where maNV = '" + maNV + "' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -206,7 +206,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[NhanVien] where sdt = '" + sdt + "'";
+		String sql = "select * from [dbo].[NhanVien] where sdt = '" + sdt + "' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -234,7 +234,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from [dbo].[NhanVien] where cccd = '" + cccd + "'";
+		String sql = "select * from [dbo].[NhanVien] where cccd = '" + cccd + "' and trangThai = N'Đang làm'";
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -262,7 +262,7 @@ public class DAONhanVien implements Serializable {
 		NhanVien nv = new NhanVien();
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "select * from NhanVien where maNV = '"+maTK+"'";
+		String sql = "select * from NhanVien where maNV = '"+maTK+"' and trangThai = N'Đang làm'";
 
 		try {
 			Statement stm = con.createStatement();
@@ -285,5 +285,79 @@ public class DAONhanVien implements Serializable {
 		}
 		return nv;
 	}
-
+	public boolean ThemCTLuongCB(NhanVien nv) throws SQLException {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		int luongCB = 2000000,phuCap = 500000;
+		double heSoLuong = 3.2;
+		if(nv.getChucVu().equals("HCNS")) {
+			luongCB = 2000000;
+			phuCap = 500000;
+			heSoLuong = 3.2;
+		}
+		if(nv.getChucVu().equals("Quản lí")) {
+			luongCB = 2000000;
+			phuCap = 600000;
+			heSoLuong = 4.2;
+		}
+		if(nv.getChucVu().equals("Chấm công")) {
+			luongCB = 2000000;
+			phuCap = 400000;
+			heSoLuong = 3.2;
+		}
+		if(nv.getChucVu().equals("Kế toán")) {
+			luongCB = 2000000;
+			phuCap = 500000;
+			heSoLuong = 3.5;
+		}
+		String sql = "INSERT [dbo].[CTLuongCB] ([maNV], [luongCB], [phuCap], [heSoLuong]) VALUES (N'"+nv.getMaNV()+"', "+luongCB+", "+phuCap+", "+heSoLuong+")";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+	}
+	public boolean SuaCTLuongCB(NhanVien nv, String manv) throws SQLException{
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		int luongCB = 2000000,phuCap = 500000;
+		double heSoLuong = 3.2;
+		if(nv.getChucVu().equals("HCNS")) {
+			luongCB = 2000000;
+			phuCap = 500000;
+			heSoLuong = 3.2;
+		}
+		if(nv.getChucVu().equals("Quản lí")) {
+			luongCB = 2000000;
+			phuCap = 600000;
+			heSoLuong = 4.2;
+		}
+		if(nv.getChucVu().equals("Chấm công")) {
+			luongCB = 2000000;
+			phuCap = 400000;
+			heSoLuong = 3.2;
+		}
+		if(nv.getChucVu().equals("Kế toán")) {
+			luongCB = 2000000;
+			phuCap = 500000;
+			heSoLuong = 3.5;
+		}
+		String sql = "Update CTLuongCB set luongCB=?, phuCap=?, heSoLuong=? where maNV = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, luongCB);
+			ps.setInt(2, phuCap);
+			ps.setDouble(3, heSoLuong);
+			ps.setString(4, manv);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+	}
 }

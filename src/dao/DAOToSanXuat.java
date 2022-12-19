@@ -12,6 +12,7 @@ import org.apache.poi.ss.formula.functions.T;
 
 import connection.ConnectDB;
 import entity.CT_CD_SX_SP;
+import entity.CongDoan;
 import entity.SanPham;
 import entity.TaiKhoan;
 import entity.ToSanXuat;
@@ -101,6 +102,7 @@ public class DAOToSanXuat {
 		return toSanXuat;
 	}
 	
+	
 	public ArrayList<ToSanXuat> getToSanXuatTheoMaCD(String ma) {
 		ArrayList<ToSanXuat> lsT = new ArrayList<ToSanXuat>();
 		ConnectDB.getinstance();
@@ -128,6 +130,34 @@ public class DAOToSanXuat {
 		return lsT;
 		
 	}
+	
+	public ToSanXuat getTSXTheoMaCD(String ma) {
+		ToSanXuat ctT = new ToSanXuat();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT ToSanXuat.*\r\n"
+				+ "FROM  ToSanXuat where maCD = '"+ma+"'";
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+		
+				ctT.setMaTo(rs.getNString(1));
+				ctT.setTenTo(rs.getNString(2));
+				ctT.setMaCD(rs.getString(3));
+				ctT.setSoLuongCN(rs.getInt(4));
+				
+			
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return ctT;
+		
+	}
 	public void deleteToTheoMa(String maTo) {
 		PreparedStatement preparedStatement = null;
 		try {
@@ -143,15 +173,15 @@ public class DAOToSanXuat {
 		}
 	}
 	/*
-	 * @return thông tin phòng theo mã và đang hoạt động, đã được xác nhận đã đặt
+
 	 */
-	public ToSanXuat getTSXTheomaCD(String ma) {
+	public ToSanXuat getTSXTheomaTo(String maTo) {
 
 
 		ToSanXuat ctT = null;
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql ="  SELECT * FROM ToSanXuat Where maCD = '"+ma+"'";
+		String sql ="  SELECT * FROM ToSanXuat Where maTo = '"+maTo+"'";
 
 		try {
 			Statement stm = con.createStatement();
@@ -171,4 +201,20 @@ public class DAOToSanXuat {
 
 		return ctT;
 	}
+	
+	public boolean capNhatMaCD2ToSX(String maTo, String maCD) throws SQLException {
+		Connection con = ConnectDB.getConnection();
+		String sql = "update ToSanXuat set maCD = ? where maTo like '"+maTo+"'";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, maCD);
+		
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
+	}
+	
 }

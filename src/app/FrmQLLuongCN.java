@@ -16,11 +16,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
@@ -91,7 +93,10 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 	private DecimalFormat dfLuong;
 	private SimpleDateFormat dfNam;
 	private SimpleDateFormat dfThang;
-
+	private Date dNow;
+	private int ngay;
+	private int thang;
+	private int nam;
 	private JRadioButton rdoTheoChucVu;
 	private DAOPhieuChamCong daoCCCN;
 	private JTextField txtThang;
@@ -99,6 +104,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 	private SimpleDateFormat dfDate;
 	private SimpleDateFormat dfDate1;
 	private JComboBox<String> cboThang;
+	private LocalDate now;
 
 	public Panel getFrmQLLuongCN() {
 		return this.pMain;
@@ -139,6 +145,13 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		dfDate1 = new SimpleDateFormat("yyyy-MM-dd");
 		// dfNgaySinh
 		// dfNgayDangKy = new SimpleDateFormat("dd/MM/yyyy");
+		
+		now = LocalDate.now();
+		ngay = now.getDayOfMonth();
+		thang = now.getMonthValue();
+		nam = now.getYear();
+		
+		dNow = new Date(nam-1900,thang-1,ngay);
 
 		pNhapThongTin = new JPanel();
 		pNhapThongTin.setBorder(new LineBorder(new Color(114, 23, 153)));
@@ -189,7 +202,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 //		cboThang.setFont(new Font("SansSerif", Font.PLAIN, 15));
 //		cboThang.setBackground(Color.WHITE);
 		
-		txtThang = new JTextField(dfThang.format(new Date()));
+		txtThang = new JTextField(dfThang.format(dNow));
 		txtThang.setBounds(122, 202, 201, 37);
 		txtThang.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		pNhapThongTin.add(txtThang);
@@ -217,7 +230,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 //		pNhapThongTin.add(cboNam);
 //		cboNam.setFont(new Font("SansSerif", Font.PLAIN, 15));
 //		cboNam.setBackground(Color.WHITE);
-		txtNam = new JTextField(dfNam.format(new Date()));
+		txtNam = new JTextField(dfNam.format(dNow));
 		txtNam.setBounds(122, 262, 201, 37);
 		txtNam.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		pNhapThongTin.add(txtNam);
@@ -515,32 +528,37 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 
 	public void tinhLuong() {
 		String maCN = cboMaCN.getSelectedItem().toString();
-
+	
+	
+		
 		if (maCN.equals("Tất cả") ) {
 			ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhan();
 			for (CongNhan congNhan : lstCN) {
 				int x = daoCCCN.getSoSPSX(congNhan.getMaCN());
-				float luong = daoCCCN.getTienLuongCN(congNhan.getMaCN());
-				int count = daoPhieuLuongCN.getCountLuongCN(congNhan.getMaCN(), dfDate1.format(new Date()));
-				if(count == 0) {
-					try {
-						
-							daoPhieuLuongCN.themPhieuLuongCN(new PhieuLuongCN(congNhan, new Date(), x, luong));
-					} catch (SQLException e) {
-						e.printStackTrace();
+				if(x>0) {
+					float luong = daoCCCN.getTienLuongCN(congNhan.getMaCN() ,thang, nam );
+					int count = daoPhieuLuongCN.getCountLuongCN(congNhan.getMaCN(), dfDate1.format(dNow));
+					if(count == 0) {
+						try {
+							
+								daoPhieuLuongCN.themPhieuLuongCN(new PhieuLuongCN(congNhan, dNow, x, luong));
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}
-				} 
+				}
+			 
 				
 			}
 		} else {
 			ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhanFromMa(maCN);
 			for (CongNhan congNhan : lstCN) {
 				int x = daoCCCN.getSoSPSX(congNhan.getMaCN());
-				float luong = daoCCCN.getTienLuongCN(congNhan.getMaCN());
+				float luong = daoCCCN.getTienLuongCN(congNhan.getMaCN() , thang, nam);
 				
 					try {
 						
-							daoPhieuLuongCN.themPhieuLuongCN(new PhieuLuongCN(congNhan, new Date(), x, luong));
+							daoPhieuLuongCN.themPhieuLuongCN(new PhieuLuongCN(congNhan, dNow, x, luong));
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -590,10 +608,10 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 	public boolean checkPhieuLuongCN() {
 		String maCN = cboMaCN.getSelectedItem().toString();
 		if (maCN.equals("Tất cả") ) {
-			if (daoPhieuLuongCN.getCountLuongCN(dfDate1.format(new Date())) > tblLuong.getRowCount())
+			if (daoPhieuLuongCN.getCountLuongCN(dfDate1.format(dNow)) > tblLuong.getRowCount())
 				return true;
 		} else {
-			if (daoPhieuLuongCN.getCountLuongCN(maCN,dfDate1.format(new Date())) > 0)
+			if (daoPhieuLuongCN.getCountLuongCN(maCN,dfDate1.format(dNow)) > 0)
 				return true;
 		}
 		return false;
@@ -603,7 +621,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 		String maCN = cboMaCN.getSelectedItem().toString();
 		if (maCN.equals("Tất cả")) {
 			try {
-				daoCCCN.xoaPhieuChamCongNV();
+				daoCCCN.xoaPhieuChamCongCN();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -650,7 +668,7 @@ public class FrmQLLuongCN extends JFrame implements ActionListener, MouseListene
 			if (!checkPhieuLuongCN()) {
 				tinhLuong();
 				loadTableLuong();
-				detelePhieuChamCong();
+//				detelePhieuChamCong();
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Đã tính lương");

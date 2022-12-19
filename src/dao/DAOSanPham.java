@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import connection.ConnectDB;
 import entity.SanPham;
+import entity.SanPham;
 
 public class DAOSanPham {
 	/**
@@ -31,6 +32,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getString(2));
 				sp.setGiaSX(rs.getFloat(3));
 				sp.setSoLuong(rs.getInt(4));
+				sp.setTrangThaiSP(rs.getString(5));
 				dsSP.add(sp);
 			}
 		} catch (Exception e) {
@@ -46,7 +48,7 @@ public class DAOSanPham {
 	public boolean ThemSP(SanPham sp) {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "insert into SanPham values (?,?,?,?)";
+		String sql = "insert into SanPham values (?,?,?,?,?)";
 		PreparedStatement stm = null;
 		int n = 0;
 		try {
@@ -55,6 +57,7 @@ public class DAOSanPham {
 			stm.setString(2, sp.getTenSP());
 			stm.setFloat(3, sp.getGiaSX());
 			stm.setInt(4, sp.getSoLuong());
+			stm.setString(5, sp.getTrangThaiSP());
 			n= stm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -89,7 +92,7 @@ public class DAOSanPham {
 	public boolean updateSP(SanPham sp) {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
-		String sql = "update SanPham set tenSP = ?, giaSX = ?, soLuong = ? where maSP = ?";
+		String sql = "update SanPham set tenSP = ?, giaSX = ?, soLuong = ?, trangThaiSP = ? where maSP = ?";
 		PreparedStatement stm = null;
 		int n = 0;
 		try {
@@ -98,7 +101,9 @@ public class DAOSanPham {
 			stm.setString(1, sp.getTenSP());
 			stm.setFloat(2, sp.getGiaSX());
 			stm.setInt(3, sp.getSoLuong());
-			stm.setString(4, sp.getMaSP());
+			stm.setString(4, sp.getTrangThaiSP());
+			stm.setString(5, sp.getMaSP());
+			
 			n= stm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,7 +138,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getString(2));
 				sp.setGiaSX(rs.getFloat(3));
 				sp.setSoLuong(rs.getInt(4));
-
+				sp.setTrangThaiSP(rs.getString(5));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,7 +165,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getString(2));
 				sp.setGiaSX(rs.getFloat(3));
 				sp.setSoLuong(rs.getInt(4));
-
+				sp.setTrangThaiSP(rs.getString(5));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -190,7 +195,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getString(2));
 				sp.setGiaSX(rs.getFloat(3));
 				sp.setSoLuong(rs.getInt(4));
-
+				sp.setTrangThaiSP(rs.getString(5));
 				lsSanPham.add(sp);
 
 			}
@@ -220,6 +225,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getString(2));
 				sp.setGiaSX(rs.getFloat(3));
 				sp.setSoLuong(rs.getInt(4));
+				sp.setTrangThaiSP(rs.getString(5));
 				lstSP.add(sp);
 			}
 		} catch (Exception e) {
@@ -246,6 +252,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getString(2));
 				sp.setGiaSX(rs.getFloat(3));
 				sp.setSoLuong(rs.getInt(4));
+				sp.setTrangThaiSP(rs.getString(5));
 				dsSP.add(sp);
 
 			}
@@ -269,7 +276,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getNString(2));
 				sp.setGiaSX(rs.getFloat(3));;
 				sp.setSoLuong(rs.getInt(4));
-				
+				sp.setTrangThaiSP(rs.getString(5));
 				lsSP.add(sp);
 
 			}
@@ -297,7 +304,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getNString(2));
 				sp.setGiaSX(rs.getFloat(3));;
 				sp.setSoLuong(rs.getInt(4));
-				
+				sp.setTrangThaiSP(rs.getString(5));
 				lsSP.add(sp);
 
 			}
@@ -328,7 +335,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getNString(2));
 				sp.setGiaSX(rs.getFloat(3));;
 				sp.setSoLuong(rs.getInt(4));
-
+				sp.setTrangThaiSP(rs.getString(5));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -350,7 +357,7 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getNString(2));
 				sp.setGiaSX(rs.getFloat(3));;
 				sp.setSoLuong(rs.getInt(4));
-
+				sp.setTrangThaiSP(rs.getString(5));
 				lsSP.add(sp);
 
 			}
@@ -373,9 +380,75 @@ public class DAOSanPham {
 				sp.setTenSP(rs.getNString(2));
 				sp.setGiaSX(rs.getFloat(3));;
 				sp.setSoLuong(rs.getInt(4));
-
+				sp.setTrangThaiSP(rs.getString(5));
 				lsSP.add(sp);
 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lsSP;
+	}
+	
+	public Integer getSoLuongSP(String maSP) {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT sum(soLuong) FROM SanPham where maSP = '"+maSP+"'";
+		int tong = 0;
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			rs.next();
+			tong = rs.getInt(1);
+			rs.close();
+			return tong;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	public SanPham getSPTheoMaSanPham(String ma){
+		SanPham sp = new SanPham();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "SELECT CongDoan.*\r\n"
+				+ "FROM  CongDoan\r\n"
+				+ "where maCD = N'"+ma+"' and trangThaiCD = N'Đang Sản Xuất'"
+				+ "";
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+
+				sp.setMaSP(rs.getNString(1));
+				sp.setTenSP(rs.getNString(2));
+				sp.setGiaSX(rs.getFloat(3));;
+				sp.setSoLuong(rs.getInt(4));
+				sp.setTrangThaiSP(rs.getString(5));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sp;
+	}	public ArrayList<SanPham> getDanhSachCDDangSanXuat() {
+		ArrayList<SanPham> lsSP = new ArrayList<SanPham>();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		String sql = "select * from SanPham where TrangThaiSP != N'Ngừng Sản Xuất'";
+		try {
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				SanPham sp = new SanPham();
+				sp.setMaSP(rs.getNString(1));
+				sp.setTenSP(rs.getNString(2));
+				sp.setGiaSX(rs.getFloat(3));;
+				sp.setSoLuong(rs.getInt(4));
+				sp.setTrangThaiSP(rs.getString(5));
+				
+				
+				lsSP.add(sp);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

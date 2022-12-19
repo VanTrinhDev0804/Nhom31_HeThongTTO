@@ -12,19 +12,25 @@ import entity.CongDoan;
 import entity.NhanVien;
 import entity.SanPham;
 public class DAOCongDoan {
-
+private DAOToSanXuat daoToSanXuat = new DAOToSanXuat();
+	
 	public boolean themCD(CongDoan cd) throws SQLException {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			PreparedStatement ps = con.prepareStatement("insert into CongDoan values (?,?,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("insert into CongDoan values (?,?,?,?,?,?,?,?)");
 			ps.setString(1, cd.getMaCD());
 			ps.setString(2, cd.getSanPham().getMaSP());
 			ps.setString(3, cd.getTenCD());
 			ps.setString(4, cd.getTenThanhPham());
 			ps.setFloat(5, cd.getGiaSX());
 			ps.setString(6, cd.getTrangThaiCD());
-			return ps.executeUpdate() > 0;
+			ps.setInt(7,cd.getSoLuongTP());
+			ps.setInt(8,cd.getSoLuongDSX());
+		
+			
+			
+		return ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -34,13 +40,14 @@ public class DAOCongDoan {
 	
 	public boolean capNhatCD(CongDoan cd, String ma) throws SQLException {
 		Connection con = ConnectDB.getConnection();
-		String sql = "update CongDoan set tenCD = ?, tenThanhPham = ?, giaSX = ?, trangThaiCD = ? where maCD like '"+ma+"'";
+		String sql = "update CongDoan set tenCD = ?, tenThanhPham = ?, giaSX = ?, trangThaiCD = ?, soLuongTP = ? where maCD like '"+ma+"'";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, cd.getTenCD());
 			ps.setString(2, cd.getTenThanhPham());
 			ps.setFloat(3, cd.getGiaSX());
 			ps.setString(4, cd.getTrangThaiCD());
+			ps.setInt(5, cd.getSoLuongTP());
 			return ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,6 +84,10 @@ public class DAOCongDoan {
 				cd.setTenThanhPham(rs.getString(4));
 				cd.setGiaSX(rs.getFloat(5));
 				cd.setTrangThaiCD(rs.getString(6));
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
 				lsCD.add(cd);
 			}
 		} catch (SQLException e) {
@@ -100,6 +111,10 @@ public class DAOCongDoan {
 				cd.setTenThanhPham(rs.getString(4));
 				cd.setGiaSX(rs.getFloat(5));
 				cd.setTrangThaiCD(rs.getString(6));
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
 				lsCD.add(cd);
 			}
 		} catch (SQLException e) {
@@ -126,6 +141,9 @@ public class DAOCongDoan {
 				cd.setTenThanhPham(rs.getNString(4));
 				cd.setGiaSX(rs.getInt(5));
 				cd.setTrangThaiCD(rs.getNString(6));
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -151,6 +169,9 @@ public class DAOCongDoan {
 				cd.setTenThanhPham(rs.getNString(4));
 				cd.setGiaSX(rs.getInt(5));
 				cd.setTrangThaiCD(rs.getNString(6));
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -176,7 +197,9 @@ public class DAOCongDoan {
 				cd.setTenThanhPham(rs.getNString(4));
 				cd.setGiaSX(rs.getInt(5));
 				cd.setTrangThaiCD(rs.getNString(6));
-				
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
 				lsCD.add(cd);
 
 			}
@@ -216,7 +239,35 @@ public class DAOCongDoan {
 				cd.setTenThanhPham(rs.getNString(4));
 				cd.setGiaSX(rs.getInt(5));
 				cd.setTrangThaiCD(rs.getNString(6));
-				
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
+				lstCD.add(cd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lstCD;
+	}
+	public ArrayList<CongDoan> sortMaTo(String kieuSX) {
+		ArrayList<CongDoan> lstCD = new ArrayList<>();
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			PreparedStatement ps = con.prepareStatement("select * from CongDoan order by maTo "+kieuSX+"");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				CongDoan cd = new CongDoan();
+
+				cd.setMaCD(rs.getNString(1));
+				cd.setSanPham(new SanPham(rs.getNString(2)));;
+				cd.setTenCD(rs.getNString(3));
+				cd.setTenThanhPham(rs.getNString(4));
+				cd.setGiaSX(rs.getInt(5));
+				cd.setTrangThaiCD(rs.getNString(6));
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
 				lstCD.add(cd);
 			}
 		} catch (SQLException e) {
@@ -240,7 +291,9 @@ public class DAOCongDoan {
 				cd.setTenThanhPham(rs.getNString(4));
 				cd.setGiaSX(rs.getInt(5));
 				cd.setTrangThaiCD(rs.getNString(6));
-				
+				cd.setSoLuongTP(rs.getInt(7));
+				cd.setSoLuongDSX(rs.getInt(8));
+				cd.setToSanXuat(daoToSanXuat.getTSXTheoMaCD(rs.getString(1)));
 				lstCD.add(cd);
 			}
 		} catch (SQLException e) {
@@ -266,5 +319,21 @@ public class DAOCongDoan {
 			e.printStackTrace();
 			return -1;
 		}	
+	}
+	
+	
+	public boolean capNhatSoLuongDSX(String maCD, Integer sl) throws SQLException {
+		Connection con = ConnectDB.getConnection();
+		String sql = "update CongDoan set soLuongDSX = ? where maCD like '"+maCD+"'";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, sl);
+		
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		con.close();
+		return false;
 	}
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import connection.ConnectDB;
 import entity.CongNhan;
+import entity.LuongTheoTo;
 import entity.PhieuLuongCN;
 import entity.ToSanXuat;
 
@@ -218,6 +219,34 @@ public Integer getCountLuongCN(String maCN, String thang){
 	}	 
 }
 
+
+
+public ArrayList<LuongTheoTo> getLuongCNTheoTo(){
+	ArrayList<LuongTheoTo> lst = new ArrayList<LuongTheoTo>();
+	ConnectDB.getinstance();
+	Connection con = ConnectDB.getConnection();
+	try {
+		PreparedStatement ps = con.prepareStatement("SELECT sum(PhieuLuongCN.tienLuong), AVG(PhieuLuongCN.tienLuong) as 'tb', Month(PhieuLuongCN.thang), year(PhieuLuongCN.thang), ToSanXuat.maTo\r\n"
+				+ "FROM     CongNhan INNER JOIN\r\n"
+				+ "                  PhieuLuongCN ON CongNhan.maCN = PhieuLuongCN.maCN INNER JOIN\r\n"
+				+ "                  ToSanXuat ON CongNhan.maTo = ToSanXuat.maTo\r\n"
+				+ "group by Month(PhieuLuongCN.thang), year(PhieuLuongCN.thang), ToSanXuat.maTo");
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()) {
+			LuongTheoTo luong = new LuongTheoTo();
+			luong.setTongluong(rs.getFloat(1));
+			luong.setTrungBinh(rs.getFloat(2));
+			luong.setThang(rs.getInt(3));
+			luong.setNam(rs.getInt(4));
+			luong.setMaTo(rs.getString(5));
+			lst.add(luong);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return lst ;
+}
+
 public Integer getCountLuongCN(String maCN, int thang){
 ConnectDB.getinstance();
 Connection con = ConnectDB.getConnection();
@@ -238,3 +267,4 @@ try {
 }	 
 }
 }
+

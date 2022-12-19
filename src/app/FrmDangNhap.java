@@ -167,7 +167,6 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 		
 		
 		
-		
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setBounds(0, 0, 488, 465);
 		getContentPane().add(lblBackground);
@@ -266,8 +265,8 @@ public class FrmDangNhap extends JFrame implements ActionListener,MouseListener,
 		}	
 		else {
 			NhanVien nv = DAONhanVien.getNVTheoTK(tk.getMaTK());
-			System.out.println(nv);
-			FrmQuanLy frmQL = new FrmQuanLy();
+			
+			FrmQuanLy frmQL = new FrmQuanLy(nv);
 				frmQL.setVisible(true);
 				this.setVisible(false);
 			}

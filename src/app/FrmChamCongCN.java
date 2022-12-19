@@ -79,6 +79,8 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
+import javax.swing.JRadioButton;
 
 public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelectionListener,MouseListener  {
 	
@@ -121,6 +123,12 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	private  ToSanXuat toSXSelected;
 	private  CongNhan congNhanSelected;
 	private boolean statusTOSXSelected;
+	private JLabel txtThongTinCD;
+	private JLabel txtSoluongYC;
+	private JLabel lblTn_3;
+	private JLabel lblTn_1;
+	private JLabel txtSoLuongDSX;
+	private JLabel txtTenToSX;
 	
 	public Panel getFrmChamCong() {
 		return pMain;
@@ -158,7 +166,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		 * Định dạng ngày, lương trong bảng
 		 */
 		dfNgay=new SimpleDateFormat("dd/MM/yyyy");
-		dfLuong=new DecimalFormat("##,###,###");
+		dfLuong=new DecimalFormat("##,###,###" +"đ");
 		
 //		ngay hien tai
 		now = LocalDate.now();
@@ -173,7 +181,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		scrollCNTable.setToolTipText("Danh sách thông tin nhân viên");
 		scrollCNTable.setBorder(new LineBorder(new Color(164, 44, 167), 2, true));
 		scrollCNTable.setBackground(Color.WHITE);
-		scrollCNTable.setBounds(332, 309, 890, 275);
+		scrollCNTable.setBounds(332, 332, 890, 262);
 		pMain.add(scrollCNTable);
 		
 		String col[] = {"Mã ","Công Nhân" , "Tổ",  "Ngày ", "Ca làm", "Số lượng " , "Lương ngày"};
@@ -218,7 +226,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		pNhapThongTin.setToolTipText("Các thông tin nhân viên cần nhập");
 		pNhapThongTin.setBorder(new LineBorder(new Color(114, 23, 153), 2));
 		pNhapThongTin.setBackground(Color.WHITE);
-		pNhapThongTin.setBounds(332, 12, 890, 275);
+		pNhapThongTin.setBounds(332, 12, 890, 310);
 		pMain.add(pNhapThongTin);
 		
 		
@@ -256,14 +264,76 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		btnLuuChamCong.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnLuuChamCong.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
 		btnLuuChamCong.setBackground(new Color(57, 210, 247));
-		btnLuuChamCong.setBounds(699, 197, 132, 33);
+		btnLuuChamCong.setBounds(650, 114, 132, 33);
 		pNhapThongTin.add(btnLuuChamCong);
 		
 
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 43, 615, 222);
+		scrollPane.setBounds(10, 106, 622, 194);
 		pNhapThongTin.add(scrollPane);
+		
+		JPanel pThongTinTo = new JPanel();
+		pThongTinTo.setLayout(null);
+		pThongTinTo.setToolTipText("Thông tin tổ sản xuất\r\n");
+		pThongTinTo.setBorder(new TitledBorder(new LineBorder(new Color(114, 23, 153), 1, true), "Th\u00F4ng tin t\u1ED5 s\u1EA3n xu\u1EA5t", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pThongTinTo.setBackground(new Color(178, 192, 237));
+		pThongTinTo.setBounds(10, 43, 858, 61);
+		pNhapThongTin.add(pThongTinTo);
+		
+		txtTenToSX = new JLabel("");
+		txtTenToSX.setHorizontalAlignment(SwingConstants.CENTER);
+		txtTenToSX.setForeground(new Color(0, 0, 0));
+		txtTenToSX.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 16));
+		txtTenToSX.setBounds(25, 20, 76, 33);
+		pThongTinTo.add(txtTenToSX);
+		
+		txtThongTinCD = new JLabel("... - ...");
+		txtThongTinCD.setHorizontalAlignment(SwingConstants.CENTER);
+		txtThongTinCD.setForeground(Color.BLACK);
+		txtThongTinCD.setFont(new Font("SansSerif", Font.BOLD, 14));
+		txtThongTinCD.setBounds(77, 21, 276, 32);
+		pThongTinTo.add(txtThongTinCD);
+		
+		txtSoluongYC = new JLabel("");
+		txtSoluongYC.setForeground(Color.BLACK);
+		txtSoluongYC.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 14));
+		txtSoluongYC.setBounds(542, 23, 95, 29);
+		pThongTinTo.add(txtSoluongYC);
+		
+		lblTn_3 = new JLabel("Số lượng sản xuất: ");
+		lblTn_3.setForeground(Color.BLACK);
+		lblTn_3.setFont(new Font("SansSerif", Font.BOLD, 14));
+		lblTn_3.setBounds(397, 21, 145, 32);
+		pThongTinTo.add(lblTn_3);
+		
+		lblTn_1 = new JLabel("Đã sản xuất: ");
+		lblTn_1.setForeground(Color.BLACK);
+		lblTn_1.setFont(new Font("SansSerif", Font.BOLD, 14));
+		lblTn_1.setBounds(620, 21, 101, 32);
+		pThongTinTo.add(lblTn_1);
+		
+		txtSoLuongDSX = new JLabel("");
+		txtSoLuongDSX.setForeground(Color.BLACK);
+		txtSoLuongDSX.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 14));
+		txtSoLuongDSX.setBounds(719, 23, 95, 29);
+		pThongTinTo.add(txtSoLuongDSX);
+		
+		JComboBox cboThang = new JComboBox();
+		cboThang.setBounds(638, 271, 110, 29);
+		pNhapThongTin.add(cboThang);
+		
+		JComboBox cboNam = new JComboBox();
+		cboNam.setBounds(758, 271, 110, 29);
+		pNhapThongTin.add(cboNam);
+		
+		JLabel lblNewLabel = new JLabel("Tháng:");
+		lblNewLabel.setBounds(637, 248, 54, 25);
+		pNhapThongTin.add(lblNewLabel);
+		
+		JLabel lblNm = new JLabel("Năm:");
+		lblNm.setBounds(758, 248, 54, 25);
+		pNhapThongTin.add(lblNm);
 		
 		
 //		String colCC[] = {"Mã ","Công Nhân" , "Tổ", "Ca làm", "Số lượng " };
@@ -277,7 +347,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		pTreeToSX = new JScrollPane();
 		pTreeToSX.setBorder(new LineBorder(new Color(114, 23, 153), 2, true));
 		pTreeToSX.setBackground(Color.WHITE);
-		pTreeToSX.setBounds(17, 10, 308, 568);
+		pTreeToSX.setBounds(17, 10, 308, 564);
 		pMain.add(pTreeToSX);
 		
 		
@@ -288,12 +358,12 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		JPanel pControlJList = new JPanel();
 		pControlJList.setLayout(null);
 		pControlJList.setBackground(Color.WHITE);
-		pControlJList.setBounds(17, 578, 339, 45);
+		pControlJList.setBounds(17, 578, 316, 45);
 		pMain.add(pControlJList);
 		
 		
 		txtTimCN = new JTextField();
-		txtTimCN.setLocation(23, 6);
+		txtTimCN.setLocation(10, 7);
 		txtTimCN.setSize(136, 30);
 		pControlJList.add(txtTimCN);
 		txtTimCN.setColumns(10);
@@ -303,22 +373,14 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnTimCN.setLocation(171, 2);
-		btnTimCN.setSize(81, 39);
+		btnTimCN.setLocation(158, 6);
+		btnTimCN.setSize(83, 30);
 		pControlJList.add(btnTimCN);
 		
 		btnResetList = new JButton("");
 		btnResetList.setIcon(new ImageIcon("data/icon/refres.png"));
-		btnResetList.setBounds(264, 6, 55, 35);
+		btnResetList.setBounds(251, 7, 55, 35);
 		pControlJList.add(btnResetList);
-
-	
-		
-		JPanel pControl = new JPanel();
-		pControl.setBackground(Color.WHITE);
-		pControl.setBounds(426, 584, 832, 39);
-		pMain.add(pControl);
-		pControl.setLayout(null);
 		
 		
 		
@@ -387,17 +449,20 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 	    	
 	    	
 
-	    	toSXSelected = toSanXuat;
+
 	    	statusTOSXSelected = true;
 	    	loadDSChamCongTo(toSanXuat);
+	    	loadThongTinTo2FromCongDoan(toSanXuat);
  	
 	    }
 
 	    if(nodeObject instanceof CongNhan) {
 	    	CongNhan cNhan = (CongNhan) nodeObject;
+	    	
 	    	statusTOSXSelected = false;
 	    	congNhanSelected =cNhan;
 			loadDSChamCongNhan(cNhan);
+			loadThongTinTo2FromCongDoan(cNhan.getToSanXuat());
 
 	    }
 	    
@@ -407,7 +472,57 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 
 
+private void loadThongTinTo2FromCongDoan(ToSanXuat toSanXuat) {
+	CongDoan cd = daoCongDoan.getCDTheoMaCD(toSanXuat.getMaCD());
+		txtTenToSX.setText(toSanXuat.getTenTo()+":");
+		txtThongTinCD.setText(cd.getTenThanhPham() + " - Giá Sản Xuất: " +dfLuong.format( cd.getGiaSX()));
+		txtSoluongYC.setText(cd.getSoLuongTP()+"");
+		txtSoLuongDSX.setText(cd.getSoLuongDSX()+ "");
+	   	toSXSelected = toSanXuat;
+	}
+
+
+
 // Kiem tra
+	public boolean checkSoLuongSanxuat(ToSanXuat tsx, int input) {
+		int soSpTo = 0;
+		ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhanCungTo(tsx.getMaTo());	
+		for (CongNhan cn : lstCN) {
+			ArrayList<ChamCongCN> lisctCCCN = daoPhieuChamCong.getChamCongCongNhan(cn.getMaCN());
+			
+			for (ChamCongCN info : lisctCCCN) {
+					soSpTo += info.getSoLuong();
+				
+			}
+		}
+		
+		
+		CongDoan cDoan = daoCongDoan.getCDTheoMaCD(tsx.getMaCD());
+		int soluongYC = cDoan.getSoLuongTP();
+		int tongSlDaSX =input + soSpTo;
+		if(tongSlDaSX > soluongYC) {
+			return false;
+		}
+
+		return true;
+	}
+	private void updateSoLuongDSX(ToSanXuat tsx,int input) throws SQLException {
+		int soSpTo = 0;
+		ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhanCungTo(tsx.getMaTo());	
+		for (CongNhan cn : lstCN) {
+			ArrayList<ChamCongCN> lisctCCCN = daoPhieuChamCong.getChamCongCongNhan(cn.getMaCN());
+			
+			for (ChamCongCN info : lisctCCCN) {
+					soSpTo += info.getSoLuong();
+				
+			}
+		}
+		
+	
+
+		daoCongDoan.capNhatSoLuongDSX(tsx.getMaCD(), soSpTo);
+		
+	}
 
 	// kiem tra cham cong ngay hien tai 
 		protected boolean checkChamCong(CongNhan cNhan) {
@@ -488,7 +603,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 		ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());	
 		for (CongNhan cn : lstCN) {
 			ArrayList<ChamCongCN> lisctCCCN = daoPhieuChamCong.getChamCongCongNhan(cn.getMaCN());
-			
+		
 			for (ChamCongCN info : lisctCCCN) {
 				modelChamCong.addRow(new Object[] {
 						info.getMaC(), cn.getTenCN(), cn.getToSanXuat().getTenTo(),
@@ -593,36 +708,63 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 	private int LuuChamCongCn(ArrayList<TemplateCCCN> lstchamCongCN) {
 			int result = 0;
-		 for( TemplateCCCN t : lstchamCongCN) {
-			 if(t.getSoLuong() > 0 ) {
-					float giaSX = getGiaSXCDTo(t.getMa());
-					float luongNgay = tinhLuongNgay(t.getSoLuong() , giaSX);
-					
-					java.util.Date date = chooserNgay.getDate();
-					Date ngayFormat=new Date(date.getYear(), date.getMonth(), date.getDate());
-					
-					ChamCongCN input = new ChamCongCN();
-					input.setMaC(t.getMa());
-					input.setCaLam(t.getCaLam());
-					input.setNgayLam(ngayFormat);
-					input.setSoLuong(t.getSoLuong());
-					input.setLuongNgay(luongNgay);
-					try {
-						if(daoPhieuChamCong.themCCCN(input)) {
-							result = 1;
-						}
-								
-					}catch (SQLException e) {
-						e.printStackTrace();
-						result = 0;
-					}	
-			 }
+			if(lstchamCongCN.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Chọn Tổ Công Nhân Để Thực Hiện Chấm Công!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+			}
+			int soluongInput = tongSoluongChamCong(lstchamCongCN);
 			
-			 
-			 
-		 }
+			if(checkSoLuongSanxuat(toSXSelected, soluongInput)) {
+
+				for( TemplateCCCN t : lstchamCongCN) {
+					 if(t.getSoLuong() > 0 ) {
+							float giaSX = getGiaSXCDTo(t.getMa());
+							float luongNgay = tinhLuongNgay(t.getSoLuong() , giaSX);
+							
+							java.util.Date date = chooserNgay.getDate();
+							Date ngayFormat=new Date(date.getYear(), date.getMonth(), date.getDate());
+							
+							ChamCongCN input = new ChamCongCN();
+							input.setMaC(t.getMa());
+							input.setCaLam(t.getCaLam());
+							input.setNgayLam(ngayFormat);
+							input.setSoLuong(t.getSoLuong());
+							input.setLuongNgay(luongNgay);
+							try {
+								if(daoPhieuChamCong.themCCCN(input)) {
+									result = 1;
+									updateSoLuongDSX(toSXSelected,soluongInput);
+								}
+										
+							}catch (SQLException e) {
+								e.printStackTrace();
+								result = 0;
+							}	
+					 }
+					 
+					
+					 
+					 
+				 }
+			}else {
+				result = 2;
+			}
+		 
 		 
 		 return result;
+	}
+
+
+
+
+
+
+
+	private int tongSoluongChamCong(ArrayList<TemplateCCCN> lstchamCongCN) {
+		int result = 0;
+		for ( TemplateCCCN param : lstchamCongCN) {
+			result += param.getSoLuong();
+		}
+		return result;
 	}
 
 
@@ -640,7 +782,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			root = new DefaultMutableTreeNode("Công nhân");
 			
 			ArrayList<CongNhan> lstCN = daoCongNhan.getDSCongNhan();
-			
+					
 					for (CongNhan cNhan : lstCN ) {
 						if(cNhan.getMaCN().equalsIgnoreCase(ma)) {
 							nodeCN = new DefaultMutableTreeNode(cNhan);
@@ -654,6 +796,7 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 					 JTToSX.setVisibleRowCount(35);
 					 JTToSX.setCellRenderer(new FixRenderTree());
 					 pTreeToSX.setColumnHeaderView(JTToSX);
+					JTToSX.addTreeSelectionListener(this);
 				
 		}
 
@@ -666,15 +809,16 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 
 
 	private void notifyCCCN(int status , ToSanXuat tsx , CongNhan congNhanSelected) {
-		System.out.println(status);
-		if(status==-1) {
-			JOptionPane.showMessageDialog(this, "Vui lòng cập nhật số lượng công nhân sản xuất!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		
+		if(status==0) {
+			JOptionPane.showMessageDialog(this, "Vui lòng cập nhật số lượng thành phẩm công nhân sản xuất!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 		}
-		else if(status == 0) {
+		else if(status == -1) {
 			JOptionPane.showMessageDialog(this, "Chấm công thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 		}
 		else if(status == 1) {
 			JOptionPane.showMessageDialog(this, "Chấm công thành công! ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			loadThongTinTo2FromCongDoan(toSXSelected);
 			if(statusTOSXSelected) {
 				 loadDSChamCongTo(tsx);
 			}else {
@@ -682,6 +826,9 @@ public class FrmChamCongCN extends JFrame implements ActionListener, TreeSelecti
 			}
 			
 		
+		}
+		else if(status == 2) {
+			JOptionPane.showMessageDialog(this, "Chấm công thất bại! Tổ đã sản xuất đủ thành phẩm!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 		}
 	
 	}

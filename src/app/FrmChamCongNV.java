@@ -88,7 +88,7 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 	private DAOPhieuChamCong daoPhieuChamCong;
 	
 
-	private JTextField txtTimCN;
+	private JTextField txtTimNV;
 	private JPanel pNhapThongTin;
 	private JLabel lblNhapThongTin;
 	private JLabel lblHoTen;
@@ -331,21 +331,21 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 		pMain.add(pControlJList);
 		
 		
-		txtTimCN = new JTextField();
-		txtTimCN.setLocation(23, 6);
-		txtTimCN.setSize(136, 30);
-		pControlJList.add(txtTimCN);
-		txtTimCN.setColumns(10);
+		txtTimNV = new JTextField();
+		txtTimNV.setLocation(10, 7);
+		txtTimNV.setSize(136, 30);
+		pControlJList.add(txtTimNV);
+		txtTimNV.setColumns(10);
 		
 		btnTimNV = new FixButton("Tìm");
 	
-		btnTimNV.setLocation(171, 2);
-		btnTimNV.setSize(81, 39);
+		btnTimNV.setLocation(156, 7);
+		btnTimNV.setSize(76, 34);
 		pControlJList.add(btnTimNV);
 		
 		btnResetList = new JButton("");
 		btnResetList.setIcon(new ImageIcon("data/icon/refres.png"));
-		btnResetList.setBounds(264, 6, 55, 35);
+		btnResetList.setBounds(253, 7, 55, 35);
 		pControlJList.add(btnResetList);
 		tableNV.addMouseListener(this);
 		
@@ -356,6 +356,7 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 //		btn click
 		btnLuuChamCong.addActionListener(this);
 		btnResetList.addActionListener(this);
+		btnTimNV.addActionListener(this);
 
 	
 	}
@@ -406,7 +407,52 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 		 
 		 
 	}
-	
+	private void LoadDSNVFindFromMa2JList(String ma) {
+		DefaultListModel<NhanVien> item = new DefaultListModel<NhanVien>();
+		 ArrayList<NhanVien> listNV = daoNhanVien.getAllDanhSachNV();
+		 for(NhanVien nVien : listNV) {
+			 if(nVien.getMaNV().equalsIgnoreCase(ma)) {
+				 item.addElement(nVien);
+			 }	 
+		 }
+		 
+		 JlistNV= new JList<NhanVien>(item);	
+		 JlistNV.setCellRenderer(new FixRenderJList());
+		 JlistNV.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		 pListNV.setViewportView(JlistNV);
+		 
+		 
+		 JlistNV.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				NhanVien nVien = (NhanVien) JlistNV.getSelectedValue();
+					
+				txtHoTenNV.setText(nVien.getTenNV());
+				txtMaNV.setText(nVien.getMaNV());
+				txtSDT.setText(nVien.getSdt());
+				txtChucVu.setText(nVien.getChucVu());
+				
+				if(checkChamCong(nVien.getMaNV())) {
+					btnLuuChamCong.setText("Chấm Vắng");
+					btnLuuChamCong.setBackground(new Color(57, 210, 247));
+					btnLuuChamCong.setEnabled(true);
+					btnLuuChamCong.setVisible(true);
+				}
+				else {
+					btnLuuChamCong.setVisible(false);
+				}
+				
+				loadListChamCong(nVien);
+				
+			}
+		});
+		 
+		
+		 
+		 
+	}
+		
 	protected boolean checkChamCong(String ma) {
 		ArrayList<ChamCongNV> lisctCCNV = daoPhieuChamCong.getDSChamCongNVTungNV(ma);
 		java.util.Date date = chooserNgay.getDate();
@@ -457,7 +503,25 @@ public class FrmChamCongNV extends JFrame implements ActionListener, TreeSelecti
 		 if(o.equals(btnLuuChamCong)) {
 			 luuChamCongNhanVien();
 		 }
+		 if(o.equals(btnTimNV)) {
+			 findNVJTree();
+		 }
+		 if(o.equals(btnResetList)) {
+			 LoadDSNV2JList();
+		 }
 	}
+
+
+	private void findNVJTree() {
+		String ma = txtTimNV.getText();
+		if(ma.equalsIgnoreCase("")) {
+			JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		}
+	else {
+			LoadDSNVFindFromMa2JList(ma);	
+		}
+	}
+
 
 
 	private void luuChamCongNhanVien() {

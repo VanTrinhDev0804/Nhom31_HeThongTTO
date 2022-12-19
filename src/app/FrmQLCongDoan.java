@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -58,7 +59,9 @@ import com.toedter.calendar.JDateChooser;
 import connection.ConnectDB;
 import dao.DAOCT_CD_SX_SP;
 import dao.DAOCongDoan;
+import dao.DAOCongNhan;
 import dao.DAOPhatSinhMa;
+import dao.DAOPhieuChamCong;
 //import dao.DAOKhachHang;
 //import dao.DAOLoaiKH;
 //import dao.DAOLoaiPhong;
@@ -66,10 +69,14 @@ import dao.DAOPhatSinhMa;
 //import dao.DAOPhatSinhMa;
 import dao.DAOSanPham;
 import dao.DAOTaiKhoan;
+import dao.DAOToSanXuat;
 import dao.Regex;
 import entity.CT_CD_SX_SP;
+import entity.ChamCongCN;
 import entity.CongDoan;
+import entity.CongNhan;
 import entity.SanPham;
+import entity.ToSanXuat;
 //import entity.KhachHang;
 //import entity.LoaiKH;
 //import entity.LoaiPhong;
@@ -122,8 +129,15 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	private JTable tblCongDoan;
 	private JButton btnExcels;
 	private DecimalFormat dfGiaSX;
+	private JTextField txtSoLuongTP;
+	private DefaultComboBoxModel ModelCbbTo;
 
-
+	private DAOToSanXuat daoToSanXuat;
+	private JComboBox<Object> cboToSX;
+	private DAOCongNhan daoCongNhan;
+	private DAOPhieuChamCong daoPhieuChamCong;
+	
+	
 	/**
 	 * @return pMain
 	 */
@@ -160,6 +174,9 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		daoCongDoan=new DAOCongDoan();
 		daoCT = new DAOCT_CD_SX_SP();
 		daoPhatSinhMa = new DAOPhatSinhMa();
+		daoToSanXuat = new DAOToSanXuat();
+		daoCongNhan = new DAOCongNhan();
+		daoPhieuChamCong = new DAOPhieuChamCong();
 		regex = new Regex();
 
 		/**
@@ -178,33 +195,34 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		add(pMain);
 		pMain.setLayout(null);
 
-		dfGiaSX=new DecimalFormat("###,###");
+		dfGiaSX=new DecimalFormat("######");
 		/**
 		 * Nhập thông tin công đoạn mới
 		 * Panel pNhapThongTin
 		 */
 		pNhapThongTin = new JPanel();
-		pNhapThongTin.setToolTipText("Các thông tin CĐ cần nhập");
+		pNhapThongTin.setToolTipText("Các Thông Tin Công Đoạn Cần Nhập");
 		pNhapThongTin.setBorder(new LineBorder(new Color(114, 23, 153)));
 		pNhapThongTin.setBackground(Color.WHITE);
-		pNhapThongTin.setBounds(10, 11, 333, 607);
+		pNhapThongTin.setBounds(265, 50, 277, 567);
+
 		pMain.add(pNhapThongTin);
 		pNhapThongTin.setLayout(null);
 
-		lblNhapThongTin = new JLabel("Nhập Thông Tin Công Đoạn");
+		lblNhapThongTin = new JLabel("Thông Tin Công Đoạn");
 		lblNhapThongTin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNhapThongTin.setFont(new Font("SansSerif", Font.BOLD, 18));
-		lblNhapThongTin.setBounds(10, 11, 292, 29);
+		lblNhapThongTin.setBounds(21, 10, 200, 29);
 		pNhapThongTin.add(lblNhapThongTin);
 		
 		//Ten cong doan
 		JLabel lblTenCD = new JLabel("Tên Công Đoạn:");
-		lblTenCD.setBounds(10, 75, 125, 26);
+		lblTenCD.setBounds(10, 40, 125, 26);
 		pNhapThongTin.add(lblTenCD);
 		lblTenCD.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
 		txtTenCD = new JTextField();
-		txtTenCD.setBounds(132, 75, 191, 35);
+		txtTenCD.setBounds(10, 65, 250, 35);
 		pNhapThongTin.add(txtTenCD);
 		txtTenCD.setBackground(new Color(255, 255, 255));
 		txtTenCD.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -212,13 +230,13 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		txtTenCD.setColumns(20);
 		
 		//ten thanh pham
-		JLabel lblTenThanhPham = new JLabel("Tên T.Phẩm:");
-		lblTenThanhPham.setBounds(10, 125, 111, 26);
+		JLabel lblTenThanhPham = new JLabel("Tên Thành Phẩm:");
+		lblTenThanhPham.setBounds(10, 99, 250, 26);
 		pNhapThongTin.add(lblTenThanhPham);
 		lblTenThanhPham.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
 		txtTenThanhPham = new JTextField();
-		txtTenThanhPham.setBounds(132, 125, 191, 35);
+		txtTenThanhPham.setBounds(10, 122, 250, 35);
 		pNhapThongTin.add(txtTenThanhPham);
 		txtTenThanhPham.setBackground(new Color(255, 255, 255));
 		txtTenThanhPham.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -226,13 +244,13 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		txtTenThanhPham.setColumns(20);
 		
 		//gia san xuat 
-		JLabel lblGiaSX_CD = new JLabel("Giá SX_CĐ:");
-		lblGiaSX_CD.setBounds(10, 175, 102, 26);
+		JLabel lblGiaSX_CD = new JLabel("Giá Sản Xuất Công Đoạn:");
+		lblGiaSX_CD.setBounds(10, 152, 250, 26);
 		pNhapThongTin.add(lblGiaSX_CD);
 		lblGiaSX_CD.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
 		txtGiaSX_CD = new JTextField();
-		txtGiaSX_CD.setBounds(132, 175, 191, 35);
+		txtGiaSX_CD.setBounds(10, 178, 250, 35);
 		pNhapThongTin.add(txtGiaSX_CD);
 		txtGiaSX_CD.setBackground(new Color(255, 255, 255));
 		txtGiaSX_CD.setFont(new Font("SansSerif", Font.PLAIN, 15));
@@ -240,15 +258,15 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		txtGiaSX_CD.setColumns(20);
 		
 		//tinh trang cong doan
-		lblTinhTrangCongDoan = new JLabel("Trạng thái CĐ:");
-		lblTinhTrangCongDoan.setBounds(10, 235, 133, 19);
-		lblTinhTrangCongDoan.setFont(new Font("SansSerif", Font.BOLD, 15));
+		lblTinhTrangCongDoan = new JLabel("Trạng thái Công Đoạn:");
+		lblTinhTrangCongDoan.setBounds(10, 339, 250, 19);
+		lblTinhTrangCongDoan.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		pNhapThongTin.add(lblTinhTrangCongDoan);
 
 		cboTrangThaiCongDoan = new JComboBox<Object>(new Object[] {"Đang Sản Xuất", "Ngừng Sản Xuất"});
 		cboTrangThaiCongDoan.setToolTipText("Chọn trạng thái CĐ");
 		cboTrangThaiCongDoan.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		cboTrangThaiCongDoan.setBounds(145, 225, 178, 35);
+		cboTrangThaiCongDoan.setBounds(10, 368, 250, 35);
 		cboTrangThaiCongDoan.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		cboTrangThaiCongDoan.setBorder(new LineBorder(new Color(114, 23 ,153), 1, true));
 		cboTrangThaiCongDoan.setBackground(Color.white);
@@ -288,20 +306,20 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		btnExcels.setIcon(iconExcel);
 		pMain.add(btnExcels);
 
-		lblChonSanPham = new JLabel("Chọn sản phẩm:");
+		lblChonSanPham = new JLabel("Chọn sản phẩm");
 		lblChonSanPham.setFont(new Font("SansSerif", Font.BOLD, 18));
-		lblChonSanPham.setBounds(431, 70, 200, 29);
+		lblChonSanPham.setBounds(70, 11, 292, 29);
 		pMain.add(lblChonSanPham);
 
 		JScrollPane scrollPaneChonSanPham = new JScrollPane(tblSanPham, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPaneChonSanPham.setToolTipText("Danh sách thông tin sản phẩm:");
 		scrollPaneChonSanPham.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
 		scrollPaneChonSanPham.setBackground(new Color(164, 44, 167));
-		scrollPaneChonSanPham.setBounds(353, 106, 273, 512);
+		scrollPaneChonSanPham.setBounds(10, 50, 250, 567);
 		scrollPaneChonSanPham.getHorizontalScrollBar();
 		pMain.add(scrollPaneChonSanPham);
 
-		String colSanPham[] = {"Mã sản phẩm", "Tên sản phẩm", "Giá sản xuất", "Số lượng"};
+		String colSanPham[] = {"Mã sản phẩm", "Tên sản phẩm", "Giá sản xuất", "Số lượng","Trạng Thái SP"};
 		modelSanPham=new DefaultTableModel(colSanPham, 0);
 
 		tblSanPham = new JTable(modelSanPham);
@@ -316,6 +334,13 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		tblSanPham.setSelectionForeground(new Color(114, 23, 153));
 		tblSanPham.setRowHeight(30);
 		tblSanPham.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tblSanPham.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				removeDanhSachCD(modelCongDoan);
+				choose1SP();
+			}
+		});
 
 		JTableHeader tbHeaderSanPham = tblSanPham.getTableHeader();
 		tbHeaderSanPham.setToolTipText("Chọn thông tin sản phẩm");
@@ -327,7 +352,8 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		tblSanPham.getColumnModel().getColumn(1).setPreferredWidth(120);//tensanpham
 		tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(100);//giasanxuat
 		tblSanPham.getColumnModel().getColumn(3).setPreferredWidth(150);//soluong
-
+		tblSanPham.getColumnModel().getColumn(4).setPreferredWidth(150);//trangthai
+		
 		DefaultTableCellRenderer rightRenderer=new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
 		tblSanPham.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
@@ -346,7 +372,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		btnThemCD.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnThemCD.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
 		btnThemCD.setBackground(new Color(57, 210, 247));
-		btnThemCD.setBounds(10, 450, 310, 35);
+		btnThemCD.setBounds(10, 420, 263, 35);
 		Icon iconThemCD = IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 20, Color.white);
 		btnThemCD.setIcon(iconThemCD);
 		pNhapThongTin.add(btnThemCD);
@@ -362,43 +388,66 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		btnSuaCD.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnSuaCD.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
 		btnSuaCD.setBackground(new Color(133, 217, 191));
-		btnSuaCD.setBounds(10, 500, 310, 35);
+		btnSuaCD.setBounds(10, 470, 263, 35);
 		Icon iconSuaCD = IconFontSwing.buildIcon(FontAwesome.WRENCH, 20, Color.white);
 		btnSuaCD.setIcon(iconSuaCD);
 		pNhapThongTin.add(btnSuaCD);
 
-		/**
-		 * Làm mới: xóa trắng các text, xóa tất cả nội dung trong bảng DDP, đặt mặc định các combobox, bỏ chọn checkbox và các radiobutton
-		 * Nút làm mới
-		 * JButton btnLamMoiCD
-		 * Icon iconLamMoiCD
-		 */
 		btnLamMoiCD = new FixButton("Làm mới");
 		btnLamMoiCD.setForeground(Color.white);
 		btnLamMoiCD.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnLamMoiCD.setBorder(new LineBorder(new Color(0, 146, 182), 2, true));
 		btnLamMoiCD.setBackground(new Color(114, 23, 153));
-		btnLamMoiCD.setBounds(10, 550, 310, 35);
+		btnLamMoiCD.setBounds(10, 520, 263, 35);
 		Icon iconLamMoiCD = IconFontSwing.buildIcon(FontAwesome.REFRESH, 20, Color.white);
 		btnLamMoiCD.setIcon(iconLamMoiCD);
 		pNhapThongTin.add(btnLamMoiCD);
+		
+		JLabel lblChnTSn = new JLabel("Chọn tổ sản xuất");
+		lblChnTSn.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		lblChnTSn.setBounds(10, 274, 250, 19);
+		pNhapThongTin.add(lblChnTSn);
+		
+		
+		
+		
+		
+		
+		ModelCbbTo = new DefaultComboBoxModel<>();
+		ModelCbbTo.setSelectedItem("");
+		ArrayList<ToSanXuat> lstTSX = daoToSanXuat.getDSToSanXuat();
+		loadItemsComboMaTo(lstTSX);
+	
 
-		/**
-		 * Khung sắp xếp chứa các mục sắp xếp theo tăng dần, giảm dần
-		 * JPanel pSapXep
-		 */
+		cboToSX = new JComboBox<Object>(ModelCbbTo);
+		cboToSX.setToolTipText("Chọn tổ sản xuất");
+		cboToSX.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboToSX.setBorder(new LineBorder(new Color(114, 23 ,153), 1, true));
+		cboToSX.setBackground(Color.WHITE);
+		cboToSX.setBounds(10, 294, 250, 35);
+//		cboToSX.setSelectedIndex(0);
+		pNhapThongTin.add(cboToSX);
+		
+		txtSoLuongTP = new JTextField();
+		txtSoLuongTP.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		txtSoLuongTP.setColumns(20);
+		txtSoLuongTP.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
+		txtSoLuongTP.setBackground(Color.WHITE);
+		txtSoLuongTP.setBounds(10, 237, 250, 35);
+		pNhapThongTin.add(txtSoLuongTP);
+		
+		JLabel lblGiaSX_CD_1 = new JLabel("Số lượng thành phẩm: ");
+		lblGiaSX_CD_1.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		lblGiaSX_CD_1.setBounds(10, 212, 250, 26);
+		pNhapThongTin.add(lblGiaSX_CD_1);
+
 		JPanel pSapXep = new JPanel();
 		pSapXep.setToolTipText("Sắp Xếp Thông Tin Công Đoạn");
 		pSapXep.setBorder(new TitledBorder(new LineBorder(new Color(114, 23 ,153), 1, true), "Sắp Xếp Công Đoạn", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pSapXep.setBackground(new Color(178, 192, 237));
-		pSapXep.setBounds(632, 48, 628, 50);
+		pSapXep.setBounds(552, 50, 705, 50);
 		pMain.add(pSapXep);
 		pSapXep.setLayout(null);
-
-		/**
-		 * Chọn kiểu sắp xếp tăng dần hoặc giảm dần
-		 * JComboBox cboSapXep
-		 */
 		cboSapXep = new JComboBox<Object>(new Object[]{"Tăng dần", "Giảm dần"});
 		cboSapXep.setToolTipText("Sắp xếp thông tin công đoạn tăng dần hoặc giảm dần theo các tiêu chí");
 		cboSapXep.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -422,10 +471,6 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		rdoTheoMaCongDoan.setBackground(new Color(178, 192, 237));
 		pSapXep.add(rdoTheoMaCongDoan);
 
-		/**
-		 * Nhóm các radiobutton
-		 * ButtonGroup bg
-		 */
 		bg=new ButtonGroup();
 		bg.add(rdoTheoMaSanPham); bg.add(rdoTheoMaCongDoan);
 
@@ -434,11 +479,11 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		scrollPaneCD.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPaneCD.setBorder(new LineBorder(new Color(164, 44, 167), 1, true));
 		scrollPaneCD.setBackground(new Color(164, 44, 167));
-		scrollPaneCD.setBounds(632, 106, 628, 512);
+		scrollPaneCD.setBounds(552, 105, 705, 512);
 		scrollPaneCD.getHorizontalScrollBar();
 		pMain.add(scrollPaneCD);
 
-		String colCD[] = {"Mã Công Đoạn", "Mã Sản Phẩm", "Tên Công Đoạn", "Tên Thành Phẩm","Giá Sản Xuất","Trạng Thái CD"};
+		String colCD[] = {"Mã Công Đoạn", "Mã Sản Phẩm","Tổ Sản Xuất", "Tên Công Đoạn", "Tên Thành Phẩm","Số lượng yêu cầu ","Giá Sản Xuất","Đã Sản Xuất", "Trạng Thái CD"};
 		modelCongDoan=new DefaultTableModel(colCD, 0);
 
 		tblCongDoan=new JTable(modelCongDoan);
@@ -467,13 +512,15 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		tbHeaderDDP.setForeground(Color.white);
 		tbHeaderDDP.setFont(new Font("SansSerif", Font.BOLD, 14));
 
-		tblCongDoan.getColumnModel().getColumn(0).setPreferredWidth(148);
-		tblCongDoan.getColumnModel().getColumn(1).setPreferredWidth(148);
-		tblCongDoan.getColumnModel().getColumn(2).setPreferredWidth(182);
+		tblCongDoan.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tblCongDoan.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tblCongDoan.getColumnModel().getColumn(2).setPreferredWidth(100);
 		tblCongDoan.getColumnModel().getColumn(3).setPreferredWidth(148);
 		tblCongDoan.getColumnModel().getColumn(4).setPreferredWidth(148);
 		tblCongDoan.getColumnModel().getColumn(5).setPreferredWidth(148);
-		
+		tblCongDoan.getColumnModel().getColumn(6).setPreferredWidth(148);
+		tblCongDoan.getColumnModel().getColumn(7).setPreferredWidth(148);
+		tblCongDoan.getColumnModel().getColumn(8).setPreferredWidth(148);
 		DefaultTableCellRenderer rightRenderer2=new DefaultTableCellRenderer();
 		rightRenderer2.setHorizontalAlignment(JLabel.RIGHT);
 		tblCongDoan.getColumnModel().getColumn(0).setCellRenderer(rightRenderer2);
@@ -482,7 +529,9 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		tblCongDoan.getColumnModel().getColumn(3).setCellRenderer(rightRenderer2);
 		tblCongDoan.getColumnModel().getColumn(4).setCellRenderer(rightRenderer2);
 		tblCongDoan.getColumnModel().getColumn(5).setCellRenderer(rightRenderer2);
-		
+		tblCongDoan.getColumnModel().getColumn(6).setCellRenderer(rightRenderer2);
+		tblCongDoan.getColumnModel().getColumn(7).setCellRenderer(rightRenderer2);
+		tblCongDoan.getColumnModel().getColumn(8).setCellRenderer(rightRenderer2);
 		scrollPaneCD.setViewportView(tblCongDoan);
 
 		/**
@@ -491,12 +540,12 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		lblBackGround=new JLabel("");
 		lblBackGround.setIcon(new ImageIcon("data\\img\\background.png"));
 		lblBackGround.setBounds(0, 0, 1281, 629);
-		Image imgBackGround = Toolkit.getDefaultToolkit().getImage("data\\img\\background.png");
+		Image imgBackGround = Toolkit.getDefaultToolkit().getImage("");
 		Image resizeBG = imgBackGround.getScaledInstance(lblBackGround.getWidth(), lblBackGround.getHeight(), 0);
 		lblBackGround.setIcon(new ImageIcon(resizeBG));
 		pMain.add(lblBackGround);
 
-		loadDanhSachCD(cd);
+		//loadDanhSachCD(cd);
 
 		
 
@@ -517,6 +566,19 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		btnExcels.addActionListener(this);
 	}
 	
+	private void loadItemsComboMaTo(ArrayList<ToSanXuat> lstTSX) {
+		ModelCbbTo.removeAllElements();
+		for(ToSanXuat TSX : lstTSX) {
+			if(TSX.getMaCD()== null) {
+				ModelCbbTo.addElement(TSX.getMaTo());
+			}
+			
+		}
+		
+	
+		
+	}
+
 	private void removeDanhSachSP(DefaultTableModel defaultTableModel) {
 		while(tblSanPham.getRowCount() > 0)
 			modelSanPham.removeRow(0);
@@ -535,7 +597,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	 */
 	@SuppressWarnings("deprecation")
 	private void resetAll() {
-		txtTim.setText("Tìm công đoạn theo mã công đoạn.s");
+		txtTim.setText("Tìm công đoạn theo mã công đoạn.");
 		txtTim.setFont(new Font("SansSerif", Font.ITALIC, 15));
 		txtTim.setForeground(Colors.LightGray);
 		
@@ -543,6 +605,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		txtTenCD.setText("");
 		txtTenThanhPham.setText("");
 		txtGiaSX_CD.setText("");
+		txtSoLuongTP.setText("");
 		cboTrangThaiCongDoan.setSelectedItem("Đang Sản Xuất");
 
 
@@ -550,16 +613,16 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		loadDSSanPhamĐangSanXuat(new SanPham());;
 
 		removeDanhSachCD(modelCongDoan);
-		loadDanhSachCD(cd);
+		//loadDanhSachCD(cd);
 		
 	}
 
 	private void loadDSSanPhamĐangSanXuat(SanPham sp) {
 		removeDanhSachSP(modelSanPham);
-		ArrayList<SanPham> lstSP = daoSanPham.getDSSanPham();
+		ArrayList<SanPham> lstSP = daoSanPham.getDanhSachCDDangSanXuat();
 		for(SanPham infoSP : lstSP) {
 			modelSanPham.addRow(new Object[] {
-					infoSP.getMaSP(), infoSP.getTenSP(), dfGiaSX.format(infoSP.getGiaSX()), infoSP.getSoLuong()
+					infoSP.getMaSP(), infoSP.getTenSP(), dfGiaSX.format(infoSP.getGiaSX()), dfGiaSX.format(infoSP.getSoLuong()), infoSP.getTrangThaiSP()
 			});
 		}
 	}
@@ -568,11 +631,17 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		removeDanhSachCD(modelCongDoan);
 		ArrayList<CongDoan> lstCD = daoCongDoan.getAllDanhSachCD();
 		for(CongDoan infoCD : lstCD) {
-			modelCongDoan.addRow(new Object[] {
-					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getGiaSX(), infoCD.getTrangThaiCD()});
-		}
+			if(infoCD.getTrangThaiCD().equalsIgnoreCase("Ngừng Sản Xuất")) {
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(),"",infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()), infoCD.getSoLuongDSX(),infoCD.getTrangThaiCD()});
+			}else
+				{
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getToSanXuat().getMaTo(),infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()),infoCD.getSoLuongDSX() , infoCD.getTrangThaiCD()});
+				}
+			}
 	}
-
+	
 	/**
 	 * Hiện danh sách thông tin CĐ theo sđt của KH
 	 * @param list
@@ -582,9 +651,16 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		//CongDoan cd = daoCongDoan.getCongDoanTheoMaCD(txtTim.getText().trim());
 		ArrayList<CongDoan> lstCD = daoCongDoan.getCongDoanTheoMaCD(txtTim.getText().trim());
 		for(CongDoan infoCD : lstCD) {
-			modelCongDoan.addRow(new Object[] {
-					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getGiaSX(), infoCD.getTrangThaiCD()			});
-		}
+			if(infoCD.getTrangThaiCD().equalsIgnoreCase("Ngừng Sản Xuất")) {
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(),"",infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()), infoCD.getSoLuongDSX(),infoCD.getTrangThaiCD()});
+			}else
+				{
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getToSanXuat().getMaTo(),infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()),infoCD.getSoLuongDSX() , infoCD.getTrangThaiCD()});
+				}
+			}
+		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -592,18 +668,86 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		int selectedRow = tblCongDoan.getSelectedRow();
 		if((selectedRow>=0 && tblSanPham.getSelectedRow()==-1) || (selectedRow>=0 && tblSanPham.getSelectedRow()!=-1)) {
 			String maCD = tblCongDoan.getValueAt(selectedRow, 0).toString();
-
+		
 			ArrayList<CongDoan> lstCD = daoCongDoan.getAllDanhSachCD();
 			for(CongDoan cd : lstCD) {
 				if(maCD.equals(cd.getMaCD())) {
 					
 					txtTenCD.setText(cd.getTenCD());
 					txtTenThanhPham.setText(cd.getTenThanhPham());
-					txtGiaSX_CD.setText(modelCongDoan.getValueAt(tblCongDoan.getSelectedRow(), 4).toString());
+					txtGiaSX_CD.setText(modelCongDoan.getValueAt(tblCongDoan.getSelectedRow(), 6).toString());
+					txtSoLuongTP.setText(modelCongDoan.getValueAt(tblCongDoan.getSelectedRow(), 5).toString());
 					cboTrangThaiCongDoan.setSelectedItem(cd.getTrangThaiCD()+"");
+					if(modelCongDoan.getValueAt(tblCongDoan.getSelectedRow(),2 ) != null) {
+						loadComboChoserCD(modelCongDoan.getValueAt(tblCongDoan.getSelectedRow(),2 ).toString());
+					}
+					
+					cboToSX.setSelectedItem(cd.getToSanXuat().getMaTo());
 				}
 			}
 		}
+	}
+	private void loadComboChoserCD(String string) {
+		ModelCbbTo.removeAllElements();
+		ModelCbbTo.addElement(string);
+		 ArrayList<ToSanXuat> lstTSX = daoToSanXuat.getDSToSanXuat();
+		for(ToSanXuat TSX : lstTSX) {
+			if(TSX.getMaCD()== null) {
+				ModelCbbTo.addElement(TSX.getMaTo());
+			}
+			
+		}
+		
+		
+	}
+
+	private void choose1SP() {
+		int selectedRow = tblSanPham.getSelectedRow();
+		if(selectedRow >= 0) {
+			String maSP = tblSanPham.getValueAt(selectedRow, 0).toString();
+
+			ArrayList<CongDoan> lstCD = daoCongDoan.getAllDanhSachCD();
+//			autoUpdateSlDSXCongDoan(lstCD);
+			for(CongDoan infoCD : lstCD) {
+				if(maSP.equals(infoCD.getSanPham().getMaSP())) {
+					
+					
+					if(infoCD.getTrangThaiCD().equalsIgnoreCase("Ngừng Sản Xuất")) {
+						modelCongDoan.addRow(new Object[] {
+								infoCD.getMaCD(), infoCD.getSanPham().getMaSP(),"",infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()), infoCD.getSoLuongDSX(),infoCD.getTrangThaiCD()});
+					}else
+						{
+						modelCongDoan.addRow(new Object[] {
+								infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getToSanXuat().getMaTo(),infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()),infoCD.getSoLuongDSX() , infoCD.getTrangThaiCD()});
+						}
+				}
+			}
+		}
+	}
+	private void autoUpdateSlDSXCongDoan(ArrayList<CongDoan> lstCD)  {
+		for (CongDoan cDoan : lstCD) {
+			ToSanXuat toSanXuat = cDoan.getToSanXuat();
+			int soSpTo = 0;
+			ArrayList<CongNhan> lstCN =  daoCongNhan.getDSCongNhanCungTo(toSanXuat.getMaTo());	
+			for (CongNhan cn : lstCN) {
+				ArrayList<ChamCongCN> lisctCCCN = daoPhieuChamCong.getChamCongCongNhan(cn.getMaCN());
+				
+				for (ChamCongCN info : lisctCCCN) {
+						soSpTo += info.getSoLuong();
+					
+				}
+			}
+			
+		
+
+			try {
+				daoCongDoan.capNhatSoLuongDSX(cDoan.getMaCD(), soSpTo);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -637,43 +781,58 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		}
 	
 	}
-
+	
 	@SuppressWarnings({ "deprecation", "unused" })
 	private void checkInfoCD() {
-		if(!txtTenCD.getText().trim().equals("") && !txtTenThanhPham.getText().trim().equals("") && regex.regexGiaSX(txtGiaSX_CD) ) {
+		if(!txtTenCD.getText().trim().equals("") && !txtTenThanhPham.getText().trim().equals("")  ) {
 			String phatSinhMaCD = daoPhatSinhMa.getMaCD();
 			String tenCD = txtTenCD.getText();
 			String tenThanhPham = txtTenThanhPham.getText();
 			float giaSX = Float.parseFloat(txtGiaSX_CD.getText());
+			float giaSX1 = (float) Float.parseFloat(txtGiaSX_CD.getText());
 			String trangThaiCD = cboTrangThaiCongDoan.getSelectedItem().toString();
-
-			int chonSP = tblSanPham.getSelectedRow(); //chọn phòng lấy info từ maSanPham
+			int sl = Integer.parseInt(txtSoLuongTP.getText());
+			int chonSP = tblSanPham.getSelectedRow(); 
+			String matsx = cboToSX.getSelectedItem().toString();
 			if(chonSP>=0) {
+							
 				String maSanPhamChon = tblSanPham.getValueAt(chonSP, 0).toString();
+				String giaSX_Test = tblSanPham.getValueAt(chonSP, 2).toString();
+				float giaSX_SP = Float.parseFloat(giaSX_Test);
+				
 				SanPham sp = daoSanPham.getSPTheoMaSP(maSanPhamChon);
+				ToSanXuat toSanXuat = daoToSanXuat.getToSXfromMaToSX(matsx);
+			
+				if (giaSX_SP > giaSX1) {
 				if(regex.regexTenCD(txtTenCD)) {
-							CongDoan cd = new CongDoan(phatSinhMaCD, tenCD, tenThanhPham, giaSX, trangThaiCD, sp);
+							CongDoan cd = new CongDoan(phatSinhMaCD, tenCD, tenThanhPham, giaSX, trangThaiCD,sl, toSanXuat, sp);
 							try {
 								if(trangThaiCD.equals("Đang Sản Xuất")) {
 									daoCongDoan.themCD(cd);
 									CT_CD_SX_SP ct = new CT_CD_SX_SP(cd, sp, giaSX);
 									//resetAll();
 									daoCT.themCT_CD_SX_SP(ct);
+									daoToSanXuat.capNhatMaCD2ToSX(matsx, phatSinhMaCD);
 									JOptionPane.showMessageDialog(this, "Thêm công đoạn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+							
 								}
 
 								if(trangThaiCD.equals("Ngừng Sản Xuất")) 
 									JOptionPane.showMessageDialog(this, "Không được thêm công đoạn có trạng thái ngừng sản xuất!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 							}catch (SQLException e) {
 								e.printStackTrace();
-								JOptionPane.showMessageDialog(this, "Thêm đơn đặt phòng thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(this, "Thêm công đoạn thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 							}
-						removeDanhSachSP(modelSanPham);
-						loadDSSanPhamĐangSanXuat(sp);
+						//removeDanhSachSP(modelCongDoan);
+						//loadDSSanPhamĐangSanXuat(sp);
 				}
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Giá sản xuất công đoạn phải nhỏ hơn giá sản xuất sản phẩm!", "Thông báo", JOptionPane.OK_OPTION);
+
 			}
 			else
-				JOptionPane.showMessageDialog(null, "Vui lòng chọn phòng muốn đặt!", "Thông báo", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn thêm công đoạn!", "Thông báo", JOptionPane.OK_OPTION);
 		}	
 		else {
 			JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -687,7 +846,8 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 	private void addCD() {
 			checkInfoCD();
 			removeDanhSachCD(modelCongDoan);
-			loadDanhSachCD(cd);
+			//loadDanhSachCD(cd);
+			choose1SP();
 	}
 
 	/**
@@ -702,30 +862,52 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 			if(update == JOptionPane.YES_OPTION) {
 				String maCD = tblCongDoan.getValueAt(row, 0).toString();
 				String maSP = tblCongDoan.getValueAt(row, 1).toString();
-
+				
+				String maToOld = tblCongDoan.getValueAt(row, 2) !=null ? tblCongDoan.getValueAt(row, 2).toString() : "";
 				String tenCD = txtTenCD.getText();
 				String tenThanhPham = txtTenThanhPham.getText();
 				float giaSX = Float.parseFloat(txtGiaSX_CD.getText());
-
+				int sl = Integer.parseInt(txtSoLuongTP.getText());
 				String trangThaiCD = cboTrangThaiCongDoan.getSelectedItem().toString();
+				
+				String maTo = cboToSX.getSelectedItem().toString();
 				
 				CongDoan cd=new CongDoan();
 				cd.setTenCD(tenCD);
 				cd.setTenThanhPham(tenThanhPham);
 				cd.setGiaSX(giaSX);
 				cd.setTrangThaiCD(trangThaiCD);
+				cd.setSoLuongTP(sl);
 				
 				daoCT.suaGiaSX(maCD, maSP, giaSX);
 				daoCongDoan.capNhatCD(cd, maCD);
 				removeDanhSachCD(modelCongDoan);
 				
-				resetAll();
-				removeDanhSachCD(modelCongDoan);
-				modelCongDoan.setRowCount(0);
-				modelCongDoan.addRow(new Object[] {
-						maCD, maSP, tenCD, tenThanhPham, giaSX, trangThaiCD
-				});
+				
+			
+				if (trangThaiCD.equalsIgnoreCase("Ngừng Sản Xuất")) {
+					daoToSanXuat.capNhatMaCD2ToSX(maToOld, null);
+				}else {
+					if(cboToSX.getSelectedItem() != null) {
+						if(!maToOld.equalsIgnoreCase("")) {
+							daoToSanXuat.capNhatMaCD2ToSX(maToOld, null);
+						}					
+						daoToSanXuat.capNhatMaCD2ToSX(maTo, maCD);
+						
+					}
+				}
+				//resetAll();
+				choose1SP();
+				//removeDanhSachCD(modelCongDoan);
+				//modelCongDoan.setRowCount(0);
+				//modelCongDoan.addRow(new Object[] {
+				//		maCD, maSP, tenCD, tenThanhPham, dfGiaSX.format(giaSX), trangThaiCD
+				//});
+				
 				JOptionPane.showMessageDialog(this, "Sửa thông tin công đoạn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				ArrayList<ToSanXuat> listTo = daoToSanXuat.getDSToSanXuat();
+				loadItemsComboMaTo(listTo);
+				
 			}
 		}
 		else
@@ -756,7 +938,7 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		ArrayList<CongDoan> lstCD = daoCongDoan.sortMaCD("ASC");
 		for(CongDoan infoCD : lstCD) {
 			modelCongDoan.addRow(new Object[] {
-					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getGiaSX(), infoCD.getTrangThaiCD()			
+					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getToSanXuat().getMaTo(),infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()), infoCD.getSoLuongDSX(),infoCD.getTrangThaiCD()
 			});
 		}
 	}
@@ -769,9 +951,14 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		removeDanhSachCD(modelCongDoan);;
 		ArrayList<CongDoan> lstCD = daoCongDoan.sortMaCD("DESC");
 		for(CongDoan infoCD : lstCD) {
-			modelCongDoan.addRow(new Object[] {
-					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getGiaSX(), infoCD.getTrangThaiCD()			
-			});
+			if(infoCD.getTrangThaiCD().equalsIgnoreCase("Ngừng Sản Xuất")) {
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(),"",infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()), infoCD.getSoLuongDSX(),infoCD.getTrangThaiCD()});
+			}else
+				{
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getToSanXuat().getMaTo(),infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()),infoCD.getSoLuongDSX() , infoCD.getTrangThaiCD()});
+				}
 		}
 	}
 	/**
@@ -782,9 +969,14 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		removeDanhSachCD(modelCongDoan);;
 		ArrayList<CongDoan> lstCD = daoCongDoan.sortMaSP("ASC");
 		for(CongDoan infoCD : lstCD) {
-			modelCongDoan.addRow(new Object[] {
-					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getGiaSX(), infoCD.getTrangThaiCD()			
-			});
+			if(infoCD.getTrangThaiCD().equalsIgnoreCase("Ngừng Sản Xuất")) {
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(),"",infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()), infoCD.getSoLuongDSX(),infoCD.getTrangThaiCD()});
+			}else
+				{
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getToSanXuat().getMaTo(),infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()),infoCD.getSoLuongDSX() , infoCD.getTrangThaiCD()});
+				}
 		}
 	}
 
@@ -796,9 +988,14 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		removeDanhSachCD(modelCongDoan);;
 		ArrayList<CongDoan> lstCD = daoCongDoan.sortMaSP("DESC");
 		for(CongDoan infoCD : lstCD) {
-			modelCongDoan.addRow(new Object[] {
-					infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getGiaSX(), infoCD.getTrangThaiCD()			
-			});
+			if(infoCD.getTrangThaiCD().equalsIgnoreCase("Ngừng Sản Xuất")) {
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(),"",infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()), infoCD.getSoLuongDSX(),infoCD.getTrangThaiCD()});
+			}else
+				{
+				modelCongDoan.addRow(new Object[] {
+						infoCD.getMaCD(), infoCD.getSanPham().getMaSP(), infoCD.getToSanXuat().getMaTo(),infoCD.getTenCD(), infoCD.getTenThanhPham(), infoCD.getSoLuongTP() ,dfGiaSX.format(infoCD.getGiaSX()),infoCD.getSoLuongDSX() , infoCD.getTrangThaiCD()});
+				}
 		}
 	}
 
@@ -837,14 +1034,14 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		}
 
 		//xóa chọn radbutton khi chọn combobox
-		if(o.equals(cboSapXep)) {
-			if(cboSapXep.getSelectedItem()=="Tăng dần")
-				bg.clearSelection();
-				removeDanhSachCD(modelCongDoan);
-			if(cboSapXep.getSelectedItem()=="Giảm dần")
-				bg.clearSelection();
-				removeDanhSachCD(modelCongDoan);
-		}
+//		if(o.equals(cboSapXep)) {
+//			if(cboSapXep.getSelectedItem()=="Tăng dần")
+//				bg.clearSelection();
+//				removeDanhSachCD(modelCongDoan);
+//			if(cboSapXep.getSelectedItem()=="Giảm dần")
+//				bg.clearSelection();
+//				removeDanhSachCD(modelCongDoan);
+//		}
 
 		//sapxep tăng
 		if(cboSapXep.getSelectedItem()=="Tăng dần") {
@@ -915,7 +1112,4 @@ public class FrmQLCongDoan extends JPanel implements ActionListener, FocusListen
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-
 }

@@ -97,6 +97,8 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 	private DecimalFormat dfGiaSX;
 	private DecimalFormat dftxtGiaSX;
 	private DAOCT_CD_SX_SP daoCT;
+	private JLabel lblTinhTrangSanPham;
+	private JComboBox<Object> cboTrangThaiSanPham;
 
 	public Panel getFrmQLSanPham() {
 		return this.pMain;
@@ -111,7 +113,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		daoMa = new DAOPhatSinhMa();
 		regex = new Regex();
 		//dinh dang
-		dfGiaSX=new DecimalFormat("###,###");
+		dfGiaSX=new DecimalFormat("##,###,###");
 //		dftxtGiaSX=new DecimalFormat("######");
 		
 		try {
@@ -136,20 +138,20 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		pMain.add(pNhapThongTin);
 		pNhapThongTin.setLayout(null);
 
-		lblNhapThongTin = new JLabel("Nhập thông sản phẩm");
+		lblNhapThongTin = new JLabel("Thông Tin Sản Phẩm");
 		lblNhapThongTin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNhapThongTin.setFont(new Font("SansSerif", Font.BOLD, 18));
 		lblNhapThongTin.setBounds(10, 11, 313, 29);
 		pNhapThongTin.add(lblNhapThongTin);
 
 		//Ten san pham
-		JLabel lblTenSP = new JLabel("Tên SP:");
-		lblTenSP.setBounds(10, 75, 125, 26);
+		JLabel lblTenSP = new JLabel("Tên Sản Phẩm:");
+		lblTenSP.setBounds(10, 75, 200, 26);
 		pNhapThongTin.add(lblTenSP);
 		lblTenSP.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
 		txtTenSP = new JTextField();
-		txtTenSP.setBounds(132, 75, 191, 35);
+		txtTenSP.setBounds(10, 100, 310, 35);
 		pNhapThongTin.add(txtTenSP);
 		txtTenSP.setBackground(new Color(255, 255, 255));
 		txtTenSP.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -157,13 +159,13 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		txtTenSP.setColumns(20);
 		
 		//Gia san xuat
-		JLabel lblGiaSX = new JLabel("Giá SX:");
-		lblGiaSX.setBounds(10, 125, 111, 26);
+		JLabel lblGiaSX = new JLabel("Giá Sản Xuất:");
+		lblGiaSX.setBounds(10, 145, 200, 26);
 		pNhapThongTin.add(lblGiaSX);
 		lblGiaSX.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
 		txtGiaSX = new JTextField();
-		txtGiaSX.setBounds(132, 125, 191, 35);
+		txtGiaSX.setBounds(10, 170, 310, 35);
 		pNhapThongTin.add(txtGiaSX);
 		txtGiaSX.setBackground(new Color(255, 255, 255));
 		txtGiaSX.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -171,19 +173,33 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		txtGiaSX.setColumns(20);
 		
 		//So luong 
-		JLabel lblSoLuong = new JLabel("Số lượng SP:");
-		lblSoLuong.setBounds(10, 175, 102, 26);
+		JLabel lblSoLuong = new JLabel("Số lượng Sản Phẩm:");
+		lblSoLuong.setBounds(10, 215, 200, 26);
 		pNhapThongTin.add(lblSoLuong);
 		lblSoLuong.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
 		txtSoLuong = new JTextField();
-		txtSoLuong.setBounds(132, 175, 191, 35);
+		txtSoLuong.setBounds(10, 240, 310, 35);
 		pNhapThongTin.add(txtSoLuong);
 		txtSoLuong.setBackground(new Color(255, 255, 255));
 		txtSoLuong.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		txtSoLuong.setBorder(new LineBorder(new Color(114, 23, 153), 1, true));
 		txtSoLuong.setColumns(20);
 		
+		//tinh trang cong doan
+		lblTinhTrangSanPham = new JLabel("Trạng thái Công Đoạn:");
+		lblTinhTrangSanPham.setBounds(10, 285, 250, 26);
+		lblTinhTrangSanPham.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		pNhapThongTin.add(lblTinhTrangSanPham);
+
+		cboTrangThaiSanPham = new JComboBox<Object>(new Object[] {"Đang Sản Xuất", "Ngừng Sản Xuất"});
+		cboTrangThaiSanPham.setToolTipText("Chọn trạng thái CĐ");
+		cboTrangThaiSanPham.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cboTrangThaiSanPham.setBounds(10, 310, 310, 35);
+		cboTrangThaiSanPham.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		cboTrangThaiSanPham.setBorder(new LineBorder(new Color(114, 23 ,153), 1, true));
+		cboTrangThaiSanPham.setBackground(Color.white);
+		pNhapThongTin.add(cboTrangThaiSanPham);
 		
 		// lblTim
 		JLabel lblTim = new JLabel("Tìm kiếm:");
@@ -251,7 +267,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		btnThemSP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnThemSP.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnThemSP.setBackground(new Color(57, 210, 247));
-		btnThemSP.setBounds(10, 400, 313, 43);
+		btnThemSP.setBounds(10, 450, 313, 43);
 		Icon iconThemP = IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 20, Color.white);
 		btnThemSP.setIcon(iconThemP);
 		pNhapThongTin.add(btnThemSP);
@@ -262,21 +278,21 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		btnSuaSP.setForeground(Color.WHITE);
 		btnSuaSP.setFont(new Font("SansSerif", Font.BOLD, 14));
 		btnSuaSP.setBackground(new Color(133, 217, 191));
-		btnSuaSP.setBounds(10, 450, 313, 43);
+		btnSuaSP.setBounds(10, 500, 313, 43);
 		Icon iconSuaP = IconFontSwing.buildIcon(FontAwesome.WRENCH, 20, Color.white);
 		btnSuaSP.setIcon(iconSuaP);
 		pNhapThongTin.add(btnSuaSP);
 		
 		//nút xóa 
-		btnXoaP = new FixButton("Xóa");
-		btnXoaP.setForeground(Color.WHITE);
-		btnXoaP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnXoaP.setFont(new Font("SansSerif", Font.BOLD, 14));
-		btnXoaP.setBackground(new Color(0xE91940));
-		btnXoaP.setBounds(10, 500, 313, 43);
-		Icon iconHuyP = IconFontSwing.buildIcon(FontAwesome.TIMES_CIRCLE, 20, Color.white);
-		btnXoaP.setIcon(iconHuyP);
-		pNhapThongTin.add(btnXoaP);
+//		btnXoaP = new FixButton("Xóa");
+//		btnXoaP.setForeground(Color.WHITE);
+//		btnXoaP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//		btnXoaP.setFont(new Font("SansSerif", Font.BOLD, 14));
+//		btnXoaP.setBackground(new Color(0xE91940));
+//		btnXoaP.setBounds(10, 500, 313, 43);
+//		Icon iconHuyP = IconFontSwing.buildIcon(FontAwesome.TIMES_CIRCLE, 20, Color.white);
+//		btnXoaP.setIcon(iconHuyP);
+//		pNhapThongTin.add(btnXoaP);
 		
 		//nút làm mới
 		btnReset = new FixButton("Làm mới");
@@ -339,7 +355,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 	
 		//tạo bảng
 		//tên các cột trong bảng
-		String sp [] = {"Mã SP","Tên SP", "Giá Sản Xuất", "Số Lượng"};
+		String sp [] = {"Mã SP","Tên SP", "Giá Sản Xuất", "Số Lượng","Trạng Thái SP"};
 		modelSanPham = new DefaultTableModel(sp,0);
 
 		tblSanPham = new JTable(modelSanPham);
@@ -371,6 +387,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		tblSanPham.getColumnModel().getColumn(1).setPreferredWidth(240);
 		tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(240);
 		tblSanPham.getColumnModel().getColumn(3).setPreferredWidth(240);
+		tblSanPham.getColumnModel().getColumn(4).setPreferredWidth(240);
 		
 		//Chữ canh lề trái, số canh lề phải
 		DefaultTableCellRenderer rightRenderer=new DefaultTableCellRenderer();
@@ -381,12 +398,13 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		tblSanPham.getColumnModel().getColumn(1).setCellRenderer(leftRenderer);
 		tblSanPham.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 		tblSanPham.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
+		tblSanPham.getColumnModel().getColumn(4).setCellRenderer(leftRenderer);
 		
 		///Background
 		JLabel lblBackGround=new JLabel("");
 		lblBackGround.setIcon(new ImageIcon("data\\img\\background.png"));
 		lblBackGround.setBounds(0, 0, 1281, 629);
-		Image imgBackGround = Toolkit.getDefaultToolkit().getImage("data\\img\\background.png");
+		Image imgBackGround = Toolkit.getDefaultToolkit().getImage("");
 		Image resizeBG = imgBackGround.getScaledInstance(lblBackGround.getWidth(), lblBackGround.getHeight(), 0);
 		lblBackGround.setIcon(new ImageIcon(resizeBG));
 		pMain.add(lblBackGround);
@@ -397,7 +415,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		btnReset.addActionListener(this);
 		btnThemSP.addActionListener(this);
 		btnSuaSP.addActionListener(this);
-		btnXoaP.addActionListener(this);
+		//btnXoaP.addActionListener(this);
 		btnTim.addActionListener(this);
 		btnExcels.addActionListener(this);
 		rdoTheoGiaSX.addActionListener(this);
@@ -423,7 +441,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lstSP = daoSP.getDSSanPham();
 		for (SanPham sP : lstSP) {
 			modelSanPham.addRow(new Object[] {
-					sP.getMaSP(), sP.getTenSP(), dfGiaSX.format(sP.getGiaSX()), sP.getSoLuong()
+					sP.getMaSP(), sP.getTenSP(), dfGiaSX.format(sP.getGiaSX()), sP.getSoLuong(), sP.getTrangThaiSP()
 			});
 		}
 	}
@@ -443,7 +461,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		clearTable(modelSanPham);
 		for (SanPham sp : lstSP) {
 			modelSanPham.addRow(new Object[] {
-					sp.getMaSP(), sp.getTenSP(), dfGiaSX.format(dfGiaSX.format(sp.getGiaSX())), sp.getSoLuong()
+					sp.getMaSP(), sp.getTenSP(), dfGiaSX.format(sp.getGiaSX()), sp.getSoLuong(), sp.getTrangThaiSP()
 			});
 		}
 	}
@@ -454,7 +472,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 	 */
 	public void loadSPDuocChon(SanPham sp) {
 		modelSanPham.addRow(new Object[] {
-				sp.getMaSP(), sp.getTenSP(), dfGiaSX.format(sp.getGiaSX()), sp.getSoLuong()
+				sp.getMaSP(), sp.getTenSP(), dfGiaSX.format(sp.getGiaSX()), sp.getSoLuong(), sp.getTrangThaiSP()
 		});
 	}
 	//Them san pham
@@ -466,6 +484,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 	public void themSanPham() {
 			String maSP = daoMa.getMaSP();
 			String tenSP = txtTenSP.getText().trim();
+			String trangThaiSP = cboTrangThaiSanPham.getSelectedItem().toString();
 			if(tenSP.equals("") || txtGiaSX.equals("") || txtSoLuong.equals("") ) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 				txtTenSP.requestFocus();
@@ -475,7 +494,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 					if (regex.regexSoLuong(txtSoLuong)) {
 						float giaSX = Float.parseFloat(txtGiaSX.getText());
 						int soLuong = Integer.parseInt(txtSoLuong.getText());
-						SanPham sp = new SanPham(maSP, tenSP, giaSX, soLuong);
+						SanPham sp = new SanPham(maSP, tenSP, giaSX, soLuong, trangThaiSP);
 						try {
 							daoSP.ThemSP(sp);
 						} catch (Exception e) {
@@ -510,7 +529,8 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 						String tenSP = txtTenSP.getText().trim();
 						float giaSX = Float.parseFloat(txtGiaSX.getText().toString());
 						int soLuong = Integer.parseInt(txtSoLuong.getText().toString());
-						SanPham sp = new SanPham(maSP, tenSP, giaSX, soLuong);
+						String trangThaiSP = cboTrangThaiSanPham.getSelectedItem().toString();
+						SanPham sp = new SanPham(maSP, tenSP, giaSX, soLuong, trangThaiSP);
 						daoSP.updateSP(sp);
 						clearTable(modelSanPham);
 						loadSPDuocChon(sp);
@@ -560,7 +580,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 //	Tìm kiếm Sản Phẩm
 	private void findSanPham() {
 		ArrayList<SanPham> lstSP = null;
-		String regexMaSanPham = "((SP|sp)[0-9]{3})";
+		String regexMaSanPham = "((SP|sp)[0-9]{3})|";
 		if (!txtTK.getText().equals("") && !txtTK.getText().equals("Tìm theo mã sản phẩm")) {
 			if(regex.regexTimSanPham(txtTK)) {
 				if (txtTK.getText().trim().matches(regexMaSanPham)) {
@@ -596,7 +616,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoMaSP();
 		for (SanPham sanPham : lsSP) {
 			modelSanPham.addRow(new Object[] {
-					sanPham.getMaSP(), sanPham.getTenSP(), dfGiaSX.format(sanPham.getGiaSX()) , sanPham.getSoLuong()
+					sanPham.getMaSP(), sanPham.getTenSP(), dfGiaSX.format(sanPham.getGiaSX()) , dfGiaSX.format(sanPham.getSoLuong()), sanPham.getTrangThaiSP()
 			});
 		}
 	}
@@ -606,7 +626,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoGiaSP("desc");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), dfGiaSX.format(lssp.getSoLuong()), lssp.getTrangThaiSP()
 			});		
 		}
 	}
@@ -616,7 +636,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoGiaSP("");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), dfGiaSX.format(lssp.getSoLuong()), lssp.getTrangThaiSP()
 			});		
 		}
 	}
@@ -627,7 +647,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoSoLuongSP("desc");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), dfGiaSX.format(lssp.getSoLuong()), lssp.getTrangThaiSP()
 			});		
 		}
 	}
@@ -637,7 +657,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		ArrayList<SanPham> lsSP = daoSP.sortTheoSoLuongSP("");
 		for (SanPham lssp: lsSP) {
 			modelSanPham.addRow(new Object[] {
-					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), lssp.getSoLuong()
+					lssp.getMaSP(), lssp.getTenSP(), dfGiaSX.format(lssp.getGiaSX()), dfGiaSX.format(lssp.getSoLuong()), lssp.getTrangThaiSP()
 			});		
 		}
 	}
@@ -668,6 +688,7 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 			txtTenSP.setText(modelSanPham.getValueAt(row, 1).toString());
 			txtGiaSX.setText(modelSanPham.getValueAt(row, 2).toString());
 			txtSoLuong.setText(modelSanPham.getValueAt(row, 3).toString());
+			cboTrangThaiSanPham.setSelectedItem(modelSanPham.getValueAt(row, 4));
 		}
 
 	}
@@ -733,10 +754,10 @@ public class FrmQLSanPham extends JFrame implements ActionListener, MouseListene
 		if(o.equals(btnTim)) {
 			findSanPham();
 		}
-		if(o.equals(cboSapXep)) {
-			bgRdo.clearSelection();
-			clearTable(modelSanPham);;
-		}
+//		if(o.equals(cboSapXep)) {
+//			bgRdo.clearSelection();
+//			clearTable(modelSanPham);;
+//		}
 		if(o.equals(btnExcels)) {
 			try {
 				xuatExcel();

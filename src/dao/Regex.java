@@ -157,11 +157,11 @@ public class Regex {
 	}
 	public boolean regexTenCD(JTextField txtTenCD) {
 		String input = txtTenCD.getText().trim();
-		String regex = "^([ A-Za-za-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*(\\s?))+$";
+		String regex = "^([A-Za-za-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ0123456789]*(\\s?))+$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(input);
 		if (!matcher.find()) {
-			JOptionPane.showMessageDialog(null, "Tên không hợp lệ!\nMẫu tên: Áo Sơ Mi, Áo Thun", "Thông báo",
+			JOptionPane.showMessageDialog(null, "Tên không hợp lệ!\nMẫu tên: Công Đoạn 1, Công Đoạn 2", "Thông báo",
 					JOptionPane.ERROR_MESSAGE);
 			txtTenCD.requestFocus();
 			txtTenCD.selectAll();

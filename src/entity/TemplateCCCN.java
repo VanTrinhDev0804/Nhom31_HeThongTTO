@@ -1,16 +1,13 @@
 package entity;
 
+import java.sql.Date;
+
 public class TemplateCCCN {
 	private String ma;
 	private String tenCN;
 	private String tenTo;
 	private String caLam;
 	private int soLuong;
-	
-	
-	
-	
-	
 	public TemplateCCCN(String ma, String tenCN, String tenTo, String caLam, int soLuong) {
 		super();
 		this.ma = ma;
@@ -19,17 +16,6 @@ public class TemplateCCCN {
 		this.caLam = caLam;
 		this.soLuong = soLuong;
 	}
-	
-	
-	
-	@Override
-	public String toString() {
-		return "MutilCCCN [ma=" + ma + ", tenCN=" + tenCN + ", tenTo=" + tenTo + ", caLam=" + caLam + ", soLuong="
-				+ soLuong + "]";
-	}
-
-
-
 	public String getMa() {
 		return ma;
 	}
@@ -60,6 +46,13 @@ public class TemplateCCCN {
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
 	}
+	@Override
+	public String toString() {
+		return "TemplateCCCN [ma=" + ma + ", tenCN=" + tenCN + ", tenTo=" + tenTo + ", caLam=" + caLam + ", soLuong="
+				+ soLuong + "]";
+	}
+	
+	
 	
 	
 	
